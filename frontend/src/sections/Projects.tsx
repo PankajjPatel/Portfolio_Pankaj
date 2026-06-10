@@ -38,7 +38,7 @@ const projects: Project[] = [
     tech: ['Java Spring Boot', 'MySQL', 'SQL', 'Hibernate', 'Thymeleaf'],
     githubUrl: '#',
     demoUrl: '#',
-    repoName: 'Smart-Queue-Management-System',
+    repoName: 'Smart-Queue-System',
   },
 ];
 
