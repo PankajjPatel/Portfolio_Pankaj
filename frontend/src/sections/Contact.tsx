@@ -183,41 +183,92 @@ export const Contact: React.FC = () => {
               I'm always open to discussing projects, internships, freelance opportunities, collaborations, and innovative ideas. Feel free to shoot a message!
             </p>
 
-            {/* Social Contact Details */}
-            <div className="flex flex-col gap-4 mt-6">
-              <a
+            {/* Social Contact Details - Premium 3D Cards */}
+            <div className="flex flex-col gap-5 mt-8 w-full max-w-md">
+              <motion.a
                 href="mailto:Pankajlucky678@gmail.com"
-                className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300 hover:text-accentViolet transition-colors duration-300 w-fit"
+                whileHover={{ 
+                  scale: 1.03, 
+                  y: -5,
+                  boxShadow: '0 15px 30px -10px rgba(182, 0, 168, 0.4)',
+                  borderColor: 'rgba(182, 0, 168, 0.4)'
+                }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  perspective: 1000,
+                  transformStyle: 'preserve-3d',
+                }}
+                className="flex items-center gap-4 p-4 rounded-2xl glass-panel border border-black/10 dark:border-white/5 bg-white/[0.01] hover:bg-white/[0.05] dark:hover:bg-white/[0.03] transition-all duration-300 group cursor-pointer"
               >
-                <span className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 flex items-center justify-center">
-                  <Mail size={16} className="text-accentViolet" />
+                <span className="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm shrink-0">
+                  <Mail size={20} className="text-accentViolet" />
                 </span>
-                Pankajlucky678@gmail.com
-              </a>
+                <div className="flex flex-col gap-0.5 overflow-hidden">
+                  <span className="text-[10px] font-bold tracking-widest text-accentViolet uppercase">Email Address</span>
+                  <span className="text-sm font-semibold text-slate-800 dark:text-gray-200 group-hover:text-accentViolet transition-colors duration-300 truncate">
+                    Pankajlucky678@gmail.com
+                  </span>
+                </div>
+              </motion.a>
 
-              <a
+              <motion.a
                 href="https://linkedin.com/in/pankaj-patel-196815311"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300 hover:text-accentViolet transition-colors duration-300 w-fit"
+                whileHover={{ 
+                  scale: 1.03, 
+                  y: -5,
+                  boxShadow: '0 15px 30px -10px rgba(118, 33, 176, 0.4)',
+                  borderColor: 'rgba(118, 33, 176, 0.4)'
+                }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  perspective: 1000,
+                  transformStyle: 'preserve-3d',
+                }}
+                className="flex items-center gap-4 p-4 rounded-2xl glass-panel border border-black/10 dark:border-white/5 bg-white/[0.01] hover:bg-white/[0.05] dark:hover:bg-white/[0.03] transition-all duration-300 group cursor-pointer"
               >
-                <span className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 flex items-center justify-center">
-                  <Linkedin size={16} className="text-accentPurple" />
+                <span className="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm shrink-0">
+                  <Linkedin size={20} className="text-accentPurple" />
                 </span>
-                linkedin.com/in/pankaj-patel-196815311
-              </a>
+                <div className="flex flex-col gap-0.5 overflow-hidden">
+                  <span className="text-[10px] font-bold tracking-widest text-accentPurple uppercase">LinkedIn Professional</span>
+                  <span className="text-sm font-semibold text-slate-800 dark:text-gray-200 group-hover:text-accentPurple transition-colors duration-300 truncate">
+                    linkedin.com/in/pankaj-patel-196815311
+                  </span>
+                </div>
+              </motion.a>
 
-              <a
+              <motion.a
                 href="https://github.com/PankajjPatel"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300 hover:text-accentViolet transition-colors duration-300 w-fit"
+                whileHover={{ 
+                  scale: 1.03, 
+                  y: -5,
+                  boxShadow: '0 15px 30px -10px rgba(190, 76, 0, 0.4)',
+                  borderColor: 'rgba(190, 76, 0, 0.4)'
+                }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  perspective: 1000,
+                  transformStyle: 'preserve-3d',
+                }}
+                className="flex items-center gap-4 p-4 rounded-2xl glass-panel border border-black/10 dark:border-white/5 bg-white/[0.01] hover:bg-white/[0.05] dark:hover:bg-white/[0.03] transition-all duration-300 group cursor-pointer"
               >
-                <span className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 flex items-center justify-center">
-                  <Github size={16} className="text-gray-600 dark:text-gray-300" />
+                <span className="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm shrink-0">
+                  <Github size={20} className="text-accentOrange" />
                 </span>
-                github.com/PankajjPatel
-              </a>
+                <div className="flex flex-col gap-0.5 overflow-hidden">
+                  <span className="text-[10px] font-bold tracking-widest text-accentOrange uppercase">GitHub Profile</span>
+                  <span className="text-sm font-semibold text-slate-800 dark:text-gray-200 group-hover:text-accentOrange transition-colors duration-300 truncate">
+                    github.com/PankajjPatel
+                  </span>
+                </div>
+              </motion.a>
             </div>
           </motion.div>
         </div>

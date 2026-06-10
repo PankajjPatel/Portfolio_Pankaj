@@ -43,7 +43,7 @@ function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-darkBg text-white selection:bg-accentViolet selection:text-white">
+    <div className="relative min-h-screen bg-themeBg text-themeText selection:bg-accentViolet selection:text-white transition-colors duration-300">
       {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[3px] bg-accent-gradient origin-left z-[100]"

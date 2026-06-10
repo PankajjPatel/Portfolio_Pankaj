@@ -43,7 +43,7 @@ export const Skills: React.FC = () => {
           <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight">
             Technical Skills
           </h2>
-          <p className="text-gray-400 font-light text-base max-w-xl">
+          <p className="text-slate-500 dark:text-gray-400 font-light text-base max-w-xl">
             My technology stack and toolsets for crafting robust backend architectures and sleek frontend interfaces.
           </p>
         </div>
@@ -54,7 +54,7 @@ export const Skills: React.FC = () => {
             const filteredSkills = skills.filter((s) => s.category === category);
             return (
               <div key={category} className="flex flex-col gap-6">
-                <h3 className="text-lg font-semibold uppercase tracking-wider text-gray-300 border-b border-white/5 pb-2">
+                <h3 className="text-lg font-semibold uppercase tracking-wider text-slate-800 dark:text-gray-300 border-b border-black/10 dark:border-white/5 pb-2">
                   {category}
                 </h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
@@ -71,17 +71,17 @@ export const Skills: React.FC = () => {
                         boxShadow: '0 10px 30px -10px rgba(118, 33, 176, 0.4)',
                         borderColor: 'rgba(182, 0, 168, 0.3)'
                       }}
-                      className="glass-panel p-6 rounded-2xl flex flex-col items-center text-center gap-4 border border-white/5 transition-all duration-300 group cursor-pointer"
+                      className="glass-panel p-6 rounded-2xl flex flex-col items-center text-center gap-4 border border-black/5 dark:border-white/5 transition-all duration-300 group cursor-pointer"
                     >
                       {/* Icon wrapper with glow on hover */}
-                      <div className="p-4 rounded-xl bg-white/5 border border-white/5 group-hover:bg-white/10 group-hover:border-white/10 transition-colors duration-300">
+                      <div className="p-4 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 group-hover:bg-black/10 dark:group-hover:bg-white/10 transition-colors duration-300">
                         {skill.icon}
                       </div>
                       <div className="flex flex-col gap-1">
-                        <span className="text-sm font-semibold tracking-wide text-gray-200">
+                        <span className="text-sm font-semibold tracking-wide text-slate-800 dark:text-gray-200">
                           {skill.name}
                         </span>
-                        <span className="text-[10px] uppercase font-bold tracking-widest text-gray-500 group-hover:text-accentOrange transition-colors duration-300">
+                        <span className="text-[10px] uppercase font-bold tracking-widest text-slate-500 dark:text-gray-500 group-hover:text-accentOrange transition-colors duration-300">
                           {skill.level}
                         </span>
                       </div>
