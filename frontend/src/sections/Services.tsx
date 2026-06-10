@@ -38,7 +38,7 @@ const services: ServiceItem[] = [
 
 export const Services: React.FC = () => {
   return (
-    <section id="services" className="relative py-24 px-6 bg-white text-black overflow-hidden">
+    <section id="services" className="relative py-24 px-6 bg-white dark:bg-darkBg text-black dark:text-white overflow-hidden transition-all duration-300">
       {/* Decorative background shapes */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-accentViolet/5 rounded-full filter blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-accentOrange/5 rounded-full filter blur-3xl pointer-events-none" />
@@ -51,10 +51,10 @@ export const Services: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-widest text-accentPurple">What I Offer</span>
             <span className="h-[2px] w-8 bg-accent-gradient" />
           </div>
-          <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-slate-900">
+          <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-slate-900 dark:text-white">
             My Services
           </h2>
-          <p className="text-slate-500 font-light text-base max-w-xl">
+          <p className="text-slate-500 dark:text-gray-400 font-light text-base max-w-xl">
             Providing high-quality development solutions to bring your digital concepts to life with professional engineering standards.
           </p>
         </div>
@@ -72,20 +72,20 @@ export const Services: React.FC = () => {
                 y: -10,
                 boxShadow: '0 20px 40px -15px rgba(0, 0, 0, 0.1)'
               }}
-              className="group bg-slate-50 border border-slate-100 rounded-3xl p-8 hover:bg-white hover:border-accentViolet/20 transition-all duration-300 cursor-pointer flex flex-col justify-between min-h-[280px]"
+              className="group bg-slate-50 border border-slate-100 dark:bg-white/[0.02] dark:border-white/5 rounded-3xl p-8 hover:bg-white dark:hover:bg-white/[0.04] hover:border-accentViolet/20 dark:hover:border-accentViolet/30 transition-all duration-300 cursor-pointer flex flex-col justify-between min-h-[280px]"
             >
               <div className="flex flex-col gap-6">
                 {/* Icon wrapper */}
-                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center shadow-md border border-slate-100 group-hover:scale-110 transition-transform duration-300">
+                <div className="w-14 h-14 rounded-2xl bg-white dark:bg-white/5 flex items-center justify-center shadow-md dark:shadow-none border border-slate-100 dark:border-white/5 group-hover:scale-110 transition-transform duration-300">
                   {service.icon}
                 </div>
                 
                 {/* Title & Description */}
                 <div className="flex flex-col gap-3">
-                  <h3 className="text-xl font-bold tracking-tight text-slate-800 group-hover:text-accentPurple transition-colors duration-300">
+                  <h3 className="text-xl font-bold tracking-tight text-slate-800 dark:text-gray-100 group-hover:text-accentPurple dark:group-hover:text-accentViolet transition-colors duration-300">
                     {service.title}
                   </h3>
-                  <p className="text-sm text-slate-600 font-normal leading-relaxed">
+                  <p className="text-sm text-slate-600 dark:text-gray-300 font-normal leading-relaxed">
                     {service.description}
                   </p>
                 </div>

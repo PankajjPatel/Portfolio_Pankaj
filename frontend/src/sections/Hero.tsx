@@ -66,36 +66,35 @@ export const Hero: React.FC = () => {
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl sm:text-6xl xl:text-7.5xl font-black leading-tight tracking-tight uppercase">
+            <motion.h1
+              animate={{
+                rotateX: [0, 4, -4, 0],
+                rotateY: [0, -6, 6, 0],
+                y: [0, -5, 5, 0],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              style={{
+                perspective: 1000,
+                transformStyle: 'preserve-3d',
+                textShadow: `
+                  1px 1px 0px #B600A8,
+                  2px 2px 0px #9d0091,
+                  3px 3px 0px #84007a,
+                  4px 4px 0px #6b0063,
+                  5px 5px 8px rgba(0,0,0,0.4)
+                `,
+              }}
+              className="text-4xl sm:text-6xl xl:text-7.5xl font-black leading-tight tracking-tight uppercase text-gray-900 dark:text-white cursor-default"
+            >
               Hi, I'm{' '}
-              <motion.span
-                animate={{
-                  rotateX: [0, 5, -5, 0],
-                  rotateY: [0, -8, 8, 0],
-                  y: [0, -6, 6, 0],
-                }}
-                transition={{
-                  duration: 6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                style={{
-                  display: 'inline-block',
-                  perspective: 1000,
-                  transformStyle: 'preserve-3d',
-                  textShadow: `
-                    1px 1px 0px #B600A8,
-                    2px 2px 0px #9d0091,
-                    3px 3px 0px #84007a,
-                    4px 4px 0px #6b0063,
-                    5px 5px 8px rgba(0,0,0,0.4)
-                  `,
-                }}
-                className="block mt-2 text-[#B600A8] dark:text-[#E835D8] font-extrabold tracking-tight cursor-default"
-              >
+              <span className="block mt-2 text-[#B600A8] dark:text-[#E835D8] font-extrabold tracking-tight">
                 Pankaj Patel
-              </motion.span>
-            </h1>
+              </span>
+            </motion.h1>
 
             {/* Subtitle */}
             <p className="text-gray-600 dark:text-gray-300 text-lg md:text-xl font-light leading-relaxed max-w-2xl">

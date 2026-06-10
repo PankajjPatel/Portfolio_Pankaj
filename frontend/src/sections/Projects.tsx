@@ -1,5 +1,5 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
 
 interface Project {
@@ -9,7 +9,7 @@ interface Project {
   tech: string[];
   githubUrl: string;
   demoUrl: string;
-  imageUrl: string;
+  comingSoon: boolean;
 }
 
 const projects: Project[] = [
@@ -18,33 +18,58 @@ const projects: Project[] = [
     title: 'Personal Portfolio Website',
     description: 'Responsive portfolio website featuring a premium glassmorphic dark UI, high performance, and smooth animations.',
     tech: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Django', 'MySQL'],
-    githubUrl: 'https://github.com/Pankajlucky678/portfolio-react-django',
+    githubUrl: 'https://github.com/PankajjPatel/Portfolio_Pankaj',
     demoUrl: '#',
-    imageUrl: '/project1.png',
+    comingSoon: false,
   },
   {
     id: '02',
     title: 'Student Management System',
     description: 'A full-stack web application designed to manage student records, course enrollments, and academic transcripts with robust CRUD operations.',
     tech: ['Python', 'Django', 'MySQL', 'Bootstrap', 'HTML5'],
-    githubUrl: 'https://github.com/Pankajlucky678/student-management-system',
+    githubUrl: '#',
     demoUrl: '#',
-    imageUrl: '/project2.png',
+    comingSoon: true,
   },
   {
     id: '03',
     title: 'Smart Queue Management System',
     description: 'A reliable queue management solution designed for hospitals, banks, and colleges, implementing an optimized relational database schema.',
     tech: ['Java Spring Boot', 'MySQL', 'SQL', 'Hibernate', 'Thymeleaf'],
-    githubUrl: 'https://github.com/Pankajlucky678/queue-management-system',
+    githubUrl: '#',
     demoUrl: '#',
-    imageUrl: '/project3.png',
+    comingSoon: true,
   },
 ];
 
 export const Projects: React.FC = () => {
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const handleSourceCodeClick = (e: React.MouseEvent, project: Project) => {
+    if (project.comingSoon) {
+      e.preventDefault();
+      setToastMessage(`Source code release is pending. It will be published on GitHub in a few days!`);
+      setTimeout(() => setToastMessage(null), 4000);
+    }
+  };
+
   return (
     <section id="projects" className="relative py-24 px-6 overflow-hidden bg-black/[0.02] dark:bg-black/20">
+      {/* Dynamic Toast Message */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.9 }}
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-6 py-4 rounded-2xl bg-white/95 dark:bg-black/90 border border-accentViolet/30 text-gray-800 dark:text-gray-200 shadow-2xl backdrop-blur-md flex items-center gap-3 text-sm font-semibold tracking-wide"
+          >
+            <span className="w-2.5 h-2.5 rounded-full bg-accentViolet animate-ping" />
+            {toastMessage}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Background Decorative elements */}
       <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] bg-accentViolet/5 rounded-full filter blur-[120px] pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 w-[350px] h-[350px] bg-accentOrange/5 rounded-full filter blur-[100px] pointer-events-none" />
@@ -82,16 +107,43 @@ export const Projects: React.FC = () => {
             >
               {/* Top Section */}
               <div className="flex flex-col">
-                {/* Image Container with Zoom */}
-                <div className="relative overflow-hidden aspect-[16/10] border-b border-black/10 dark:border-white/5">
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/5 transition-colors duration-300 z-10" />
-                  <img
-                    src={project.imageUrl}
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
-                    loading="lazy"
-                  />
-                  <span className="absolute top-4 right-4 z-20 px-3 py-1 text-xs font-bold bg-black/60 backdrop-blur-md rounded-full text-accentOrange border border-white/10 uppercase tracking-widest">
+                {/* 3D Floating Title Container */}
+                <div className="relative overflow-hidden aspect-[16/10] border-b border-black/10 dark:border-white/5 bg-gradient-to-br from-black/5 to-black/15 dark:from-black/70 dark:to-black/95 flex items-center justify-center">
+                  {/* Neon Glow overlay */}
+                  <div className="absolute inset-0 bg-radial-gradient from-accentViolet/10 to-transparent opacity-60 pointer-events-none" />
+                  
+                  {/* Subtle Grid backdrop */}
+                  <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:14px_24px] pointer-events-none" />
+
+                  {/* 3D Floating Project Name */}
+                  <motion.div
+                    animate={{
+                      rotateX: [0, 5, -5, 0],
+                      rotateY: [0, -8, 8, 0],
+                      y: [0, -4, 4, 0],
+                    }}
+                    transition={{
+                      duration: 5 + index,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                    style={{
+                      perspective: 1000,
+                      transformStyle: 'preserve-3d',
+                      textShadow: `
+                        1px 1px 0px #B600A8,
+                        2px 2px 0px #9d0091,
+                        3px 3px 0px #84007a,
+                        4px 4px 0px #6b0063,
+                        5px 5px 8px rgba(0,0,0,0.4)
+                      `,
+                    }}
+                    className="text-base sm:text-lg font-black text-center text-[#B600A8] dark:text-[#E835D8] px-6 uppercase select-none pointer-events-none leading-snug"
+                  >
+                    {project.title}
+                  </motion.div>
+
+                  <span className="absolute top-4 right-4 z-20 px-3 py-1 text-xs font-bold bg-black/60 backdrop-blur-md rounded-full text-accentOrange border border-black/10 dark:border-white/10 uppercase tracking-widest">
                     Project {project.id}
                   </span>
                 </div>
@@ -124,13 +176,14 @@ export const Projects: React.FC = () => {
                 {/* Action Links */}
                 <div className="flex items-center gap-4 pt-4 border-t border-black/5 dark:border-white/5">
                   <a
-                    href={project.githubUrl}
-                    target="_blank"
+                    href={project.comingSoon ? '#' : project.githubUrl}
+                    target={project.comingSoon ? '_self' : '_blank'}
                     rel="noopener noreferrer"
+                    onClick={(e) => handleSourceCodeClick(e, project)}
                     className="flex-1 py-3 px-4 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-gray-800 dark:text-white font-semibold text-xs border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2 group/btn"
                   >
                     <Github size={14} className="group-hover/btn:rotate-12 transition-transform" />
-                    Source Code
+                    {project.comingSoon ? 'Coming Soon' : 'Source Code'}
                   </a>
                   <a
                     href={project.demoUrl}

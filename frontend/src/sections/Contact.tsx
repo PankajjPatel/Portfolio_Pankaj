@@ -206,6 +206,18 @@ export const Contact: React.FC = () => {
                 </span>
                 linkedin.com/in/pankaj-patel-196815311
               </a>
+
+              <a
+                href="https://github.com/PankajjPatel"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300 hover:text-accentViolet transition-colors duration-300 w-fit"
+              >
+                <span className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 flex items-center justify-center">
+                  <Github size={16} className="text-gray-600 dark:text-gray-300" />
+                </span>
+                github.com/PankajjPatel
+              </a>
             </div>
           </motion.div>
         </div>
@@ -335,7 +347,7 @@ export const Contact: React.FC = () => {
                 <motion.a
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.97 }}
-                  href="https://github.com/Pankajlucky678"
+                  href="https://github.com/PankajjPatel"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-6 py-4 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-gray-800 dark:text-white font-semibold text-sm border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2"
