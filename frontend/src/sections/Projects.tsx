@@ -27,9 +27,9 @@ const projects: Project[] = [
     title: 'Student Management System',
     description: 'A full-stack web application designed to manage student records, course enrollments, and academic transcripts with robust CRUD operations.',
     tech: ['Python', 'Django', 'MySQL', 'Bootstrap', 'HTML5'],
-    githubUrl: '#',
-    demoUrl: '#',
-    comingSoon: true,
+    githubUrl: 'https://github.com/PankajjPatel/Campus-Core',
+    demoUrl: 'https://campus-core-j9e0.onrender.com',
+    comingSoon: false,
   },
   {
     id: '03',
