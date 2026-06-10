@@ -9,7 +9,6 @@ interface Project {
   tech: string[];
   githubUrl: string;
   demoUrl: string;
-  comingSoon: boolean;
 }
 
 const projects: Project[] = [
@@ -20,7 +19,6 @@ const projects: Project[] = [
     tech: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Django', 'MySQL'],
     githubUrl: 'https://github.com/PankajjPatel/Portfolio_Pankaj',
     demoUrl: '/',
-    comingSoon: false,
   },
   {
     id: '02',
@@ -29,7 +27,6 @@ const projects: Project[] = [
     tech: ['Python', 'Django', 'MySQL', 'Bootstrap', 'HTML5'],
     githubUrl: 'https://github.com/PankajjPatel/Campus-Core',
     demoUrl: 'https://campus-core-j9e0.onrender.com',
-    comingSoon: false,
   },
   {
     id: '03',
@@ -38,7 +35,6 @@ const projects: Project[] = [
     tech: ['Java Spring Boot', 'MySQL', 'SQL', 'Hibernate', 'Thymeleaf'],
     githubUrl: '#',
     demoUrl: '#',
-    comingSoon: true,
   },
 ];
 
@@ -46,17 +42,17 @@ export const Projects: React.FC = () => {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const handleSourceCodeClick = (e: React.MouseEvent, project: Project) => {
-    if (project.comingSoon) {
+    if (project.githubUrl === '#') {
       e.preventDefault();
       setToastMessage(`Source code release is pending. It will be published on GitHub in a few days!`);
       setTimeout(() => setToastMessage(null), 4000);
     }
   };
 
-  const handleLiveDemoClick = (e: React.MouseEvent, project: Project) => {
-    if (project.comingSoon || project.demoUrl === '#') {
+  const handleLiveClick = (e: React.MouseEvent, project: Project) => {
+    if (project.demoUrl === '#') {
       e.preventDefault();
-      setToastMessage(`Live demo for "${project.title}" will be available soon!`);
+      setToastMessage(`Live deployment for "${project.title}" will be available soon!`);
       setTimeout(() => setToastMessage(null), 4000);
     }
   };
@@ -184,22 +180,24 @@ export const Projects: React.FC = () => {
                 {/* Action Links */}
                 <div className="flex items-center gap-4 pt-4 border-t border-black/5 dark:border-white/5">
                   <a
-                    href={project.comingSoon ? '#' : project.githubUrl}
-                    target={project.comingSoon ? '_self' : '_blank'}
+                    href={project.githubUrl}
+                    target={project.githubUrl === '#' ? '_self' : '_blank'}
                     rel="noopener noreferrer"
                     onClick={(e) => handleSourceCodeClick(e, project)}
                     className="flex-1 py-3 px-4 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-gray-800 dark:text-white font-semibold text-xs border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2 group/btn"
                   >
                     <Github size={14} className="group-hover/btn:rotate-12 transition-transform" />
-                    {project.comingSoon ? 'Coming Soon' : 'Source Code'}
+                    {project.githubUrl === '#' ? 'Coming Soon' : 'Source Code'}
                   </a>
                   <a
                     href={project.demoUrl}
-                    onClick={(e) => handleLiveDemoClick(e, project)}
+                    target={project.demoUrl === '#' ? '_self' : '_blank'}
+                    rel="noopener noreferrer"
+                    onClick={(e) => handleLiveClick(e, project)}
                     className="flex-1 py-3 px-4 rounded-xl bg-accent-gradient text-white font-semibold text-xs shadow-glow-violet hover:shadow-glow-purple transition-all duration-300 flex items-center justify-center gap-2 group/btn"
                   >
                     <ExternalLink size={14} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-                    Live Demo
+                    Live
                   </a>
                 </div>
               </div>
