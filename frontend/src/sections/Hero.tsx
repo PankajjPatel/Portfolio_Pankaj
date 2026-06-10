@@ -68,13 +68,37 @@ export const Hero: React.FC = () => {
             {/* Title */}
             <h1 className="text-4xl sm:text-6xl xl:text-7.5xl font-black leading-tight tracking-tight uppercase">
               Hi, I'm{' '}
-              <span className="block mt-2 bg-accent-gradient bg-clip-text text-transparent font-extrabold animate-pulse">
+              <motion.span
+                animate={{
+                  rotateX: [0, 5, -5, 0],
+                  rotateY: [0, -8, 8, 0],
+                  y: [0, -6, 6, 0],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                style={{
+                  display: 'inline-block',
+                  perspective: 1000,
+                  transformStyle: 'preserve-3d',
+                  textShadow: `
+                    1px 1px 0px #B600A8,
+                    2px 2px 0px #9d0091,
+                    3px 3px 0px #84007a,
+                    4px 4px 0px #6b0063,
+                    5px 5px 8px rgba(0,0,0,0.4)
+                  `,
+                }}
+                className="block mt-2 text-[#B600A8] dark:text-[#E835D8] font-extrabold tracking-tight cursor-default"
+              >
                 Pankaj Patel
-              </span>
+              </motion.span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-gray-300 text-lg md:text-xl font-light leading-relaxed max-w-2xl">
+            <p className="text-gray-600 dark:text-gray-300 text-lg md:text-xl font-light leading-relaxed max-w-2xl">
               Python Developer, Django Developer, and AI-Powered Web Creator passionate about building modern web applications and solving real-world problems through technology.
             </p>
 
@@ -94,29 +118,29 @@ export const Hero: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => handleScrollTo('#projects')}
-                className="px-8 py-4 rounded-full bg-white/5 hover:bg-white/10 text-white font-semibold text-base border border-white/10 hover:border-white/20 transition-all duration-300"
+                className="px-8 py-4 rounded-full bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-gray-800 dark:text-white font-semibold text-base border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300"
               >
                 View Projects
               </motion.button>
             </div>
 
             {/* Stats Dashboard */}
-            <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/5">
+            <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-black/5 dark:border-white/5">
               <div className="flex flex-col">
                 <span className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-accent-gradient">7.07</span>
-                <span className="text-xs sm:text-sm text-gray-400 font-medium uppercase tracking-wider mt-1 flex items-center gap-1">
+                <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mt-1 flex items-center gap-1">
                   <GraduationCap size={14} className="text-accentViolet" /> CGPA
                 </span>
               </div>
               <div className="flex flex-col">
                 <span className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-accent-gradient">3+</span>
-                <span className="text-xs sm:text-sm text-gray-400 font-medium uppercase tracking-wider mt-1 flex items-center gap-1">
+                <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mt-1 flex items-center gap-1">
                   <Briefcase size={14} className="text-accentOrange" /> Projects
                 </span>
               </div>
               <div className="flex flex-col">
                 <span className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-accent-gradient">5+</span>
-                <span className="text-xs sm:text-sm text-gray-400 font-medium uppercase tracking-wider mt-1 flex items-center gap-1">
+                <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mt-1 flex items-center gap-1">
                   <Award size={14} className="text-accentPurple" /> Certs
                 </span>
               </div>
@@ -131,22 +155,22 @@ export const Hero: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: 'easeOut' }}
             style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-            className="relative w-full max-w-[450px] aspect-square rounded-2xl glass-panel p-4 flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-white/10 hover:border-white/20 transition-colors duration-500 cursor-pointer"
+            className="relative w-full max-w-[450px] aspect-square rounded-3xl glass-panel p-4 flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-500 cursor-pointer overflow-hidden group"
           >
             {/* Soft Glow behind render */}
             <motion.div
               style={{ x: glowX, y: glowY }}
-              className="absolute inset-0 bg-gradient-to-tr from-accentViolet/20 to-accentOrange/20 blur-2xl rounded-2xl -z-10"
+              className="absolute inset-0 bg-gradient-to-tr from-accentViolet/20 to-accentOrange/20 blur-2xl rounded-3xl -z-10"
             />
 
             {/* Inner Border Ring */}
-            <div className="absolute inset-2 border border-dashed border-white/10 rounded-xl pointer-events-none" />
+            <div className="absolute inset-2 border border-dashed border-black/10 dark:border-white/10 rounded-2xl pointer-events-none" />
 
-            {/* Workspace Render */}
+            {/* Workspace / Avatar Render */}
             <motion.img
-              src="/workspace_3d.png"
-              alt="Pankaj Patel 3D Workspace Render"
-              className="w-[90%] h-[90%] object-contain rounded-lg shadow-[0_10px_35px_rgba(0,0,0,0.3)] select-none pointer-events-none animate-float"
+              src="/avatar.jpg"
+              alt="Pankaj Patel Portrait"
+              className="w-[94%] h-[94%] object-cover rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.2)] select-none pointer-events-none animate-float group-hover:scale-[1.02] transition-transform duration-500"
               loading="lazy"
             />
           </motion.div>

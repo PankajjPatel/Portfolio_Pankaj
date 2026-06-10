@@ -179,7 +179,7 @@ export const Contact: React.FC = () => {
               Let's Build Something Amazing
             </h2>
             
-            <p className="text-gray-300 font-light text-base leading-relaxed">
+            <p className="text-gray-600 dark:text-gray-300 font-light text-base leading-relaxed">
               I'm always open to discussing projects, internships, freelance opportunities, collaborations, and innovative ideas. Feel free to shoot a message!
             </p>
 
@@ -187,24 +187,24 @@ export const Contact: React.FC = () => {
             <div className="flex flex-col gap-4 mt-6">
               <a
                 href="mailto:Pankajlucky678@gmail.com"
-                className="flex items-center gap-3 text-sm text-gray-300 hover:text-accentViolet transition-colors duration-300 w-fit"
+                className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300 hover:text-accentViolet transition-colors duration-300 w-fit"
               >
-                <span className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center">
+                <span className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 flex items-center justify-center">
                   <Mail size={16} className="text-accentViolet" />
                 </span>
                 Pankajlucky678@gmail.com
               </a>
 
               <a
-                href="https://linkedin.com/in/pankaj-patel-lucky"
+                href="https://linkedin.com/in/pankaj-patel-196815311"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm text-gray-300 hover:text-accentViolet transition-colors duration-300 w-fit"
+                className="flex items-center gap-3 text-sm text-gray-600 dark:text-gray-300 hover:text-accentViolet transition-colors duration-300 w-fit"
               >
-                <span className="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center">
+                <span className="w-10 h-10 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 flex items-center justify-center">
                   <Linkedin size={16} className="text-accentPurple" />
                 </span>
-                linkedin.com/in/pankaj-patel-lucky
+                linkedin.com/in/pankaj-patel-196815311
               </a>
             </div>
           </motion.div>
@@ -217,13 +217,13 @@ export const Contact: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="glass-panel p-8 sm:p-10 rounded-3xl border border-white/5 bg-white/[0.01] shadow-[0_20px_50px_rgba(0,0,0,0.4)]"
+            className="glass-panel p-8 sm:p-10 rounded-3xl border border-black/10 dark:border-white/5 bg-white/[0.01] shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)]"
           >
             <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {/* Name */}
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                  <label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                     Full Name
                   </label>
                   <input
@@ -232,10 +232,10 @@ export const Contact: React.FC = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-xl bg-white/5 border text-sm text-white placeholder-gray-500 focus:outline-none transition-all duration-300 ${
+                    className={`w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border text-sm text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none transition-all duration-300 ${
                       errors.name
                         ? 'border-red-500/50 focus:border-red-500'
-                        : 'border-white/10 focus:border-accentViolet/50 focus:bg-white/[0.03]'
+                        : 'border-black/10 dark:border-white/10 focus:border-accentViolet/50 focus:bg-black/[0.08] dark:focus:bg-white/[0.03]'
                     }`}
                     placeholder="John Doe"
                     disabled={isLoading}
@@ -245,7 +245,7 @@ export const Contact: React.FC = () => {
 
                 {/* Email */}
                 <div className="flex flex-col gap-2">
-                  <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                  <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                     Email Address
                   </label>
                   <input
@@ -254,10 +254,10 @@ export const Contact: React.FC = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-xl bg-white/5 border text-sm text-white placeholder-gray-500 focus:outline-none transition-all duration-300 ${
+                    className={`w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border text-sm text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none transition-all duration-300 ${
                       errors.email
                         ? 'border-red-500/50 focus:border-red-500'
-                        : 'border-white/10 focus:border-accentViolet/50 focus:bg-white/[0.03]'
+                        : 'border-black/10 dark:border-white/10 focus:border-accentViolet/50 focus:bg-black/[0.08] dark:focus:bg-white/[0.03]'
                     }`}
                     placeholder="john@example.com"
                     disabled={isLoading}
@@ -268,7 +268,7 @@ export const Contact: React.FC = () => {
 
               {/* Subject */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="subject" className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                <label htmlFor="subject" className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                   Subject
                 </label>
                 <input
@@ -277,10 +277,10 @@ export const Contact: React.FC = () => {
                   name="subject"
                   value={formData.subject}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 rounded-xl bg-white/5 border text-sm text-white placeholder-gray-500 focus:outline-none transition-all duration-300 ${
+                  className={`w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border text-sm text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none transition-all duration-300 ${
                     errors.subject
                       ? 'border-red-500/50 focus:border-red-500'
-                      : 'border-white/10 focus:border-accentViolet/50 focus:bg-white/[0.03]'
+                      : 'border-black/10 dark:border-white/10 focus:border-accentViolet/50 focus:bg-black/[0.08] dark:focus:bg-white/[0.03]'
                   }`}
                   placeholder="Freelance Project Inquiry"
                   disabled={isLoading}
@@ -290,7 +290,7 @@ export const Contact: React.FC = () => {
 
               {/* Message */}
               <div className="flex flex-col gap-2">
-                <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-gray-400">
+                <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                   Message
                 </label>
                 <textarea
@@ -299,10 +299,10 @@ export const Contact: React.FC = () => {
                   rows={5}
                   value={formData.message}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 rounded-xl bg-white/5 border text-sm text-white placeholder-gray-500 focus:outline-none transition-all duration-300 resize-none ${
+                  className={`w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border text-sm text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none transition-all duration-300 resize-none ${
                     errors.message
                       ? 'border-red-500/50 focus:border-red-500'
-                      : 'border-white/10 focus:border-accentViolet/50 focus:bg-white/[0.03]'
+                      : 'border-black/10 dark:border-white/10 focus:border-accentViolet/50 focus:bg-black/[0.08] dark:focus:bg-white/[0.03]'
                   }`}
                   placeholder="Tell me more about your requirements..."
                   disabled={isLoading}
@@ -338,7 +338,7 @@ export const Contact: React.FC = () => {
                   href="https://github.com/Pankajlucky678"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-4 rounded-xl bg-white/5 hover:bg-white/10 text-white font-semibold text-sm border border-white/10 hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2"
+                  className="px-6 py-4 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-gray-800 dark:text-white font-semibold text-sm border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2"
                 >
                   <Github size={16} />
                   View GitHub

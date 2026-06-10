@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 
 interface NavItem {
   label: string;
@@ -19,6 +19,26 @@ export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || 'dark';
+    }
+    return 'dark';
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,7 +80,7 @@ export const Navbar: React.FC = () => {
     <nav
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
         scrolled
-          ? 'glass-panel-heavy py-4 shadow-[0_4px_30px_rgba(0,0,0,0.4)]'
+          ? 'glass-panel-heavy py-4 shadow-[0_4px_30px_rgba(0,0,0,0.2)]'
           : 'bg-transparent py-6'
       }`}
     >
@@ -75,14 +95,14 @@ export const Navbar: React.FC = () => {
         </a>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6">
           {navItems.map((item) => (
             <a
               key={item.label}
               href={item.href}
               onClick={(e) => handleScrollTo(e, item.href)}
               className={`text-sm font-medium tracking-wide transition-colors duration-300 hover:text-accentViolet relative py-1 ${
-                activeSection === item.href ? 'text-accentViolet' : 'text-gray-300'
+                activeSection === item.href ? 'text-accentViolet' : 'text-gray-600 dark:text-gray-300'
               }`}
             >
               {item.label}
@@ -91,6 +111,8 @@ export const Navbar: React.FC = () => {
               )}
             </a>
           ))}
+          
+          {/* Hire Me CTA */}
           <a
             href="#contact"
             onClick={(e) => handleScrollTo(e, '#contact')}
@@ -98,16 +120,43 @@ export const Navbar: React.FC = () => {
           >
             Hire Me
           </a>
+
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="p-2.5 rounded-full glass-panel text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:border-accentViolet/50 transition-all duration-300 active:scale-95 flex items-center justify-center cursor-pointer"
+            aria-label="Toggle Theme"
+          >
+            {theme === 'dark' ? (
+              <Sun size={18} className="text-yellow-400" />
+            ) : (
+              <Moon size={18} className="text-accentPurple" />
+            )}
+          </button>
         </div>
 
-        {/* Mobile Toggle */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-gray-300 hover:text-white transition-colors duration-300"
-          aria-label="Toggle Menu"
-        >
-          {isOpen ? <X size={26} /> : <Menu size={26} />}
-        </button>
+        {/* Mobile Toggle & Theme control side-by-side */}
+        <div className="flex items-center gap-4 md:hidden">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full glass-panel text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-all duration-300 flex items-center justify-center cursor-pointer"
+            aria-label="Toggle Theme"
+          >
+            {theme === 'dark' ? (
+              <Sun size={18} className="text-yellow-400" />
+            ) : (
+              <Moon size={18} className="text-accentPurple" />
+            )}
+          </button>
+          
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-300"
+            aria-label="Toggle Menu"
+          >
+            {isOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Drawer */}
@@ -122,7 +171,7 @@ export const Navbar: React.FC = () => {
             href={item.href}
             onClick={(e) => handleScrollTo(e, item.href)}
             className={`text-lg font-semibold tracking-wide transition-colors duration-300 hover:text-accentViolet ${
-              activeSection === item.href ? 'text-accentViolet' : 'text-gray-300'
+              activeSection === item.href ? 'text-accentViolet' : 'text-gray-600 dark:text-gray-300'
             }`}
           >
             {item.label}

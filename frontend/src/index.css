@@ -1,5 +1,27 @@
 @import "tailwindcss";
 
+:root {
+  --background: #FAF9F6;
+  --text: #171717;
+  --panel-bg: rgba(0, 0, 0, 0.03);
+  --panel-bg-heavy: rgba(0, 0, 0, 0.06);
+  --panel-border: rgba(0, 0, 0, 0.08);
+  --panel-border-heavy: rgba(0, 0, 0, 0.12);
+  --scrollbar-bg: #FAF9F6;
+  --scrollbar-thumb: #B600A8;
+}
+
+:root.dark {
+  --background: #0C0C0C;
+  --text: #ffffff;
+  --panel-bg: rgba(255, 255, 255, 0.02);
+  --panel-bg-heavy: rgba(255, 255, 255, 0.06);
+  --panel-border: rgba(255, 255, 255, 0.05);
+  --panel-border-heavy: rgba(255, 255, 255, 0.1);
+  --scrollbar-bg: #0C0C0C;
+  --scrollbar-thumb: #7621B0;
+}
+
 @theme {
   --color-darkBg: #0C0C0C;
   --color-accentViolet: #B600A8;
@@ -13,39 +35,48 @@
   --shadow-glow-orange: 0 0 30px rgba(190, 76, 0, 0.3);
 
   --background-image-accent-gradient: linear-gradient(135deg, #B600A8 0%, #7621B0 50%, #BE4C00 100%);
+  
+  --color-themeBg: var(--background);
+  --color-themeText: var(--text);
+  --color-themePanel: var(--panel-bg);
+  --color-themePanelHeavy: var(--panel-bg-heavy);
+  --color-themeBorder: var(--panel-border);
+  --color-themeBorderHeavy: var(--panel-border-heavy);
 }
 
 @utility glass-panel {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--panel-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--panel-border);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 @utility glass-panel-heavy {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--panel-bg-heavy);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--panel-border-heavy);
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 @utility glass-card-hover {
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   &:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--panel-bg-heavy);
     border-color: rgba(182, 0, 168, 0.4);
-    box-shadow: 0 10px 30px -10px rgba(118, 33, 176, 0.3),
-                0 1px 1px 0 rgba(255, 255, 255, 0.1) inset;
+    box-shadow: 0 10px 30px -10px rgba(118, 33, 176, 0.3);
     transform: translateY(-5px);
   }
 }
 
 body {
-  background-color: #0C0C0C;
-  color: white;
+  background-color: var(--background);
+  color: var(--text);
   font-family: "Kanit", sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Custom scrollbar */
@@ -53,14 +84,14 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0C0C0C;
+  background: var(--scrollbar-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #7621B0;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #B600A8;
+  background: var(--color-accentViolet);
 }
 
 /* Animations */
