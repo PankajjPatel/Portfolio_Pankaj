@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowRight, Award, Briefcase, GraduationCap } from 'lucide-react';
 
 export const Hero: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Mouse movement parallax effect for the right side render
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -14,6 +23,7 @@ export const Hero: React.FC = () => {
   const glowY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-20, 20]), springConfig);
 
   const handleMouseMove = (e: React.MouseEvent) => {
+    if (isMobile) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -24,6 +34,7 @@ export const Hero: React.FC = () => {
   };
 
   const handleMouseLeave = () => {
+    if (isMobile) return;
     mouseX.set(0);
     mouseY.set(0);
   };
@@ -67,7 +78,7 @@ export const Hero: React.FC = () => {
 
             {/* Title */}
             <motion.h1
-              animate={{
+              animate={isMobile ? {} : {
                 rotateX: [0, 4, -4, 0],
                 rotateY: [0, -6, 6, 0],
                 y: [0, -5, 5, 0],
@@ -80,13 +91,15 @@ export const Hero: React.FC = () => {
               style={{
                 perspective: 1000,
                 transformStyle: 'preserve-3d',
-                textShadow: `
-                  1px 1px 0px #B600A8,
-                  2px 2px 0px #9d0091,
-                  3px 3px 0px #84007a,
-                  4px 4px 0px #6b0063,
-                  5px 5px 8px rgba(0,0,0,0.4)
-                `,
+                textShadow: isMobile
+                  ? '0 2px 10px rgba(182, 0, 168, 0.4)'
+                  : `
+                    1px 1px 0px #B600A8,
+                    2px 2px 0px #9d0091,
+                    3px 3px 0px #84007a,
+                    4px 4px 0px #6b0063,
+                    5px 5px 8px rgba(0,0,0,0.4)
+                  `,
               }}
               className="text-4xl sm:text-6xl xl:text-7.5xl font-black leading-tight tracking-tight uppercase text-gray-900 dark:text-white cursor-default"
             >
@@ -153,7 +166,7 @@ export const Hero: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: 'easeOut' }}
-            style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+            style={isMobile ? { transformStyle: 'preserve-3d' } : { rotateX, rotateY, transformStyle: 'preserve-3d' }}
             className="relative w-full max-w-[450px] aspect-square rounded-3xl glass-panel p-4 flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-500 cursor-pointer overflow-hidden group"
           >
             {/* Soft Glow behind render */}

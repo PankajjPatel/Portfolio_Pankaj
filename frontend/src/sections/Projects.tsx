@@ -19,7 +19,7 @@ const projects: Project[] = [
     description: 'Responsive portfolio website featuring a premium glassmorphic dark UI, high performance, and smooth animations.',
     tech: ['React', 'TypeScript', 'Tailwind CSS', 'Framer Motion', 'Django', 'MySQL'],
     githubUrl: 'https://github.com/PankajjPatel/Portfolio_Pankaj',
-    demoUrl: '#',
+    demoUrl: '/',
     comingSoon: false,
   },
   {
@@ -49,6 +49,14 @@ export const Projects: React.FC = () => {
     if (project.comingSoon) {
       e.preventDefault();
       setToastMessage(`Source code release is pending. It will be published on GitHub in a few days!`);
+      setTimeout(() => setToastMessage(null), 4000);
+    }
+  };
+
+  const handleLiveDemoClick = (e: React.MouseEvent, project: Project) => {
+    if (project.comingSoon || project.demoUrl === '#') {
+      e.preventDefault();
+      setToastMessage(`Live demo for "${project.title}" will be available soon!`);
       setTimeout(() => setToastMessage(null), 4000);
     }
   };
@@ -187,6 +195,7 @@ export const Projects: React.FC = () => {
                   </a>
                   <a
                     href={project.demoUrl}
+                    onClick={(e) => handleLiveDemoClick(e, project)}
                     className="flex-1 py-3 px-4 rounded-xl bg-accent-gradient text-white font-semibold text-xs shadow-glow-violet hover:shadow-glow-purple transition-all duration-300 flex items-center justify-center gap-2 group/btn"
                   >
                     <ExternalLink size={14} className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />

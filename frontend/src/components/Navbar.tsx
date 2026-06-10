@@ -161,7 +161,7 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       <div
-        className={`fixed inset-y-0 right-0 w-[280px] z-40 glass-panel-heavy shadow-2xl flex flex-col p-8 pt-24 gap-6 transition-transform duration-300 ease-out md:hidden ${
+        className={`fixed inset-y-0 right-0 w-[280px] z-40 bg-white/95 dark:bg-[#0C0C0C]/95 backdrop-blur-xl border-l border-black/10 dark:border-white/10 shadow-2xl flex flex-col p-8 pt-24 gap-6 transition-transform duration-300 ease-out md:hidden ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
