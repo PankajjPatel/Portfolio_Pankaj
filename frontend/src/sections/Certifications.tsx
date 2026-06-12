@@ -27,15 +27,15 @@ export const Certifications: React.FC = () => {
   };
 
   return (
-    <section id="certifications" className="relative py-28 px-6 bg-[#0C0C0C] border-b border-white/5 select-none">
+    <section id="certifications" className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6 bg-themeBg border-b border-themeBorder select-none">
       {toast && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-[#111827] border border-white/10 text-white shadow-lg flex items-center gap-2.5 text-xs font-semibold">
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-themePanel border border-themeBorderHeavy text-white shadow-lg flex items-center gap-2.5 text-xs font-semibold">
           <AlertCircle size={14} className="text-primaryBlue" />
           {toast}
         </div>
       )}
 
-      <div className="max-w-4xl mx-auto flex flex-col gap-16">
+      <div className="max-w-4xl mx-auto flex flex-col gap-10 sm:gap-12 md:gap-16">
         {/* Header */}
         <div className="flex flex-col items-center justify-center text-center gap-4">
           <div className="flex items-center gap-3">
@@ -43,16 +43,16 @@ export const Certifications: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-widest text-primaryBlue">Achievements</span>
             <span className="h-[2px] w-8 bg-accent-gradient" />
           </div>
-          <h2 className="text-[10vw] sm:text-[7vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
+          <h2 className="text-[9vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
             Certifications
           </h2>
-          <p className="text-slate-400 font-light text-base max-w-xl">
+          <p className="text-slate-600 dark:text-slate-400 font-light text-base max-w-xl">
             Professional credentials in cloud infrastructure, AI concepts, Linux administration, and programming.
           </p>
         </div>
 
         {/* Timeline list */}
-        <div className="relative border-l border-white/5 pl-6 md:pl-8 ml-4 md:ml-6 flex flex-col gap-8">
+        <div className="relative border-l border-themeBorder pl-5 sm:pl-6 md:pl-8 ml-3 sm:ml-4 md:ml-6 flex flex-col gap-6 sm:gap-8">
           {certificates.map((cert) => (
             <div
               key={cert.title}
@@ -60,15 +60,15 @@ export const Certifications: React.FC = () => {
               className="relative flex flex-col gap-2 group cursor-pointer"
             >
               {/* Checkpoint bullet */}
-              <span className="absolute -left-[31px] md:-left-[39px] top-1.5 w-6 h-6 rounded-full bg-[#0C0C0C] border border-white/10 flex items-center justify-center group-hover:border-primaryBlue group-hover:bg-[#111827] transition-colors">
+              <span className="absolute -left-[27px] sm:-left-[29px] md:-left-[39px] top-1.5 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-themeBg border border-themeBorderHeavy flex items-center justify-center group-hover:border-primaryBlue group-hover:bg-themePanel transition-colors">
                 <CheckCircle size={12} className="text-slate-500 group-hover:text-primaryBlue transition-colors" />
               </span>
 
               {/* Certificate Card */}
               <div 
-                className="p-5 rounded-2xl border border-white/5 bg-[#111827]/80 shadow-md hover:border-primaryBlue/40 transition-all duration-200 flex flex-col gap-3"
+                className="p-4 sm:p-5 rounded-xl sm:rounded-2xl border border-themeBorder bg-themePanel/80 shadow-md hover:border-primaryBlue/40 transition-all duration-200 flex flex-col gap-2 sm:gap-3"
               >
-                <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-slate-500">
                   <span className="flex items-center gap-1.5 text-primaryBlue">
                     <Award size={13} />
                     {cert.issuer}
@@ -79,7 +79,7 @@ export const Certifications: React.FC = () => {
                   </span>
                 </div>
                 
-                <h3 className="text-base font-bold text-white group-hover:text-secondaryBlue transition-colors">
+                <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white group-hover:text-secondaryBlue transition-colors">
                   {cert.title}
                 </h3>
                 

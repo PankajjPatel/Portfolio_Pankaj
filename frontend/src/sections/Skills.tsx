@@ -38,7 +38,7 @@ const techSkills: SkillItem[] = [
     id: '05',
     title: 'Git & GitHub',
     description: 'Version control and collaborative development.',
-    icon: <Github className="w-7 h-7 text-slate-300" />,
+    icon: <Github className="w-7 h-7 text-slate-700 dark:text-slate-300" />,
   },
   {
     id: '06',
@@ -81,11 +81,11 @@ export const Skills: React.FC = () => {
   const currentSkills = activeTab === 'technical' ? techSkills : behavioralSkills;
 
   return (
-    <section id="skills" className="relative py-28 px-6 bg-[#0C0C0C] border-b border-white/5 overflow-hidden select-none">
+    <section id="skills" className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6 bg-themeBg border-b border-themeBorder overflow-hidden select-none">
       {/* Background Soft Glow */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-primaryBlue/5 rounded-full filter blur-[100px] pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto flex flex-col gap-16 relative z-10">
+      <div className="max-w-7xl mx-auto flex flex-col gap-10 sm:gap-12 md:gap-16 relative z-10">
         
         {/* Header */}
         <div className="flex flex-col items-center justify-center text-center gap-6">
@@ -94,15 +94,15 @@ export const Skills: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-widest text-primaryBlue">Capabilities</span>
             <span className="h-[2px] w-8 bg-accent-gradient" />
           </div>
-          <h2 className="text-[10vw] sm:text-[7vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
+          <h2 className="text-[9vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
             SKILLS & ABILITIES
           </h2>
-          <p className="text-slate-400 font-light text-base max-w-xl">
+          <p className="text-slate-600 dark:text-slate-400 font-light text-base max-w-xl">
             My engineering expertise and behavioral strengths built through academic courses and practical engineering.
           </p>
 
           {/* Premium Sliding Toggle Selector */}
-          <div className="relative flex p-1 rounded-full bg-white/5 border border-white/10 w-[320px] mx-auto mt-4 overflow-hidden">
+          <div className="relative flex p-1 rounded-full bg-slate-200/50 dark:bg-white/5 border border-themeBorderHeavy w-full max-w-[320px] mx-auto mt-4 overflow-hidden">
             {/* Sliding Pill */}
             <motion.div
               layoutId="activeTabPill"
@@ -117,7 +117,7 @@ export const Skills: React.FC = () => {
             <button
               onClick={() => setActiveTab('technical')}
               className={`relative z-10 w-1/2 py-2 text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${
-                activeTab === 'technical' ? 'text-white' : 'text-slate-400 hover:text-slate-200'
+                activeTab === 'technical' ? 'text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
               }`}
             >
               Technical
@@ -125,7 +125,7 @@ export const Skills: React.FC = () => {
             <button
               onClick={() => setActiveTab('behavioral')}
               className={`relative z-10 w-1/2 py-2 text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${
-                activeTab === 'behavioral' ? 'text-white' : 'text-slate-400 hover:text-slate-200'
+                activeTab === 'behavioral' ? 'text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
               }`}
             >
               Behavioral
@@ -142,7 +142,7 @@ export const Skills: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
             >
               {currentSkills.map((skill) => (
                 <motion.div
@@ -151,12 +151,12 @@ export const Skills: React.FC = () => {
                     y: -8,
                     boxShadow: '0 20px 40px -15px rgba(37, 99, 235, 0.15)'
                   }}
-                  className="group bg-[#111827]/40 border border-white/5 rounded-3xl p-8 hover:bg-[#111827]/80 hover:border-primaryBlue/30 transition-all duration-300 cursor-pointer flex flex-col justify-between min-h-[250px]"
+                  className="group bg-themePanel/40 border border-themeBorder rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 hover:bg-themePanel/80 hover:border-primaryBlue/30 transition-all duration-300 cursor-pointer flex flex-col justify-between min-h-[200px] sm:min-h-[250px]"
                 >
                   <div className="flex flex-col gap-6">
                     {/* Header: Icon & Number Badge */}
                     <div className="flex items-center justify-between">
-                      <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-14 h-14 rounded-2xl bg-slate-200/50 dark:bg-white/5 flex items-center justify-center border border-themeBorderHeavy group-hover:scale-110 transition-transform duration-300">
                         {skill.icon}
                       </div>
                       <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-widest">
@@ -166,10 +166,10 @@ export const Skills: React.FC = () => {
 
                     {/* Info */}
                     <div className="flex flex-col gap-2">
-                      <h3 className="text-lg font-bold tracking-tight text-white group-hover:text-secondaryBlue transition-colors duration-300">
+                      <h3 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white group-hover:text-secondaryBlue transition-colors duration-300">
                         {skill.title}
                       </h3>
-                      <p className="text-xs text-slate-400 font-light leading-relaxed">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 font-light leading-relaxed">
                         {skill.description}
                       </p>
                     </div>

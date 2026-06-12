@@ -66,7 +66,7 @@ function App() {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto min-h-screen bg-[#0C0C0C] text-themeText selection:bg-primaryBlue selection:text-white border-x border-white/5 shadow-[0_0_80px_rgba(37,99,235,0.15)] relative transition-colors duration-200">
+    <div className="max-w-[1440px] mx-auto min-h-screen bg-themeBg text-themeText selection:bg-primaryBlue selection:text-white sm:border-x border-themeBorder shadow-none sm:shadow-[0_0_80px_rgba(37,99,235,0.15)] relative transition-colors duration-200">
       {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[2px] bg-primaryBlue origin-left z-[100]"
@@ -97,7 +97,7 @@ function App() {
       {/* Back to Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-20 right-6 z-50 w-10 h-10 rounded-md border border-themeBorder bg-themePanel flex items-center justify-center text-slate-500 hover:text-primaryBlue hover:border-primaryBlue/40 shadow-sm transition-all duration-200 active:scale-95 ${
+        className={`fixed bottom-20 right-4 sm:right-6 z-50 w-9 h-9 sm:w-10 sm:h-10 rounded-md border border-themeBorder bg-themePanel flex items-center justify-center text-slate-500 hover:text-primaryBlue hover:border-primaryBlue/40 shadow-sm transition-all duration-200 active:scale-95 ${
           showBackToTop ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         aria-label="Back to Top"

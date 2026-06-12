@@ -79,12 +79,12 @@ class ResumeView(APIView):
 
         file_path = os.path.join(settings.MEDIA_ROOT, 'resume.pdf')
         if os.path.exists(file_path):
-            return FileResponse(open(file_path, 'rb'), content_type='application/pdf')
+            return FileResponse(open(file_path, 'rb'), as_attachment=True, filename='Pankaj_Patel_Resume.pdf', content_type='application/pdf')
         
         # Fallback to an existing public/resume.pdf file if media doesn't exist
         fallback_path = os.path.join(settings.BASE_DIR, '..', 'frontend', 'public', 'resume.pdf')
         if os.path.exists(fallback_path):
-            return FileResponse(open(fallback_path, 'rb'), content_type='application/pdf')
+            return FileResponse(open(fallback_path, 'rb'), as_attachment=True, filename='Pankaj_Patel_Resume.pdf', content_type='application/pdf')
             
         raise Http404("Resume PDF not found. Please upload one first.")
 
@@ -144,21 +144,26 @@ class VisitorStatsView(APIView):
     def post(self, request):
         try:
             is_unique = request.data.get('is_unique', False)
+            increment_resume_download = request.data.get('increment_resume_download', False)
             stats, created = PortfolioStats.objects.get_or_create(id=1)
             
-            stats.total_visits += 1
-            if is_unique:
-                stats.unique_visitors += 1
+            if increment_resume_download:
+                stats.resume_downloads += 1
+            else:
+                stats.total_visits += 1
+                if is_unique:
+                    stats.unique_visitors += 1
             stats.save()
             
             return Response({
                 "success": True,
                 "total_visits": stats.total_visits,
-                "unique_visitors": stats.unique_visitors
+                "unique_visitors": stats.unique_visitors,
+                "resume_downloads": stats.resume_downloads
             }, status=status.HTTP_200_OK)
         except Exception as e:
-            logger.error(f"Failed to log visit: {str(e)}")
-            return Response({"error": "Failed to log visit"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            logger.error(f"Failed to log stat: {str(e)}")
+            return Response({"error": "Failed to log stat"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class ReviewListCreateView(generics.ListCreateAPIView):

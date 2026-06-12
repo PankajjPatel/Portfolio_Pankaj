@@ -18,6 +18,7 @@ export const Contact: React.FC = () => {
     unique_visitors: 0,
     resume_downloads: 0
   });
+  const [statsLoaded, setStatsLoaded] = useState(false);
 
   React.useEffect(() => {
     const fetchStats = async () => {
@@ -31,6 +32,7 @@ export const Contact: React.FC = () => {
             unique_visitors: typeof data.unique_visitors === 'number' ? data.unique_visitors : 0,
             resume_downloads: typeof data.resume_downloads === 'number' ? data.resume_downloads : 0
           });
+          setStatsLoaded(true);
         }
       } catch (err) {
         console.error('Failed to fetch visitors stats:', err);
@@ -91,8 +93,8 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative py-28 px-6 bg-[#0C0C0C] border-t border-white/5 select-none">
-      <div className="fixed top-24 right-6 z-50 flex flex-col gap-3 max-w-md w-full">
+    <section id="contact" className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6 bg-themeBg border-t border-themeBorder select-none">
+      <div className="fixed top-24 left-4 right-4 sm:left-auto sm:right-6 z-50 flex flex-col gap-3 max-w-md w-auto sm:w-full">
         <AnimatePresence>
           {toast && (
             <motion.div
@@ -114,7 +116,7 @@ export const Contact: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 md:gap-16 items-center">
         {/* Info Column */}
         <div className="lg:col-span-5 flex flex-col gap-6">
           <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="flex flex-col gap-6">
@@ -122,74 +124,74 @@ export const Contact: React.FC = () => {
               <span className="h-[2px] w-8 bg-accent-gradient" />
               <span className="text-xs font-bold uppercase tracking-widest text-primaryBlue">Contact</span>
             </div>
-            <h2 className="text-[10vw] sm:text-[7vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
+            <h2 className="text-[9vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
               Let's Connect
             </h2>
-            <p className="text-slate-400 font-light text-base leading-relaxed">
+            <p className="text-slate-600 dark:text-slate-400 font-light text-base leading-relaxed">
               I'm always open to discussing internships, collaborations, freelance work, and technical projects.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 mt-4 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4 mt-4 w-full">
               {/* Mail Card */}
-              <a href="mailto:Pankajlucky678@gmail.com" className="flex items-center gap-4 p-4 rounded-2xl border border-white/5 bg-[#111827]/80 hover:border-primaryBlue/40 hover:bg-[#111827] transition-colors group">
-                <span className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+              <a href="mailto:Pankajlucky678@gmail.com" className="flex items-center gap-4 p-4 rounded-2xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/40 hover:bg-themePanel transition-colors group">
+                <span className="w-10 h-10 rounded-lg bg-slate-200/50 dark:bg-white/5 flex items-center justify-center shrink-0 border border-themeBorderHeavy">
                   <Mail size={18} className="text-primaryBlue" />
                 </span>
                 <div className="flex flex-col gap-0.5 overflow-hidden">
                   <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Email</span>
-                  <span className="text-xs font-bold text-white group-hover:text-primaryBlue transition-colors truncate">Pankajlucky678@gmail.com</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">Pankajlucky678@gmail.com</span>
                 </div>
               </a>
 
               {/* Phone Card */}
-              <a href="tel:+919754789747" className="flex items-center gap-4 p-4 rounded-2xl border border-white/5 bg-[#111827]/80 hover:border-primaryBlue/40 hover:bg-[#111827] transition-colors group">
-                <span className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+              <a href="tel:+919754789747" className="flex items-center gap-4 p-4 rounded-2xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/40 hover:bg-themePanel transition-colors group">
+                <span className="w-10 h-10 rounded-lg bg-slate-200/50 dark:bg-white/5 flex items-center justify-center shrink-0 border border-themeBorderHeavy">
                   <Phone size={18} className="text-primaryBlue" />
                 </span>
                 <div className="flex flex-col gap-0.5 overflow-hidden">
                   <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Phone / WhatsApp</span>
-                  <span className="text-xs font-bold text-white group-hover:text-primaryBlue transition-colors truncate">+91 97547 89747</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">+91 97547 89747</span>
                 </div>
               </a>
 
               {/* LinkedIn Card */}
-              <a href="https://linkedin.com/in/pankaj-patel-196815311" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-white/5 bg-[#111827]/80 hover:border-primaryBlue/40 hover:bg-[#111827] transition-colors group">
-                <span className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+              <a href="https://linkedin.com/in/pankaj-patel-196815311" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/40 hover:bg-themePanel transition-colors group">
+                <span className="w-10 h-10 rounded-lg bg-slate-200/50 dark:bg-white/5 flex items-center justify-center shrink-0 border border-themeBorderHeavy">
                   <Linkedin size={18} className="text-primaryBlue" />
                 </span>
                 <div className="flex flex-col gap-0.5 overflow-hidden">
                   <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">LinkedIn</span>
-                  <span className="text-xs font-bold text-white group-hover:text-primaryBlue transition-colors truncate">pankaj-patel-196815311</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">pankaj-patel-196815311</span>
                 </div>
               </a>
 
               {/* GitHub Card */}
-              <a href="https://github.com/PankajjPatel" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-white/5 bg-[#111827]/80 hover:border-primaryBlue/40 hover:bg-[#111827] transition-colors group">
-                <span className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+              <a href="https://github.com/PankajjPatel" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/40 hover:bg-themePanel transition-colors group">
+                <span className="w-10 h-10 rounded-lg bg-slate-200/50 dark:bg-white/5 flex items-center justify-center shrink-0 border border-themeBorderHeavy">
                   <Github size={18} className="text-primaryBlue" />
                 </span>
                 <div className="flex flex-col gap-0.5 overflow-hidden">
                   <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">GitHub</span>
-                  <span className="text-xs font-bold text-white group-hover:text-primaryBlue transition-colors truncate">PankajjPatel</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">PankajjPatel</span>
                 </div>
               </a>
 
               {/* Twitter Card */}
-              <a href="https://x.com/Pankajpatel536" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-white/5 bg-[#111827]/80 hover:border-primaryBlue/40 hover:bg-[#111827] transition-colors group">
-                <span className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+              <a href="https://x.com/Pankajpatel536" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/40 hover:bg-themePanel transition-colors group">
+                <span className="w-10 h-10 rounded-lg bg-slate-200/50 dark:bg-white/5 flex items-center justify-center shrink-0 border border-themeBorderHeavy">
                   <Twitter size={18} className="text-primaryBlue" />
                 </span>
                 <div className="flex flex-col gap-0.5 overflow-hidden">
                   <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Twitter (X)</span>
-                  <span className="text-xs font-bold text-white group-hover:text-primaryBlue transition-colors truncate">@Pankajpatel536</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">@Pankajpatel536</span>
                 </div>
               </a>
             </div>
 
             {/* Dynamic Visitor Analytics Dashboard */}
             {stats && (
-              <div className="mt-6 p-5 rounded-2xl border border-white/5 bg-[#111827]/60 shadow-md flex flex-col gap-4">
-                <div className="flex items-center justify-between border-b border-white/5 pb-3">
+              <div className="mt-6 p-5 rounded-2xl border border-themeBorder bg-themePanel/60 shadow-md flex flex-col gap-4">
+                <div className="flex items-center justify-between border-b border-themeBorder pb-3">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 flex items-center gap-1.5">
                     <Activity size={13} className="text-primaryBlue animate-pulse" /> Live Portfolio Analytics
                   </span>
@@ -199,31 +201,31 @@ export const Contact: React.FC = () => {
                   </span>
                 </div>
                 
-                <div className="grid grid-cols-3 gap-3 text-center">
-                  <div className="flex flex-col gap-0.5 p-2.5 rounded-xl bg-black border border-white/5">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center">
+                  <div className="flex flex-col gap-0.5 p-2.5 rounded-xl bg-themeBg border border-themeBorder">
                     <span className="text-slate-500 flex items-center justify-center gap-1 text-[8px] font-bold uppercase tracking-wide">
                       <Eye size={10} className="text-primaryBlue" /> Visits
                     </span>
-                    <span className="text-base font-extrabold text-white">
-                      {stats.total_visits}
+                    <span className="text-base font-extrabold text-slate-900 dark:text-white">
+                      {statsLoaded ? stats.total_visits : '—'}
                     </span>
                   </div>
 
-                  <div className="flex flex-col gap-0.5 p-2.5 rounded-xl bg-black border border-white/5">
+                  <div className="flex flex-col gap-0.5 p-2.5 rounded-xl bg-themeBg border border-themeBorder">
                     <span className="text-slate-500 flex items-center justify-center gap-1 text-[8px] font-bold uppercase tracking-wide">
                       <Users size={10} className="text-primaryBlue" /> Unique
                     </span>
-                    <span className="text-base font-extrabold text-white">
-                      {stats.unique_visitors}
+                    <span className="text-base font-extrabold text-slate-900 dark:text-white">
+                      {statsLoaded ? stats.unique_visitors : '—'}
                     </span>
                   </div>
 
-                  <div className="flex flex-col gap-0.5 p-2.5 rounded-xl bg-black border border-white/5">
+                  <div className="flex flex-col gap-0.5 p-2.5 rounded-xl bg-themeBg border border-themeBorder">
                     <span className="text-slate-500 flex items-center justify-center gap-1 text-[8px] font-bold uppercase tracking-wide">
                       <Download size={10} className="text-primaryBlue" /> Resume
                     </span>
-                    <span className="text-base font-extrabold text-white">
-                      {stats.resume_downloads}
+                    <span className="text-base font-extrabold text-slate-900 dark:text-white">
+                      {statsLoaded ? stats.resume_downloads : '—'}
                     </span>
                   </div>
                 </div>
@@ -234,7 +236,7 @@ export const Contact: React.FC = () => {
 
         {/* Form Column */}
         <div className="lg:col-span-7">
-          <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }} className="p-6 sm:p-8 rounded-3xl border border-white/5 bg-[#111827]/80 shadow-md">
+          <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }} className="p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl border border-themeBorder bg-themePanel/80 shadow-md">
             <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-1.5">
@@ -245,10 +247,10 @@ export const Contact: React.FC = () => {
                     name="name" 
                     value={formData.name} 
                     onChange={handleChange} 
-                    className={`w-full px-3.5 py-3 rounded-xl bg-[#0C0C0C] border text-xs text-white placeholder-slate-600 focus:outline-none transition-colors ${
+                    className={`w-full px-3.5 py-3 rounded-xl bg-themeBg border text-xs text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none transition-colors ${
                       errors.name 
                         ? 'border-red-500 focus:border-red-500' 
-                        : 'border-white/5 focus:border-primaryBlue/50'
+                        : 'border-themeBorder focus:border-primaryBlue/50'
                     }`} 
                     placeholder="John Doe" 
                     disabled={isLoading} 
@@ -263,10 +265,10 @@ export const Contact: React.FC = () => {
                     name="email" 
                     value={formData.email} 
                     onChange={handleChange} 
-                    className={`w-full px-3.5 py-3 rounded-xl bg-[#0C0C0C] border text-xs text-white placeholder-slate-600 focus:outline-none transition-colors ${
+                    className={`w-full px-3.5 py-3 rounded-xl bg-themeBg border text-xs text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none transition-colors ${
                       errors.email 
                         ? 'border-red-500 focus:border-red-500' 
-                        : 'border-white/5 focus:border-primaryBlue/50'
+                        : 'border-themeBorder focus:border-primaryBlue/50'
                     }`} 
                     placeholder="john@example.com" 
                     disabled={isLoading} 
@@ -284,10 +286,10 @@ export const Contact: React.FC = () => {
                   rows={5} 
                   value={formData.message} 
                   onChange={handleChange} 
-                  className={`w-full px-3.5 py-3 rounded-xl bg-[#0C0C0C] border text-xs text-white placeholder-slate-600 focus:outline-none resize-none transition-colors ${
+                  className={`w-full px-3.5 py-3 rounded-xl bg-themeBg border text-xs text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none resize-none transition-colors ${
                     errors.message 
                       ? 'border-red-500 focus:border-red-500' 
-                      : 'border-white/5 focus:border-primaryBlue/50'
+                      : 'border-themeBorder focus:border-primaryBlue/50'
                   }`} 
                   placeholder="Detail your requirements..." 
                   disabled={isLoading} 

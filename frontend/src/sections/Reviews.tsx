@@ -128,8 +128,8 @@ export const Reviews: React.FC = () => {
   };
 
   return (
-    <section id="reviews" className="relative py-28 px-6 bg-[#0C0C0C] border-t border-white/5 select-none">
-      <div className="max-w-7xl mx-auto flex flex-col gap-16">
+    <section id="reviews" className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6 bg-themeBg border-t border-themeBorder select-none">
+      <div className="max-w-7xl mx-auto flex flex-col gap-10 sm:gap-12 md:gap-16">
         
         {/* Header Block */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -138,10 +138,10 @@ export const Reviews: React.FC = () => {
               <span className="h-[2px] w-8 bg-accent-gradient" />
               <span className="text-xs font-bold uppercase tracking-widest text-primaryBlue">Testimonials</span>
             </div>
-            <h2 className="text-[10vw] sm:text-[7vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
+            <h2 className="text-[9vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
               User Reviews
             </h2>
-            <p className="text-slate-400 font-light text-base leading-relaxed max-w-2xl">
+            <p className="text-slate-600 dark:text-slate-400 font-light text-base leading-relaxed max-w-2xl">
               Honest feedback from mentors, class fellows, and project team members on database and web development collaborations.
             </p>
           </div>
@@ -158,7 +158,7 @@ export const Reviews: React.FC = () => {
         </div>
 
         {/* Reviews Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full">
           {reviews.slice(0, 4).map((review, i) => (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -166,7 +166,7 @@ export const Reviews: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
               key={review.id || i}
-              className="p-6 rounded-3xl border border-white/5 bg-[#111827]/80 hover:border-primaryBlue/30 hover:bg-[#111827] transition-all duration-300 flex flex-col justify-between gap-5 group"
+              className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/30 hover:bg-themePanel transition-all duration-300 flex flex-col justify-between gap-4 sm:gap-5 group"
             >
               <div className="flex flex-col gap-4">
                 {/* Stars */}
@@ -181,18 +181,18 @@ export const Reviews: React.FC = () => {
                 </div>
 
                 {/* Comment */}
-                <p className="text-slate-300 font-light text-xs leading-relaxed italic">
+                <p className="text-slate-700 dark:text-slate-300 font-light text-xs leading-relaxed italic">
                   "{review.comment}"
                 </p>
               </div>
 
               {/* Reviewer Details */}
-              <div className="flex items-center gap-3 pt-4 border-t border-white/5">
-                <div className="w-9 h-9 rounded-full bg-blue-950/60 border border-white/10 flex items-center justify-center shrink-0">
+              <div className="flex items-center gap-3 pt-4 border-t border-themeBorder">
+                <div className="w-9 h-9 rounded-full bg-blue-950/60 border border-themeBorderHeavy flex items-center justify-center shrink-0">
                   <MessageSquare size={14} className="text-primaryBlue" />
                 </div>
                 <div className="flex flex-col overflow-hidden">
-                  <span className="text-xs font-bold text-white group-hover:text-primaryBlue transition-colors truncate">
+                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">
                     {review.name}
                   </span>
                   <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider truncate">
@@ -208,12 +208,12 @@ export const Reviews: React.FC = () => {
       {/* Review Dialog Modal */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 backdrop-blur-xs p-4">
+          <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 backdrop-blur-xs p-3 sm:p-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-md rounded-2xl border border-white/10 bg-[#111827] shadow-xl p-6 flex flex-col gap-5"
+              className="relative w-full max-w-md rounded-xl sm:rounded-2xl border border-themeBorderHeavy bg-themePanel shadow-xl p-4 sm:p-6 flex flex-col gap-4 sm:gap-5 max-h-[90vh] overflow-y-auto"
             >
               {/* Close Button */}
               <button
@@ -222,7 +222,7 @@ export const Reviews: React.FC = () => {
                   setErrors({});
                   setToast(null);
                 }}
-                className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors cursor-pointer"
+                className="absolute top-4 right-4 text-slate-600 dark:text-slate-400 hover:text-white transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <X size={18} />
@@ -230,11 +230,11 @@ export const Reviews: React.FC = () => {
 
               {/* Title */}
               <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-blue-950/40 border border-white/10 text-primaryBlue flex items-center justify-center shrink-0">
+                <div className="p-2 rounded-lg bg-blue-950/40 border border-themeBorderHeavy text-primaryBlue flex items-center justify-center shrink-0">
                   <Star size={18} className="fill-primaryBlue" />
                 </div>
                 <div className="flex flex-col gap-0.5">
-                  <h3 className="text-sm font-bold text-white">
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">
                     Submit Your Review
                   </h3>
                   <p className="text-[9px] text-slate-500 uppercase tracking-widest font-semibold">
@@ -299,8 +299,8 @@ export const Reviews: React.FC = () => {
                       id="rev-name"
                       value={formData.name}
                       onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                      className={`w-full px-3.5 py-2.5 rounded-xl bg-[#0C0C0C] border text-xs text-white placeholder-slate-600 focus:outline-none transition-colors ${
-                        errors.name ? 'border-red-500' : 'border-white/5 focus:border-primaryBlue/50'
+                      className={`w-full px-3.5 py-2.5 rounded-xl bg-themeBg border text-xs text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none transition-colors ${
+                        errors.name ? 'border-red-500' : 'border-themeBorder focus:border-primaryBlue/50'
                       }`}
                       placeholder="Jane Doe"
                       disabled={isLoading}
@@ -315,8 +315,8 @@ export const Reviews: React.FC = () => {
                       id="rev-email"
                       value={formData.email}
                       onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                      className={`w-full px-3.5 py-2.5 rounded-xl bg-[#0C0C0C] border text-xs text-white placeholder-slate-600 focus:outline-none transition-colors ${
-                        errors.email ? 'border-red-500' : 'border-white/5 focus:border-primaryBlue/50'
+                      className={`w-full px-3.5 py-2.5 rounded-xl bg-themeBg border text-xs text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none transition-colors ${
+                        errors.email ? 'border-red-500' : 'border-themeBorder focus:border-primaryBlue/50'
                       }`}
                       placeholder="jane@example.com"
                       disabled={isLoading}
@@ -333,8 +333,8 @@ export const Reviews: React.FC = () => {
                     rows={4}
                     value={formData.comment}
                     onChange={(e) => setFormData(prev => ({ ...prev, comment: e.target.value }))}
-                    className={`w-full px-3.5 py-2.5 rounded-xl bg-[#0C0C0C] border text-xs text-white placeholder-slate-600 focus:outline-none resize-none transition-colors ${
-                      errors.comment ? 'border-red-500' : 'border-white/5 focus:border-primaryBlue/50'
+                    className={`w-full px-3.5 py-2.5 rounded-xl bg-themeBg border text-xs text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none resize-none transition-colors ${
+                      errors.comment ? 'border-red-500' : 'border-themeBorder focus:border-primaryBlue/50'
                     }`}
                     placeholder="Describe your collaborative experience..."
                     disabled={isLoading}

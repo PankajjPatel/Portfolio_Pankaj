@@ -43,6 +43,19 @@ export const Navbar: React.FC = () => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
+  const handleDownloadResume = () => {
+    try {
+      const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+      fetch(`${apiBaseUrl}/api/contact/stats/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ increment_resume_download: true }),
+      }).catch((err) => console.error('Error logging download:', err));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -82,18 +95,18 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[1440px] z-50 transition-all duration-200 border-x border-white/5 ${
+        className={`fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[1440px] z-50 transition-all duration-200 sm:border-x border-themeBorder ${
           scrolled
-            ? 'bg-white/95 dark:bg-[#0F172A]/95 border-b border-themeBorder py-4 shadow-sm backdrop-blur-md'
+            ? 'bg-themeBg/95 border-b border-themeBorder py-4 shadow-sm backdrop-blur-md'
             : 'bg-transparent py-6'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
           {/* Logo */}
           <a
             href="#hero"
             onClick={(e) => handleScrollTo(e, '#hero')}
-            className="text-xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-1.5 hover:opacity-90 transition-opacity"
+            className="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-1.5 hover:opacity-90 transition-opacity"
           >
             <span>Pankaj Patel</span>
             <span className="w-2 h-2 rounded-full bg-primaryBlue"></span>
@@ -109,7 +122,7 @@ export const Navbar: React.FC = () => {
                 className={`text-sm font-medium tracking-wide transition-colors duration-200 relative py-1 ${
                   activeSection === item.href
                     ? 'text-primaryBlue'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-primaryBlue dark:hover:text-primaryBlue'
+                    : 'text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-primaryBlue dark:hover:text-primaryBlue'
                 }`}
               >
                 {item.label}
@@ -122,16 +135,14 @@ export const Navbar: React.FC = () => {
             {/* Resume Button with subtle Upload trigger */}
             <div className="flex items-center pl-2 border-l border-themeBorder">
               <a
-                href="/resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-3.5 py-1.5 text-xs font-semibold rounded-md border border-themeBorder bg-themePanel text-slate-700 dark:text-slate-200 hover:bg-themePanelHeavy hover:border-themeBorderHeavy transition-colors shadow-xs"
+                href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/api/contact/resume/`}
+                className="px-3.5 py-1.5 text-xs font-semibold rounded-md border border-themeBorder bg-themePanel text-slate-700 dark:text-slate-800 dark:text-slate-200 hover:bg-themePanelHeavy hover:border-themeBorderHeavy transition-colors shadow-xs"
               >
                 Resume
               </a>
               <button
                 onClick={() => setIsUploadModalOpen(true)}
-                className="p-1.5 text-slate-400 hover:text-primaryBlue transition-colors"
+                className="p-1.5 text-slate-600 dark:text-slate-400 hover:text-primaryBlue transition-colors"
                 title="Update Resume PDF"
                 aria-label="Update resume"
               >
@@ -151,7 +162,7 @@ export const Navbar: React.FC = () => {
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-md border border-themeBorder bg-themePanel text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-primaryBlue/30 transition-all duration-200 cursor-pointer flex items-center justify-center"
+              className="p-2 rounded-md border border-themeBorder bg-themePanel text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-primaryBlue/30 transition-all duration-200 cursor-pointer flex items-center justify-center"
               aria-label="Toggle Theme"
             >
               {theme === 'dark' ? (
@@ -166,7 +177,7 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center gap-4 md:hidden">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-md border border-themeBorder bg-themePanel text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-200 flex items-center justify-center cursor-pointer"
+              className="p-2 rounded-md border border-themeBorder bg-themePanel text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-200 flex items-center justify-center cursor-pointer"
               aria-label="Toggle Theme"
             >
               {theme === 'dark' ? (
@@ -178,7 +189,7 @@ export const Navbar: React.FC = () => {
             
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors duration-200"
+              className="text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors duration-200"
               aria-label="Toggle Menu"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -188,7 +199,7 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Drawer */}
         <div
-          className={`fixed inset-y-0 right-0 w-[260px] z-40 bg-white dark:bg-[#1E293B] border-l border-themeBorder shadow-lg flex flex-col p-8 pt-24 gap-5 transition-transform duration-300 ease-out md:hidden ${
+          className={`fixed inset-y-0 right-0 w-[75vw] max-w-[280px] z-40 bg-white dark:bg-[#1E293B] border-l border-themeBorder shadow-lg flex flex-col p-6 sm:p-8 pt-20 sm:pt-24 gap-4 sm:gap-5 transition-transform duration-300 ease-out md:hidden ${
             isOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
@@ -198,7 +209,7 @@ export const Navbar: React.FC = () => {
               href={item.href}
               onClick={(e) => handleScrollTo(e, item.href)}
               className={`text-base font-semibold tracking-wide transition-colors duration-200 ${
-                activeSection === item.href ? 'text-primaryBlue' : 'text-slate-600 dark:text-slate-300 hover:text-primaryBlue'
+                activeSection === item.href ? 'text-primaryBlue' : 'text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-primaryBlue'
               }`}
             >
               {item.label}
@@ -208,10 +219,8 @@ export const Navbar: React.FC = () => {
           {/* Mobile Resume Link */}
           <div className="flex items-center justify-between border-t border-themeBorder pt-4 mt-2">
             <a
-              href="/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-primaryBlue"
+              href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/api/contact/resume/`}
+              className="text-base font-semibold text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-primaryBlue"
             >
               View Resume
             </a>
@@ -220,7 +229,7 @@ export const Navbar: React.FC = () => {
                 setIsOpen(false);
                 setIsUploadModalOpen(true);
               }}
-              className="p-2 text-slate-400 hover:text-primaryBlue"
+              className="p-2 text-slate-600 dark:text-slate-400 hover:text-primaryBlue"
               aria-label="Update resume"
             >
               <Upload size={16} />
@@ -240,7 +249,7 @@ export const Navbar: React.FC = () => {
         {isOpen && (
           <div
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-black/40 backdrop-blur-xs z-30 md:hidden"
+            className="fixed inset-0 bg-slate-100 dark:bg-black/40 backdrop-blur-xs z-30 md:hidden"
           />
         )}
       </nav>

@@ -122,7 +122,7 @@ export const Projects: React.FC = () => {
   };
 
   return (
-    <section id="projects" className="relative py-28 px-6 bg-[#0C0C0C] border-b border-white/5 overflow-hidden select-none">
+    <section id="projects" className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6 bg-themeBg border-b border-themeBorder overflow-hidden select-none">
       {/* Toast Message */}
       <AnimatePresence>
         {toast && (
@@ -130,7 +130,7 @@ export const Projects: React.FC = () => {
             initial={{ opacity: 0, y: -50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.9 }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-[#111827] border border-white/10 text-white shadow-lg flex items-center gap-2.5 text-xs font-semibold"
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-themePanel border border-themeBorderHeavy text-white shadow-lg flex items-center gap-2.5 text-xs font-semibold"
           >
             {toast.type === 'success' ? (
               <CheckCircle size={14} className="text-green-500" />
@@ -145,7 +145,7 @@ export const Projects: React.FC = () => {
       {/* Background Glowing Orb */}
       <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-primaryBlue/5 rounded-full filter blur-[120px] pointer-events-none -z-10" />
 
-      <div className="max-w-6xl mx-auto flex flex-col gap-20 relative z-10">
+      <div className="max-w-6xl mx-auto flex flex-col gap-12 sm:gap-16 md:gap-20 relative z-10">
         
         {/* Header */}
         <div className="flex flex-col items-center justify-center text-center gap-4">
@@ -154,16 +154,16 @@ export const Projects: React.FC = () => {
             <span className="text-xs font-bold uppercase tracking-widest text-primaryBlue">Works</span>
             <span className="h-[2px] w-8 bg-accent-gradient" />
           </div>
-          <h2 className="text-[10vw] sm:text-[7vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
+          <h2 className="text-[9vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
             Featured Projects
           </h2>
-          <p className="text-slate-400 font-light text-base max-w-xl">
+          <p className="text-slate-600 dark:text-slate-400 font-light text-base max-w-xl">
             A selection of hand-crafted systems and web products showcasing my backend and frontend engineering abilities.
           </p>
         </div>
 
         {/* Sticky Stacking Cards Deck */}
-        <div className="flex flex-col gap-16 max-w-4xl mx-auto w-full relative">
+        <div className="flex flex-col gap-8 sm:gap-12 md:gap-16 max-w-4xl mx-auto w-full relative">
           {projects.map((project, idx) => {
             const repoData = githubRepos[project.repoName.toLowerCase()];
             const resolvedGithubUrl = repoData ? repoData.githubUrl : project.githubUrl;
@@ -173,9 +173,9 @@ export const Projects: React.FC = () => {
               <motion.div
                 key={project.id}
                 style={{ top: `calc(100px + ${idx * 35}px)` }}
-                className="sticky rounded-3xl border border-white/5 bg-[#111827] shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden transition-all duration-300 w-full"
+                className="md:sticky rounded-2xl sm:rounded-3xl border border-themeBorder bg-themePanel shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden transition-all duration-300 w-full"
               >
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 p-6 sm:p-10 items-center">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 md:gap-8 p-4 sm:p-6 md:p-10 items-center">
                   
                   {/* Left Column: Details (Grid: 5/12) */}
                   <div className="md:col-span-5 flex flex-col gap-6">
@@ -183,10 +183,10 @@ export const Projects: React.FC = () => {
                       <span className="text-xs font-mono font-bold text-primaryBlue uppercase tracking-wider">
                         Project {project.id}
                       </span>
-                      <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-kanit uppercase tracking-tight">
+                      <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white font-kanit uppercase tracking-tight">
                         {project.title}
                       </h3>
-                      <p className="text-sm text-slate-400 font-light leading-relaxed mt-1">
+                      <p className="text-sm text-slate-600 dark:text-slate-400 font-light leading-relaxed mt-1">
                         {project.description}
                       </p>
                     </div>
@@ -198,7 +198,7 @@ export const Projects: React.FC = () => {
                       </span>
                       <ul className="flex flex-col gap-1.5 list-none pl-0">
                         {project.features.map((feat, i) => (
-                          <li key={i} className="text-xs text-slate-300 flex items-start gap-2 leading-tight">
+                          <li key={i} className="text-xs text-slate-700 dark:text-slate-300 flex items-start gap-2 leading-tight">
                             <span className="w-1.5 h-1.5 rounded-full bg-primaryBlue mt-1.5 shrink-0" />
                             <span>{feat}</span>
                           </li>
@@ -207,11 +207,11 @@ export const Projects: React.FC = () => {
                     </div>
 
                     {/* Tech Badges */}
-                    <div className="flex flex-wrap gap-1.5 pt-2 border-t border-white/5">
+                    <div className="flex flex-wrap gap-1.5 pt-2 border-t border-themeBorder">
                       {project.tech.map((t) => (
                         <span
                           key={t}
-                          className="px-2 py-0.5 text-[9px] font-bold bg-white/5 text-slate-300 rounded-md border border-white/10 uppercase tracking-wide"
+                          className="px-2 py-0.5 text-[9px] font-bold bg-slate-200/50 dark:bg-white/5 text-slate-700 dark:text-slate-300 rounded-md border border-themeBorderHeavy uppercase tracking-wide"
                         >
                           {t}
                         </span>
@@ -225,7 +225,7 @@ export const Projects: React.FC = () => {
                         target={resolvedGithubUrl === '#' ? '_self' : '_blank'}
                         rel="noopener noreferrer"
                         onClick={(e) => handleSourceCodeClick(e, resolvedGithubUrl)}
-                        className="flex-1 py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 text-white font-semibold text-xs border border-white/10 transition-colors flex items-center justify-center gap-1.5"
+                        className="flex-1 py-2.5 px-4 rounded-xl bg-slate-200/50 dark:bg-white/5 hover:bg-white/10 text-slate-900 dark:text-white font-semibold text-xs border border-themeBorderHeavy transition-colors flex items-center justify-center gap-1.5"
                       >
                         <Github size={14} />
                         Code
@@ -245,7 +245,7 @@ export const Projects: React.FC = () => {
                   </div>
 
                   {/* Right Column: Screenshot Visual (Grid: 7/12) */}
-                  <div className="md:col-span-7 aspect-[16/10] rounded-2xl overflow-hidden bg-black/60 border border-white/5 relative group/img cursor-pointer">
+                  <div className="md:col-span-7 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden bg-black/60 border border-themeBorder relative group/img cursor-pointer">
                     <img
                       src={project.image}
                       alt={project.title}
