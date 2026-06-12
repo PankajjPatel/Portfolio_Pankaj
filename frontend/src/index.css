@@ -125,6 +125,23 @@ body {
   animation: whatsapp-pulse 2.5s infinite;
 }
 
+/* Constrain floating buttons inside the 1440px centered container */
+.floating-button-right {
+  right: 16px;
+}
+
+@media (min-width: 640px) {
+  .floating-button-right {
+    right: 24px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .floating-button-right {
+    right: calc(50vw - 720px + 24px);
+  }
+}
+
 /* Floating Animations */
 @keyframes float {
   0% { transform: translateY(0px) rotate(0deg); }
