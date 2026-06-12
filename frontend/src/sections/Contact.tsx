@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Github, Linkedin, Mail, Loader2, CheckCircle2, AlertCircle, Twitter, Phone, Activity, Eye, Users, Download } from 'lucide-react';
+import { Send, Github, Linkedin, Mail, Loader2, CheckCircle2, AlertCircle, Twitter, Phone } from 'lucide-react';
 
 interface Toast {
   type: 'success' | 'error';
@@ -13,33 +13,6 @@ export const Contact: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
-  const [stats, setStats] = useState<{ total_visits: number; unique_visitors: number; resume_downloads: number }>({
-    total_visits: 0,
-    unique_visitors: 0,
-    resume_downloads: 0
-  });
-  const [statsLoaded, setStatsLoaded] = useState(false);
-
-  React.useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-        const response = await axios.get(`${apiBaseUrl}/api/contact/stats/`);
-        if (response.status === 200 && response.data) {
-          const data = response.data;
-          setStats({
-            total_visits: typeof data.total_visits === 'number' ? data.total_visits : 0,
-            unique_visitors: typeof data.unique_visitors === 'number' ? data.unique_visitors : 0,
-            resume_downloads: typeof data.resume_downloads === 'number' ? data.resume_downloads : 0
-          });
-          setStatsLoaded(true);
-        }
-      } catch (err) {
-        console.error('Failed to fetch visitors stats:', err);
-      }
-    };
-    fetchStats();
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -187,50 +160,6 @@ export const Contact: React.FC = () => {
                 </div>
               </a>
             </div>
-
-            {/* Dynamic Visitor Analytics Dashboard */}
-            {stats && (
-              <div className="mt-6 p-5 rounded-2xl border border-themeBorder bg-themePanel/60 shadow-md flex flex-col gap-4">
-                <div className="flex items-center justify-between border-b border-themeBorder pb-3">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 flex items-center gap-1.5">
-                    <Activity size={13} className="text-primaryBlue animate-pulse" /> Live Portfolio Analytics
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                    <span className="text-[9px] font-bold text-emerald-500 uppercase">Active</span>
-                  </span>
-                </div>
-                
-                <div className="grid grid-cols-3 gap-2 sm:gap-3 text-center">
-                  <div className="flex flex-col gap-0.5 p-2.5 rounded-xl bg-themeBg border border-themeBorder">
-                    <span className="text-slate-500 flex items-center justify-center gap-1 text-[8px] font-bold uppercase tracking-wide">
-                      <Eye size={10} className="text-primaryBlue" /> Visits
-                    </span>
-                    <span className="text-base font-extrabold text-slate-900 dark:text-white">
-                      {statsLoaded ? stats.total_visits : '—'}
-                    </span>
-                  </div>
-
-                  <div className="flex flex-col gap-0.5 p-2.5 rounded-xl bg-themeBg border border-themeBorder">
-                    <span className="text-slate-500 flex items-center justify-center gap-1 text-[8px] font-bold uppercase tracking-wide">
-                      <Users size={10} className="text-primaryBlue" /> Unique
-                    </span>
-                    <span className="text-base font-extrabold text-slate-900 dark:text-white">
-                      {statsLoaded ? stats.unique_visitors : '—'}
-                    </span>
-                  </div>
-
-                  <div className="flex flex-col gap-0.5 p-2.5 rounded-xl bg-themeBg border border-themeBorder">
-                    <span className="text-slate-500 flex items-center justify-center gap-1 text-[8px] font-bold uppercase tracking-wide">
-                      <Download size={10} className="text-primaryBlue" /> Resume
-                    </span>
-                    <span className="text-base font-extrabold text-slate-900 dark:text-white">
-                      {statsLoaded ? stats.resume_downloads : '—'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
           </motion.div>
         </div>
 

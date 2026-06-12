@@ -136,6 +136,7 @@ export const Navbar: React.FC = () => {
             <div className="flex items-center pl-2 border-l border-themeBorder">
               <a
                 href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/api/contact/resume/`}
+                onClick={handleDownloadResume}
                 className="px-3.5 py-1.5 text-xs font-semibold rounded-md border border-themeBorder bg-themePanel text-slate-700 dark:text-slate-800 dark:text-slate-200 hover:bg-themePanelHeavy hover:border-themeBorderHeavy transition-colors shadow-xs"
               >
                 Resume
