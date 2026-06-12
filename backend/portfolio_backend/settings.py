@@ -161,3 +161,8 @@ DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='Pankaj Patel Portfolio <
 # Local development fallback for email backend (use console if host user/password not supplied)
 if not EMAIL_HOST_USER or not EMAIL_HOST_PASSWORD:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Media Files (uploaded files)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+

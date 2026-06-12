@@ -1,15 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight, Award, Briefcase, GraduationCap } from 'lucide-react';
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
+import { Github, Linkedin, FileText, Briefcase, GraduationCap, Award } from 'lucide-react';
+
+const roles = ["Python Developer", "Django Developer", "Software Developer"];
 
 export const Hero: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
+  const [roleIndex, setRoleIndex] = useState(0);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024);
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    
+    const interval = setInterval(() => {
+      setRoleIndex((prev) => (prev + 1) % roles.length);
+    }, 3000);
+
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      clearInterval(interval);
+    };
   }, []);
 
   // Mouse movement parallax effect for the right side render
@@ -19,8 +30,8 @@ export const Hero: React.FC = () => {
   const springConfig = { damping: 25, stiffness: 150 };
   const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [10, -10]), springConfig);
   const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-10, 10]), springConfig);
-  const glowX = useSpring(useTransform(mouseX, [-0.5, 0.5], [-20, 20]), springConfig);
-  const glowY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-20, 20]), springConfig);
+  const glowX = useSpring(useTransform(mouseX, [-0.5, 0.5], [-25, 25]), springConfig);
+  const glowY = useSpring(useTransform(mouseY, [-0.5, 0.5], [-25, 25]), springConfig);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (isMobile) return;
@@ -39,30 +50,17 @@ export const Hero: React.FC = () => {
     mouseY.set(0);
   };
 
-  const handleScrollTo = (href: string) => {
-    const target = document.querySelector(href);
-    if (target) {
-      const offsetTop = (target as HTMLElement).offsetTop - 80;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth',
-      });
-    }
-  };
-
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center pt-24 pb-16 px-6 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center pt-28 pb-16 px-6 bg-themeBg text-themeText grid-texture sub-grid-texture radial-glow overflow-hidden"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      {/* Background Decorative Glow Elements */}
-      <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] bg-accentViolet/20 rounded-full filter blur-[100px] pointer-events-none -z-10" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accentPurple/10 rounded-full filter blur-[120px] pointer-events-none -z-10" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-accentOrange/10 rounded-full filter blur-[140px] pointer-events-none -z-10 animate-pulse" />
+      {/* Subtle Slow Glowing Center Pool */}
+      <div className="absolute top-[35%] left-1/2 w-[550px] h-[550px] rounded-full bg-primaryBlue/5 dark:bg-primaryBlue/10 blur-[130px] pointer-events-none animate-slow-glow" />
 
-      <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
         {/* Left Content (Grid: 7/12) */}
         <div className="lg:col-span-7 flex flex-col justify-center text-left">
           <motion.div
@@ -71,89 +69,97 @@ export const Hero: React.FC = () => {
             transition={{ duration: 0.8, ease: 'easeOut' }}
             className="flex flex-col gap-6"
           >
-            {/* Tagline */}
-            <div className="self-start px-4 py-1.5 rounded-full glass-panel text-xs font-semibold uppercase tracking-widest text-accentOrange border-accentOrange/30 shadow-[0_0_15px_rgba(190,76,0,0.15)]">
-              🛡️ Computer Science Student
+            {/* Tagline Badge */}
+            <div className="self-start px-3.5 py-1.5 rounded-full border border-themeBorder bg-themePanel text-xs font-bold uppercase tracking-widest text-primaryBlue shadow-xs">
+              Computer Science Student
             </div>
 
-            {/* Title */}
-            <motion.h1
-              animate={isMobile ? {} : {
-                rotateX: [0, 4, -4, 0],
-                rotateY: [0, -6, 6, 0],
-                y: [0, -5, 5, 0],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              style={{
-                perspective: 1000,
-                transformStyle: 'preserve-3d',
-                textShadow: isMobile
-                  ? '0 2px 10px rgba(182, 0, 168, 0.4)'
-                  : `
-                    1px 1px 0px #B600A8,
-                    2px 2px 0px #9d0091,
-                    3px 3px 0px #84007a,
-                    4px 4px 0px #6b0063,
-                    5px 5px 8px rgba(0,0,0,0.4)
-                  `,
-              }}
-              className="text-4xl sm:text-6xl xl:text-7.5xl font-black leading-tight tracking-tight uppercase text-gray-900 dark:text-white cursor-default"
-            >
-              Hi, I'm{' '}
-              <span className="block mt-2 text-[#B600A8] dark:text-[#E835D8] font-extrabold tracking-tight">
-                Pankaj Patel
-              </span>
-            </motion.h1>
+            {/* Massive Awwwards Title */}
+            <div className="flex flex-col gap-2">
+              <h1 className="text-[12vw] sm:text-[9vw] lg:text-[6.5vw] font-kanit font-black leading-[0.85] tracking-tighter uppercase text-gradient select-none">
+                HI, I'M <br />
+                <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 bg-clip-text text-transparent">PANKAJ</span>
+              </h1>
+              
+              {/* Role Switcher */}
+              <div className="h-10 sm:h-12 overflow-hidden relative flex items-center mt-3">
+                <AnimatePresence mode="wait">
+                  <motion.p
+                    key={roles[roleIndex]}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -20, opacity: 0 }}
+                    transition={{ duration: 0.4, ease: 'easeInOut' }}
+                    className="text-xl sm:text-2xl font-bold tracking-tight text-[#60A5FA] font-sans"
+                  >
+                    {roles[roleIndex]}
+                  </motion.p>
+                </AnimatePresence>
+              </div>
+            </div>
 
-            {/* Subtitle */}
-            <p className="text-gray-600 dark:text-gray-300 text-lg md:text-xl font-light leading-relaxed max-w-2xl">
-              Python Developer, Django Developer, and AI-Powered Web Creator passionate about building modern web applications and solving real-world problems through technology.
+            {/* Description */}
+            <p className="text-slate-400 text-base sm:text-lg font-light leading-relaxed max-w-2xl font-sans">
+              A passionate Computer Science student focused on building modern web applications and digital experiences using Python, Django and MySQL.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-4 mt-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleScrollTo('#contact')}
-                className="group px-8 py-4 rounded-full bg-accent-gradient text-white font-semibold text-base shadow-glow-violet hover:shadow-glow-purple flex items-center gap-3 transition-all duration-300"
+            <div className="flex flex-wrap items-center gap-4 mt-2">
+              <motion.a
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/api/contact/resume/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group px-6 py-3.5 rounded-md bg-accent-gradient text-white font-semibold text-sm flex items-center gap-2.5 transition-all duration-200 shadow-lg shadow-blue-600/10 active:scale-98"
               >
-                Contact Me
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-300" />
-              </motion.button>
+                <FileText size={16} />
+                <span>Download Resume</span>
+              </motion.a>
 
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleScrollTo('#projects')}
-                className="px-8 py-4 rounded-full bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-gray-800 dark:text-white font-semibold text-base border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300"
+              <motion.a
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                href="https://github.com/PankajjPatel"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-3.5 rounded-md border border-themeBorder bg-themePanel hover:bg-slate-800/60 transition-all duration-200 text-center shadow-xs flex items-center gap-2"
               >
-                View Projects
-              </motion.button>
+                <Github size={16} />
+                <span>GitHub</span>
+              </motion.a>
+
+              <motion.a
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                href="https://linkedin.com/in/pankaj-patel-196815311"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-3.5 rounded-md border border-themeBorder bg-themePanel hover:bg-slate-800/60 transition-all duration-200 text-center shadow-xs flex items-center gap-2"
+              >
+                <Linkedin size={16} />
+                <span>LinkedIn</span>
+              </motion.a>
             </div>
 
             {/* Stats Dashboard */}
-            <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-black/5 dark:border-white/5">
+            <div className="grid grid-cols-3 gap-6 mt-8 pt-6 border-t border-themeBorder">
               <div className="flex flex-col">
-                <span className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-accent-gradient">7.07</span>
-                <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mt-1 flex items-center gap-1">
-                  <GraduationCap size={14} className="text-accentViolet" /> CGPA
+                <span className="text-2xl sm:text-3xl font-extrabold text-primaryBlue">7.07</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider mt-1 flex items-center gap-1.5">
+                  <GraduationCap size={14} className="text-primaryBlue" /> CGPA
                 </span>
               </div>
               <div className="flex flex-col">
-                <span className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-accent-gradient">3+</span>
-                <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mt-1 flex items-center gap-1">
-                  <Briefcase size={14} className="text-accentOrange" /> Projects
+                <span className="text-2xl sm:text-3xl font-extrabold text-primaryBlue">3</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider mt-1 flex items-center gap-1.5">
+                  <Briefcase size={14} className="text-primaryBlue" /> Projects
                 </span>
               </div>
               <div className="flex flex-col">
-                <span className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-accent-gradient">5+</span>
-                <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-medium uppercase tracking-wider mt-1 flex items-center gap-1">
-                  <Award size={14} className="text-accentPurple" /> Certs
+                <span className="text-2xl sm:text-3xl font-extrabold text-primaryBlue">5</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider mt-1 flex items-center gap-1.5">
+                  <Award size={14} className="text-primaryBlue" /> Credentials
                 </span>
               </div>
             </div>
@@ -167,23 +173,23 @@ export const Hero: React.FC = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: 'easeOut' }}
             style={isMobile ? { transformStyle: 'preserve-3d' } : { rotateX, rotateY, transformStyle: 'preserve-3d' }}
-            className="relative w-full max-w-[450px] aspect-square rounded-3xl glass-panel p-4 flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-500 cursor-pointer overflow-hidden group"
+            className="relative w-full max-w-[420px] aspect-square rounded-3xl glass-panel p-4 flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.6)] border-white/5 hover:border-white/10 transition-all duration-500 cursor-pointer overflow-hidden group"
           >
             {/* Soft Glow behind render */}
             <motion.div
               style={{ x: glowX, y: glowY }}
-              className="absolute inset-0 bg-gradient-to-tr from-accentViolet/20 to-accentOrange/20 blur-2xl rounded-3xl -z-10"
+              className="absolute inset-0 bg-gradient-to-tr from-primaryBlue/20 to-secondaryBlue/20 blur-2xl rounded-3xl -z-10"
             />
 
             {/* Inner Border Ring */}
-            <div className="absolute inset-2 border border-dashed border-black/10 dark:border-white/10 rounded-2xl pointer-events-none" />
+            <div className="absolute inset-2 border border-dashed border-white/10 rounded-2xl pointer-events-none" />
 
             {/* Workspace / Avatar Render */}
             <motion.img
               src="/avatar.jpg"
-              alt="Pankaj Patel Portrait"
-              className="w-[94%] h-[94%] object-cover rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.2)] select-none pointer-events-none animate-float group-hover:scale-[1.02] transition-transform duration-500"
-              loading="lazy"
+              alt="Pankaj Patel Profile"
+              className="w-[94%] h-[94%] object-cover rounded-2xl shadow-[0_10px_35px_rgba(0,0,0,0.4)] select-none pointer-events-none animate-float group-hover:scale-[1.02] transition-transform duration-500"
+              loading="eager"
             />
           </motion.div>
         </div>

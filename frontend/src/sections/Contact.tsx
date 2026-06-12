@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Github, Linkedin, Mail, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Send, Github, Linkedin, Mail, Loader2, CheckCircle2, AlertCircle, Twitter, Phone, Activity, Eye, Users, Download } from 'lucide-react';
 
 interface Toast {
   type: 'success' | 'error';
@@ -9,131 +9,89 @@ interface Toast {
 }
 
 export const Contact: React.FC = () => {
-  // Form State
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
-
-  // Validation & Loading States
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
+  const [stats, setStats] = useState<{ total_visits: number; unique_visitors: number; resume_downloads: number }>({
+    total_visits: 0,
+    unique_visitors: 0,
+    resume_downloads: 0
+  });
 
-  // Handle Form Change
+  React.useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+        const response = await axios.get(`${apiBaseUrl}/api/contact/stats/`);
+        if (response.status === 200 && response.data) {
+          const data = response.data;
+          setStats({
+            total_visits: typeof data.total_visits === 'number' ? data.total_visits : 0,
+            unique_visitors: typeof data.unique_visitors === 'number' ? data.unique_visitors : 0,
+            resume_downloads: typeof data.resume_downloads === 'number' ? data.resume_downloads : 0
+          });
+        }
+      } catch (err) {
+        console.error('Failed to fetch visitors stats:', err);
+      }
+    };
+    fetchStats();
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error for field
     if (errors[name]) {
-      setErrors((prev) => {
-        const copy = { ...prev };
-        delete copy[name];
-        return copy;
-      });
+      setErrors((prev) => { const copy = { ...prev }; delete copy[name]; return copy; });
     }
   };
 
-  // Validate form inputs
   const validateForm = () => {
     const tempErrors: Record<string, string> = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!formData.name.trim()) {
-      tempErrors.name = 'Full Name is required.';
-    } else if (formData.name.length < 2) {
-      tempErrors.name = 'Name must be at least 2 characters.';
-    }
-
-    if (!formData.email.trim()) {
-      tempErrors.email = 'Email Address is required.';
-    } else if (!emailRegex.test(formData.email)) {
-      tempErrors.email = 'Please enter a valid email address.';
-    }
-
-    if (!formData.subject.trim()) {
-      tempErrors.subject = 'Subject is required.';
-    }
-
-    if (!formData.message.trim()) {
-      tempErrors.message = 'Message is required.';
-    } else if (formData.message.length < 10) {
-      tempErrors.message = 'Message must be at least 10 characters.';
-    }
-
+    if (!formData.name.trim()) tempErrors.name = 'Full Name is required.';
+    else if (formData.name.length < 2) tempErrors.name = 'Name must be at least 2 characters.';
+    if (!formData.email.trim()) tempErrors.email = 'Email Address is required.';
+    else if (!emailRegex.test(formData.email)) tempErrors.email = 'Please enter a valid email address.';
+    if (!formData.message.trim()) tempErrors.message = 'Message is required.';
+    else if (formData.message.length < 10) tempErrors.message = 'Message must be at least 10 characters.';
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
 
-  // Form Submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validateForm()) return;
-
     setIsLoading(true);
     setToast(null);
-
     try {
-      // Connect to Django REST endpoint (relative URL or configured base domain)
       const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-      const response = await axios.post(`${apiBaseUrl}/api/contact/`, formData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
+      const response = await axios.post(`${apiBaseUrl}/api/contact/`, formData, { headers: { 'Content-Type': 'application/json' } });
       if (response.status === 201) {
-        setToast({
-          type: 'success',
-          message: 'Message sent successfully! Pankaj will contact you soon.',
-        });
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: '',
-        });
+        setToast({ type: 'success', message: 'Message sent successfully! Pankaj will contact you soon.' });
+        setFormData({ name: '', email: '', message: '' });
       }
     } catch (err: any) {
       console.error(err);
       let errMsg = 'Something went wrong. Please try again later.';
-      
       if (err.response) {
-        if (err.response.status === 429) {
-          errMsg = 'Too many submissions. Please wait an hour before trying again.';
-        } else if (err.response.data) {
-          // Join serializer validation messages if available
+        if (err.response.status === 429) errMsg = 'Too many submissions. Please wait an hour before trying again.';
+        else if (err.response.data) {
           const data = err.response.data;
-          const messages = Object.entries(data)
-            .map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`)
-            .join(' | ');
+          const messages = Object.entries(data).map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`).join(' | ');
           if (messages) errMsg = messages;
         }
       }
-      
-      setToast({
-        type: 'error',
-        message: errMsg,
-      });
+      setToast({ type: 'error', message: errMsg });
     } finally {
       setIsLoading(false);
-      // Auto-hide toast after 5s
-      setTimeout(() => {
-        setToast(null);
-      }, 5000);
+      setTimeout(() => { setToast(null); }, 5000);
     }
   };
 
   return (
-    <section id="contact" className="relative py-24 px-6 overflow-hidden">
-      {/* Background Decorative glow */}
-      <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] bg-accentOrange/5 rounded-full filter blur-[100px] pointer-events-none -z-10" />
-      <div className="absolute bottom-1/4 right-1/4 w-[350px] h-[350px] bg-accentViolet/5 rounded-full filter blur-[100px] pointer-events-none -z-10 animate-pulse" />
-
-      {/* Slide-in Toast Notifications */}
+    <section id="contact" className="relative py-28 px-6 bg-[#0C0C0C] border-t border-white/5 select-none">
       <div className="fixed top-24 right-6 z-50 flex flex-col gap-3 max-w-md w-full">
         <AnimatePresence>
           {toast && (
@@ -141,271 +99,216 @@ export const Contact: React.FC = () => {
               initial={{ opacity: 0, y: -20, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-              className={`p-4 rounded-2xl shadow-2xl flex items-start gap-3 border ${
-                toast.type === 'success'
-                  ? 'bg-green-950/80 border-green-500/30 text-green-200 backdrop-blur-md'
-                  : 'bg-red-950/80 border-red-500/30 text-red-200 backdrop-blur-md'
+              className={`p-4 rounded-lg shadow-lg flex items-start gap-3 border ${
+                toast.type === 'success' 
+                  ? 'bg-emerald-950/80 border-emerald-500/30 text-emerald-200' 
+                  : 'bg-rose-950/80 border-rose-500/30 text-rose-200'
               }`}
             >
-              {toast.type === 'success' ? (
-                <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0 mt-0.5" />
-              ) : (
-                <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
-              )}
-              <div className="flex-1 text-sm font-semibold tracking-wide leading-snug">
-                {toast.message}
-              </div>
+              {toast.type === 'success' 
+                ? <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" /> 
+                : <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />}
+              <div className="flex-1 text-xs font-semibold leading-snug">{toast.message}</div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-        {/* Left Side Content (Grid: 5/12) */}
+        {/* Info Column */}
         <div className="lg:col-span-5 flex flex-col gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col gap-6"
-          >
+          <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="flex flex-col gap-6">
             <div className="flex items-center gap-3">
               <span className="h-[2px] w-8 bg-accent-gradient" />
-              <span className="text-xs font-bold uppercase tracking-widest text-accentOrange">Contact</span>
+              <span className="text-xs font-bold uppercase tracking-widest text-primaryBlue">Contact</span>
             </div>
-            
-            <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tight leading-tight">
-              Let's Build Something Amazing
+            <h2 className="text-[10vw] sm:text-[7vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
+              Let's Connect
             </h2>
-            
-            <p className="text-gray-600 dark:text-gray-300 font-light text-base leading-relaxed">
-              I'm always open to discussing projects, internships, freelance opportunities, collaborations, and innovative ideas. Feel free to shoot a message!
+            <p className="text-slate-400 font-light text-base leading-relaxed">
+              I'm always open to discussing internships, collaborations, freelance work, and technical projects.
             </p>
 
-            {/* Social Contact Details - Premium 3D Cards */}
-            <div className="flex flex-col gap-5 mt-8 w-full max-w-md">
-              <motion.a
-                href="mailto:Pankajlucky678@gmail.com"
-                whileHover={{ 
-                  scale: 1.03, 
-                  y: -5,
-                  boxShadow: '0 15px 30px -10px rgba(182, 0, 168, 0.4)',
-                  borderColor: 'rgba(182, 0, 168, 0.4)'
-                }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.2 }}
-                style={{
-                  perspective: 1000,
-                  transformStyle: 'preserve-3d',
-                }}
-                className="flex items-center gap-4 p-4 rounded-2xl glass-panel border border-black/10 dark:border-white/5 bg-white/[0.01] hover:bg-white/[0.05] dark:hover:bg-white/[0.03] transition-all duration-300 group cursor-pointer"
-              >
-                <span className="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm shrink-0">
-                  <Mail size={20} className="text-accentViolet" />
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-4 mt-4 w-full">
+              {/* Mail Card */}
+              <a href="mailto:Pankajlucky678@gmail.com" className="flex items-center gap-4 p-4 rounded-2xl border border-white/5 bg-[#111827]/80 hover:border-primaryBlue/40 hover:bg-[#111827] transition-colors group">
+                <span className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+                  <Mail size={18} className="text-primaryBlue" />
                 </span>
                 <div className="flex flex-col gap-0.5 overflow-hidden">
-                  <span className="text-[10px] font-bold tracking-widest text-accentViolet uppercase">Email Address</span>
-                  <span className="text-sm font-semibold text-slate-800 dark:text-gray-200 group-hover:text-accentViolet transition-colors duration-300 truncate">
-                    Pankajlucky678@gmail.com
-                  </span>
+                  <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Email</span>
+                  <span className="text-xs font-bold text-white group-hover:text-primaryBlue transition-colors truncate">Pankajlucky678@gmail.com</span>
                 </div>
-              </motion.a>
+              </a>
 
-              <motion.a
-                href="https://linkedin.com/in/pankaj-patel-196815311"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ 
-                  scale: 1.03, 
-                  y: -5,
-                  boxShadow: '0 15px 30px -10px rgba(118, 33, 176, 0.4)',
-                  borderColor: 'rgba(118, 33, 176, 0.4)'
-                }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.2 }}
-                style={{
-                  perspective: 1000,
-                  transformStyle: 'preserve-3d',
-                }}
-                className="flex items-center gap-4 p-4 rounded-2xl glass-panel border border-black/10 dark:border-white/5 bg-white/[0.01] hover:bg-white/[0.05] dark:hover:bg-white/[0.03] transition-all duration-300 group cursor-pointer"
-              >
-                <span className="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm shrink-0">
-                  <Linkedin size={20} className="text-accentPurple" />
+              {/* Phone Card */}
+              <a href="tel:+919754789747" className="flex items-center gap-4 p-4 rounded-2xl border border-white/5 bg-[#111827]/80 hover:border-primaryBlue/40 hover:bg-[#111827] transition-colors group">
+                <span className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+                  <Phone size={18} className="text-primaryBlue" />
                 </span>
                 <div className="flex flex-col gap-0.5 overflow-hidden">
-                  <span className="text-[10px] font-bold tracking-widest text-accentPurple uppercase">LinkedIn Professional</span>
-                  <span className="text-sm font-semibold text-slate-800 dark:text-gray-200 group-hover:text-accentPurple transition-colors duration-300 truncate">
-                    linkedin.com/in/pankaj-patel-196815311
-                  </span>
+                  <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Phone / WhatsApp</span>
+                  <span className="text-xs font-bold text-white group-hover:text-primaryBlue transition-colors truncate">+91 97547 89747</span>
                 </div>
-              </motion.a>
+              </a>
 
-              <motion.a
-                href="https://github.com/PankajjPatel"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ 
-                  scale: 1.03, 
-                  y: -5,
-                  boxShadow: '0 15px 30px -10px rgba(190, 76, 0, 0.4)',
-                  borderColor: 'rgba(190, 76, 0, 0.4)'
-                }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.2 }}
-                style={{
-                  perspective: 1000,
-                  transformStyle: 'preserve-3d',
-                }}
-                className="flex items-center gap-4 p-4 rounded-2xl glass-panel border border-black/10 dark:border-white/5 bg-white/[0.01] hover:bg-white/[0.05] dark:hover:bg-white/[0.03] transition-all duration-300 group cursor-pointer"
-              >
-                <span className="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/5 flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-sm shrink-0">
-                  <Github size={20} className="text-accentOrange" />
+              {/* LinkedIn Card */}
+              <a href="https://linkedin.com/in/pankaj-patel-196815311" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-white/5 bg-[#111827]/80 hover:border-primaryBlue/40 hover:bg-[#111827] transition-colors group">
+                <span className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+                  <Linkedin size={18} className="text-primaryBlue" />
                 </span>
                 <div className="flex flex-col gap-0.5 overflow-hidden">
-                  <span className="text-[10px] font-bold tracking-widest text-accentOrange uppercase">GitHub Profile</span>
-                  <span className="text-sm font-semibold text-slate-800 dark:text-gray-200 group-hover:text-accentOrange transition-colors duration-300 truncate">
-                    github.com/PankajjPatel
-                  </span>
+                  <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">LinkedIn</span>
+                  <span className="text-xs font-bold text-white group-hover:text-primaryBlue transition-colors truncate">pankaj-patel-196815311</span>
                 </div>
-              </motion.a>
+              </a>
+
+              {/* GitHub Card */}
+              <a href="https://github.com/PankajjPatel" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-white/5 bg-[#111827]/80 hover:border-primaryBlue/40 hover:bg-[#111827] transition-colors group">
+                <span className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+                  <Github size={18} className="text-primaryBlue" />
+                </span>
+                <div className="flex flex-col gap-0.5 overflow-hidden">
+                  <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">GitHub</span>
+                  <span className="text-xs font-bold text-white group-hover:text-primaryBlue transition-colors truncate">PankajjPatel</span>
+                </div>
+              </a>
+
+              {/* Twitter Card */}
+              <a href="https://x.com/Pankajpatel536" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-white/5 bg-[#111827]/80 hover:border-primaryBlue/40 hover:bg-[#111827] transition-colors group">
+                <span className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center shrink-0 border border-white/10">
+                  <Twitter size={18} className="text-primaryBlue" />
+                </span>
+                <div className="flex flex-col gap-0.5 overflow-hidden">
+                  <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Twitter (X)</span>
+                  <span className="text-xs font-bold text-white group-hover:text-primaryBlue transition-colors truncate">@Pankajpatel536</span>
+                </div>
+              </a>
             </div>
+
+            {/* Dynamic Visitor Analytics Dashboard */}
+            {stats && (
+              <div className="mt-6 p-5 rounded-2xl border border-white/5 bg-[#111827]/60 shadow-md flex flex-col gap-4">
+                <div className="flex items-center justify-between border-b border-white/5 pb-3">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500 flex items-center gap-1.5">
+                    <Activity size={13} className="text-primaryBlue animate-pulse" /> Live Portfolio Analytics
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+                    <span className="text-[9px] font-bold text-emerald-500 uppercase">Active</span>
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-3 gap-3 text-center">
+                  <div className="flex flex-col gap-0.5 p-2.5 rounded-xl bg-black border border-white/5">
+                    <span className="text-slate-500 flex items-center justify-center gap-1 text-[8px] font-bold uppercase tracking-wide">
+                      <Eye size={10} className="text-primaryBlue" /> Visits
+                    </span>
+                    <span className="text-base font-extrabold text-white">
+                      {stats.total_visits}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col gap-0.5 p-2.5 rounded-xl bg-black border border-white/5">
+                    <span className="text-slate-500 flex items-center justify-center gap-1 text-[8px] font-bold uppercase tracking-wide">
+                      <Users size={10} className="text-primaryBlue" /> Unique
+                    </span>
+                    <span className="text-base font-extrabold text-white">
+                      {stats.unique_visitors}
+                    </span>
+                  </div>
+
+                  <div className="flex flex-col gap-0.5 p-2.5 rounded-xl bg-black border border-white/5">
+                    <span className="text-slate-500 flex items-center justify-center gap-1 text-[8px] font-bold uppercase tracking-wide">
+                      <Download size={10} className="text-primaryBlue" /> Resume
+                    </span>
+                    <span className="text-base font-extrabold text-white">
+                      {stats.resume_downloads}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
           </motion.div>
         </div>
 
-        {/* Right Side Glass Form (Grid: 7/12) */}
+        {/* Form Column */}
         <div className="lg:col-span-7">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="glass-panel p-8 sm:p-10 rounded-3xl border border-black/10 dark:border-white/5 bg-white/[0.01] shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)]"
-          >
-            <form onSubmit={handleSubmit} className="flex flex-col gap-6" noValidate>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {/* Name */}
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="name" className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border text-sm text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none transition-all duration-300 ${
-                      errors.name
-                        ? 'border-red-500/50 focus:border-red-500'
-                        : 'border-black/10 dark:border-white/10 focus:border-accentViolet/50 focus:bg-black/[0.08] dark:focus:bg-white/[0.03]'
-                    }`}
-                    placeholder="John Doe"
-                    disabled={isLoading}
+          <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }} className="p-6 sm:p-8 rounded-3xl border border-white/5 bg-[#111827]/80 shadow-md">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="name" className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Full Name</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    value={formData.name} 
+                    onChange={handleChange} 
+                    className={`w-full px-3.5 py-3 rounded-xl bg-[#0C0C0C] border text-xs text-white placeholder-slate-600 focus:outline-none transition-colors ${
+                      errors.name 
+                        ? 'border-red-500 focus:border-red-500' 
+                        : 'border-white/5 focus:border-primaryBlue/50'
+                    }`} 
+                    placeholder="John Doe" 
+                    disabled={isLoading} 
                   />
-                  {errors.name && <span className="text-xs text-red-400 font-semibold">{errors.name}</span>}
+                  {errors.name && <span className="text-[10px] text-red-500 font-bold">{errors.name}</span>}
                 </div>
-
-                {/* Email */}
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="email" className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={`w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border text-sm text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none transition-all duration-300 ${
-                      errors.email
-                        ? 'border-red-500/50 focus:border-red-500'
-                        : 'border-black/10 dark:border-white/10 focus:border-accentViolet/50 focus:bg-black/[0.08] dark:focus:bg-white/[0.03]'
-                    }`}
-                    placeholder="john@example.com"
-                    disabled={isLoading}
+                <div className="flex flex-col gap-1.5">
+                  <label htmlFor="email" className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Email Address</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    value={formData.email} 
+                    onChange={handleChange} 
+                    className={`w-full px-3.5 py-3 rounded-xl bg-[#0C0C0C] border text-xs text-white placeholder-slate-600 focus:outline-none transition-colors ${
+                      errors.email 
+                        ? 'border-red-500 focus:border-red-500' 
+                        : 'border-white/5 focus:border-primaryBlue/50'
+                    }`} 
+                    placeholder="john@example.com" 
+                    disabled={isLoading} 
                   />
-                  {errors.email && <span className="text-xs text-red-400 font-semibold">{errors.email}</span>}
+                  {errors.email && <span className="text-[10px] text-red-500 font-bold">{errors.email}</span>}
                 </div>
               </div>
 
-              {/* Subject */}
-              <div className="flex flex-col gap-2">
-                <label htmlFor="subject" className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className={`w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border text-sm text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none transition-all duration-300 ${
-                    errors.subject
-                      ? 'border-red-500/50 focus:border-red-500'
-                      : 'border-black/10 dark:border-white/10 focus:border-accentViolet/50 focus:bg-black/[0.08] dark:focus:bg-white/[0.03]'
-                  }`}
-                  placeholder="Freelance Project Inquiry"
-                  disabled={isLoading}
+              
+              <div className="flex flex-col gap-1.5">
+                <label htmlFor="message" className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Message</label>
+                <textarea 
+                  id="message" 
+                  name="message" 
+                  rows={5} 
+                  value={formData.message} 
+                  onChange={handleChange} 
+                  className={`w-full px-3.5 py-3 rounded-xl bg-[#0C0C0C] border text-xs text-white placeholder-slate-600 focus:outline-none resize-none transition-colors ${
+                    errors.message 
+                      ? 'border-red-500 focus:border-red-500' 
+                      : 'border-white/5 focus:border-primaryBlue/50'
+                  }`} 
+                  placeholder="Detail your requirements..." 
+                  disabled={isLoading} 
                 />
-                {errors.subject && <span className="text-xs text-red-400 font-semibold">{errors.subject}</span>}
+                {errors.message && <span className="text-[10px] text-red-500 font-bold">{errors.message}</span>}
               </div>
-
-              {/* Message */}
-              <div className="flex flex-col gap-2">
-                <label htmlFor="message" className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  value={formData.message}
-                  onChange={handleChange}
-                  className={`w-full px-4 py-3 rounded-xl bg-black/5 dark:bg-white/5 border text-sm text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none transition-all duration-300 resize-none ${
-                    errors.message
-                      ? 'border-red-500/50 focus:border-red-500'
-                      : 'border-black/10 dark:border-white/10 focus:border-accentViolet/50 focus:bg-black/[0.08] dark:focus:bg-white/[0.03]'
-                  }`}
-                  placeholder="Tell me more about your requirements..."
-                  disabled={isLoading}
-                />
-                {errors.message && <span className="text-xs text-red-400 font-semibold">{errors.message}</span>}
-              </div>
-
-              {/* Buttons */}
+              
               <div className="flex flex-wrap items-center gap-4 mt-2">
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  type="submit"
-                  className="flex-1 py-4 rounded-xl bg-accent-gradient text-white font-semibold text-sm shadow-glow-violet hover:shadow-glow-purple flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-75 disabled:cursor-not-allowed"
+                <motion.button 
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  type="submit" 
+                  className="flex-1 py-3.5 rounded-xl bg-accent-gradient text-white font-semibold text-xs flex items-center justify-center gap-2 transition-colors disabled:opacity-75 disabled:cursor-not-allowed shadow-md shadow-blue-600/10" 
                   disabled={isLoading}
                 >
                   {isLoading ? (
-                    <>
-                      <Loader2 size={16} className="animate-spin" />
-                      Sending...
-                    </>
+                    <><Loader2 size={14} className="animate-spin" />Sending...</>
                   ) : (
-                    <>
-                      <Send size={16} />
-                      Send Message
-                    </>
+                    <><Send size={14} />Send Message</>
                   )}
                 </motion.button>
-
-                <motion.a
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.97 }}
-                  href="https://github.com/PankajjPatel"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-6 py-4 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-gray-800 dark:text-white font-semibold text-sm border border-black/10 dark:border-white/10 hover:border-black/20 dark:hover:border-white/20 transition-all duration-300 flex items-center justify-center gap-2"
-                >
-                  <Github size={16} />
-                  View GitHub
-                </motion.a>
               </div>
             </form>
           </motion.div>
