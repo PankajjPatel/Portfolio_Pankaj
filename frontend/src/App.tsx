@@ -66,30 +66,32 @@ function App() {
   };
 
   return (
-    <div className="max-w-[1440px] mx-auto min-h-screen bg-themeBg text-themeText selection:bg-primaryBlue selection:text-white sm:border-x border-themeBorder shadow-none sm:shadow-[0_0_80px_rgba(37,99,235,0.15)] relative transition-colors duration-200">
-      {/* Scroll Progress Bar */}
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-[2px] bg-primaryBlue origin-left z-[100]"
-        style={{ scaleX }}
-      />
+    <>
+      <div className="max-w-[1440px] mx-auto min-h-screen bg-themeBg text-themeText selection:bg-primaryBlue selection:text-white sm:border-x border-themeBorder shadow-none sm:shadow-[0_0_80px_rgba(37,99,235,0.15)] relative transition-colors duration-200">
+        {/* Scroll Progress Bar */}
+        <motion.div
+          className="fixed top-0 left-0 right-0 h-[2px] bg-primaryBlue origin-left z-[100]"
+          style={{ scaleX }}
+        />
 
-      {/* Sticky Navbar */}
-      <Navbar />
+        {/* Sticky Navbar */}
+        <Navbar />
 
-      {/* Main Content Sections */}
-      <main>
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Certifications />
-        <Education />
-        <GithubActivity />
-        <Contact />
-      </main>
+        {/* Main Content Sections */}
+        <main>
+          <Hero />
+          <About />
+          <Skills />
+          <Projects />
+          <Certifications />
+          <Education />
+          <GithubActivity />
+          <Contact />
+        </main>
 
-      {/* Assembled Footer */}
-      <Footer />
+        {/* Assembled Footer */}
+        <Footer />
+      </div>
 
       {/* Floating Action Elements */}
       <WhatsAppButton />
@@ -104,7 +106,7 @@ function App() {
       >
         <ArrowUp size={16} />
       </button>
-    </div>
+    </>
   );
 }
 
