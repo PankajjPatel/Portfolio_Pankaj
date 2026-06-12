@@ -60,7 +60,7 @@ export const Footer: React.FC = () => {
             <Github size={16} />
           </a>
           <a
-            href="https://linkedin.com/in/pankaj-patel-196815311"
+            href="https://linkedin.com/in/pankajpatel-dev"
             target="_blank"
             rel="noopener noreferrer"
             className="w-10 h-10 rounded-full border border-white/5 bg-themePanel/80 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-primaryBlue hover:border-primaryBlue/30 hover:bg-themePanel hover:shadow-[0_0_15px_rgba(37,99,235,0.2)] transition-all duration-300"

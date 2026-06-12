@@ -144,7 +144,7 @@ export const Hero: React.FC = () => {
               <motion.a
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                href="https://linkedin.com/in/pankaj-patel-196815311"
+                href="https://linkedin.com/in/pankajpatel-dev"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 sm:px-5 py-3 sm:py-3.5 rounded-md border border-themeBorder bg-themePanel hover:bg-themePanelHeavy transition-all duration-200 text-center shadow-xs flex items-center gap-2 text-xs sm:text-sm"

@@ -155,13 +155,13 @@ export const Contact: React.FC = () => {
               </a>
 
               {/* LinkedIn Card */}
-              <a href="https://linkedin.com/in/pankaj-patel-196815311" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/40 hover:bg-themePanel transition-colors group">
+              <a href="https://linkedin.com/in/pankajpatel-dev" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/40 hover:bg-themePanel transition-colors group">
                 <span className="w-10 h-10 rounded-lg bg-slate-200/50 dark:bg-white/5 flex items-center justify-center shrink-0 border border-themeBorderHeavy">
                   <Linkedin size={18} className="text-primaryBlue" />
                 </span>
                 <div className="flex flex-col gap-0.5 overflow-hidden">
                   <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">LinkedIn</span>
-                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">pankaj-patel-196815311</span>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">pankajpatel-dev</span>
                 </div>
               </a>
 
