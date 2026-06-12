@@ -122,7 +122,7 @@ export const Navbar: React.FC = () => {
                 className={`text-sm font-medium tracking-wide transition-colors duration-200 relative py-1 ${
                   activeSection === item.href
                     ? 'text-primaryBlue'
-                    : 'text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-primaryBlue dark:hover:text-primaryBlue'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-primaryBlue dark:hover:text-primaryBlue'
                 }`}
               >
                 {item.label}
@@ -139,7 +139,7 @@ export const Navbar: React.FC = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={handleDownloadResume}
-                className="px-3.5 py-1.5 text-xs font-semibold rounded-md border border-themeBorder bg-themePanel text-slate-700 dark:text-slate-800 dark:text-slate-200 hover:bg-themePanelHeavy hover:border-themeBorderHeavy transition-colors shadow-xs"
+                className="px-3.5 py-1.5 text-xs font-semibold rounded-md border border-themeBorder bg-themePanel text-slate-700 dark:text-slate-200 hover:bg-themePanelHeavy hover:border-themeBorderHeavy transition-colors shadow-xs"
               >
                 Resume
               </a>
@@ -212,7 +212,7 @@ export const Navbar: React.FC = () => {
               href={item.href}
               onClick={(e) => handleScrollTo(e, item.href)}
               className={`text-base font-semibold tracking-wide transition-colors duration-200 ${
-                activeSection === item.href ? 'text-primaryBlue' : 'text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-primaryBlue'
+                activeSection === item.href ? 'text-primaryBlue' : 'text-slate-600 dark:text-slate-300 hover:text-primaryBlue'
               }`}
             >
               {item.label}
@@ -226,7 +226,7 @@ export const Navbar: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               onClick={handleDownloadResume}
-              className="text-base font-semibold text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-primaryBlue"
+              className="text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-primaryBlue"
             >
               View Resume
             </a>
