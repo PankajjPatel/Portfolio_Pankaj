@@ -135,19 +135,20 @@ export const Navbar: React.FC = () => {
             {/* Resume Button with subtle Upload trigger */}
             <div className="flex items-center pl-2 border-l border-themeBorder">
               <a
-                href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/api/contact/resume/`}
+                href="/resume.pdf"
                 onClick={handleDownloadResume}
+                download="Pankaj_Patel_Resume.pdf"
                 className="px-3.5 py-1.5 text-xs font-semibold rounded-md border border-themeBorder bg-themePanel text-slate-700 dark:text-slate-800 dark:text-slate-200 hover:bg-themePanelHeavy hover:border-themeBorderHeavy transition-colors shadow-xs"
               >
                 Resume
               </a>
               <button
                 onClick={() => setIsUploadModalOpen(true)}
-                className="p-1.5 text-slate-600 dark:text-slate-400 hover:text-primaryBlue transition-colors"
+                className="p-2 ml-1 text-slate-600 dark:text-slate-400 hover:text-primaryBlue transition-colors cursor-pointer flex items-center justify-center min-w-[36px] min-h-[36px]"
                 title="Update Resume PDF"
                 aria-label="Update resume"
               >
-                <Upload size={13} />
+                <Upload size={16} />
               </button>
             </div>
 
@@ -220,7 +221,9 @@ export const Navbar: React.FC = () => {
           {/* Mobile Resume Link */}
           <div className="flex items-center justify-between border-t border-themeBorder pt-4 mt-2">
             <a
-              href={`${import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'}/api/contact/resume/`}
+              href="/resume.pdf"
+              onClick={handleDownloadResume}
+              download="Pankaj_Patel_Resume.pdf"
               className="text-base font-semibold text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-primaryBlue"
             >
               View Resume
@@ -230,7 +233,7 @@ export const Navbar: React.FC = () => {
                 setIsOpen(false);
                 setIsUploadModalOpen(true);
               }}
-              className="p-2 text-slate-600 dark:text-slate-400 hover:text-primaryBlue"
+              className="p-2 text-slate-600 dark:text-slate-400 hover:text-primaryBlue cursor-pointer flex items-center justify-center min-w-[36px] min-h-[36px]"
               aria-label="Update resume"
             >
               <Upload size={16} />
