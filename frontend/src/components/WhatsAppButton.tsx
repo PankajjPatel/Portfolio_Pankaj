@@ -9,7 +9,7 @@ export const WhatsAppButton: React.FC = () => {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-5 right-4 sm:bottom-6 sm:right-6 z-50 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-md transition-all duration-200 hover:scale-105 active:scale-95"
+      className="fixed bottom-5 right-6 sm:bottom-6 sm:right-8 z-50 flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-md transition-all duration-200 hover:scale-105 active:scale-95 animate-whatsapp-pulse"
       aria-label="Chat with Pankaj on WhatsApp"
     >
       <svg 

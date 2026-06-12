@@ -97,7 +97,7 @@ function App() {
       {/* Back to Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed bottom-20 right-4 sm:right-6 z-50 w-9 h-9 sm:w-10 sm:h-10 rounded-md border border-themeBorder bg-themePanel flex items-center justify-center text-slate-500 hover:text-primaryBlue hover:border-primaryBlue/40 shadow-sm transition-all duration-200 active:scale-95 ${
+        className={`fixed bottom-20 right-6 sm:right-8 z-50 w-9 h-9 sm:w-10 sm:h-10 rounded-md border border-themeBorder bg-themePanel flex items-center justify-center text-slate-500 hover:text-primaryBlue hover:border-primaryBlue/40 shadow-sm transition-all duration-200 active:scale-95 ${
           showBackToTop ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         aria-label="Back to Top"
