@@ -136,8 +136,9 @@ export const Navbar: React.FC = () => {
             <div className="flex items-center pl-2 border-l border-themeBorder">
               <a
                 href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={handleDownloadResume}
-                download="Pankaj_Patel_Resume.pdf"
                 className="px-3.5 py-1.5 text-xs font-semibold rounded-md border border-themeBorder bg-themePanel text-slate-700 dark:text-slate-800 dark:text-slate-200 hover:bg-themePanelHeavy hover:border-themeBorderHeavy transition-colors shadow-xs"
               >
                 Resume
@@ -222,8 +223,9 @@ export const Navbar: React.FC = () => {
           <div className="flex items-center justify-between border-t border-themeBorder pt-4 mt-2">
             <a
               href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={handleDownloadResume}
-              download="Pankaj_Patel_Resume.pdf"
               className="text-base font-semibold text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-primaryBlue"
             >
               View Resume
