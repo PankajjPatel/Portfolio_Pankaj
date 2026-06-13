@@ -78,10 +78,15 @@ export const Projects: React.FC = () => {
       try {
         const response = await fetch('https://api.github.com/users/PankajjPatel/repos');
         if (!response.ok) return;
-        const repos = await response.json();
+        interface GitHubRepo {
+          name: string;
+          html_url: string;
+          homepage?: string | null;
+        }
+        const repos = (await response.json()) as GitHubRepo[];
         
         const repoMap: Record<string, RepoInfo> = {};
-        repos.forEach((repo: any) => {
+        repos.forEach((repo) => {
           repoMap[repo.name.toLowerCase()] = {
             githubUrl: repo.html_url,
             demoUrl: repo.homepage || '',

@@ -47,15 +47,20 @@ export const Contact: React.FC = () => {
         setToast({ type: 'success', message: 'Message sent successfully! Pankaj will contact you soon.' });
         setFormData({ name: '', email: '', message: '' });
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
       let errMsg = 'Something went wrong. Please try again later.';
-      if (err.response) {
-        if (err.response.status === 429) errMsg = 'Too many submissions. Please wait an hour before trying again.';
-        else if (err.response.data) {
-          const data = err.response.data;
-          const messages = Object.entries(data).map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`).join(' | ');
-          if (messages) errMsg = messages;
+      if (axios.isAxiosError(err)) {
+        if (err.response) {
+          if (err.response.status === 429) {
+            errMsg = 'Too many submissions. Please wait an hour before trying again.';
+          } else if (err.response.data) {
+            const data = err.response.data as Record<string, unknown>;
+            const messages = Object.entries(data)
+              .map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`)
+              .join(' | ');
+            if (messages) errMsg = messages;
+          }
         }
       }
       setToast({ type: 'error', message: errMsg });

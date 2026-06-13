@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, MessageSquare, Plus, X, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
@@ -58,24 +58,25 @@ export const Reviews: React.FC = () => {
 
   const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
-  const fetchReviews = async () => {
+  const fetchReviews = useCallback(async () => {
     try {
       const response = await axios.get(`${apiBaseUrl}/api/contact/reviews/`);
       if (response.status === 200 && response.data && response.data.length > 0) {
         // Prepend our default reviews if database has only a few, or show database reviews
-        const dbReviews = response.data;
+        const dbReviews = response.data as Review[];
         // Merge db reviews with defaults to ensure we always have a premium list
-        const combined = [...dbReviews, ...defaultReviews.filter(dr => !dbReviews.some((db: any) => db.name === dr.name))];
+        const combined = [...dbReviews, ...defaultReviews.filter(dr => !dbReviews.some((db) => db.name === dr.name))];
         setReviews(combined);
       }
     } catch (err) {
       console.error('Failed to fetch reviews:', err);
     }
-  };
+  }, [apiBaseUrl]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchReviews();
-  }, []);
+  }, [fetchReviews]);
 
   const validateForm = () => {
     const tempErrors: Record<string, string> = {};
@@ -111,15 +112,17 @@ export const Reviews: React.FC = () => {
           setToast(null);
         }, 1500);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
       let errMsg = 'Failed to submit review. Please try again.';
-      if (err.response && err.response.data) {
-        const data = err.response.data;
-        const messages = Object.entries(data)
-          .map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`)
-          .join(' | ');
-        if (messages) errMsg = messages;
+      if (axios.isAxiosError(err)) {
+        if (err.response && err.response.data) {
+          const data = err.response.data as Record<string, unknown>;
+          const messages = Object.entries(data)
+            .map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`)
+            .join(' | ');
+          if (messages) errMsg = messages;
+        }
       }
       setToast({ type: 'error', message: errMsg });
     } finally {

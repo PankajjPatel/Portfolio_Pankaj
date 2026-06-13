@@ -113,7 +113,7 @@ export const Hero: React.FC = () => {
               <motion.a
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                href={`${apiBaseUrl}/api/contact/resume/?t=${Date.now()}`}
+                href={`${apiBaseUrl}/api/contact/resume/`}
                 onClick={handleDownloadResume}
                 download="Pankaj_Patel_Resume.pdf"
                 className="group px-4 sm:px-6 py-3 sm:py-3.5 rounded-md bg-accent-gradient text-white font-semibold text-xs sm:text-sm flex items-center gap-2 sm:gap-2.5 transition-all duration-200 shadow-lg shadow-blue-600/10 active:scale-98"

@@ -128,7 +128,7 @@ export const Navbar: React.FC = () => {
             {/* Resume Button with subtle Upload trigger */}
             <div className="flex items-center pl-2 border-l border-themeBorder">
               <a
-                href={`${apiBaseUrl}/api/contact/resume/?t=${Date.now()}`}
+                href={`${apiBaseUrl}/api/contact/resume/`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={handleDownloadResume}
@@ -215,7 +215,7 @@ export const Navbar: React.FC = () => {
           {/* Mobile Resume Link */}
           <div className="flex items-center justify-between border-t border-themeBorder pt-4 mt-2">
             <a
-              href={`${apiBaseUrl}/api/contact/resume/?t=${Date.now()}`}
+              href={`${apiBaseUrl}/api/contact/resume/`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={handleDownloadResume}

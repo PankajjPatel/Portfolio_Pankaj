@@ -64,14 +64,17 @@ export const ResumeUploadModal: React.FC<ResumeUploadModalProps> = ({ isOpen, on
           window.location.reload();
         }, 1500);
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
       let errMsg = 'Upload failed. Please check your network.';
-      if (err.response) {
-        if (err.response.data && err.response.data.error) {
-          errMsg = err.response.data.error;
-        } else if (err.response.status === 401) {
-          errMsg = 'Incorrect PIN/Password.';
+      if (axios.isAxiosError(err)) {
+        if (err.response) {
+          const data = err.response.data as Record<string, unknown> | undefined;
+          if (data && typeof data.error === 'string') {
+            errMsg = data.error;
+          } else if (err.response.status === 401) {
+            errMsg = 'Incorrect PIN/Password.';
+          }
         }
       }
       setStatusMsg({ type: 'error', text: errMsg });
