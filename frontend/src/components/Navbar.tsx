@@ -17,6 +17,8 @@ const navItems: NavItem[] = [
   { label: 'Contact', href: '#contact' },
 ];
 
+const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -44,16 +46,7 @@ export const Navbar: React.FC = () => {
   };
 
   const handleDownloadResume = () => {
-    try {
-      const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-      fetch(`${apiBaseUrl}/api/contact/stats/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ increment_resume_download: true }),
-      }).catch((err) => console.error('Error logging download:', err));
-    } catch (err) {
-      console.error(err);
-    }
+    console.log('Downloading resume...');
   };
 
   useEffect(() => {
@@ -135,7 +128,7 @@ export const Navbar: React.FC = () => {
             {/* Resume Button with subtle Upload trigger */}
             <div className="flex items-center pl-2 border-l border-themeBorder">
               <a
-                href="/resume.pdf"
+                href={`${apiBaseUrl}/api/contact/resume/?t=${Date.now()}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={handleDownloadResume}
@@ -222,7 +215,7 @@ export const Navbar: React.FC = () => {
           {/* Mobile Resume Link */}
           <div className="flex items-center justify-between border-t border-themeBorder pt-4 mt-2">
             <a
-              href="/resume.pdf"
+              href={`${apiBaseUrl}/api/contact/resume/?t=${Date.now()}`}
               target="_blank"
               rel="noopener noreferrer"
               onClick={handleDownloadResume}

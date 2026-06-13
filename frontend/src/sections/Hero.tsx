@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, FileText, Briefcase, GraduationCap, Award } from 'lucide-react';
 
-const roles = ["Python Developer", "Django Developer", "Software Developer"];
+const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const roles = ["Full Stack Developer", "Python Developer", "Django Developer", "Software Developer"];
 
 export const Hero: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -51,16 +52,7 @@ export const Hero: React.FC = () => {
   };
 
   const handleDownloadResume = () => {
-    try {
-      const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-      fetch(`${apiBaseUrl}/api/contact/stats/`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ increment_resume_download: true }),
-      }).catch((err) => console.error('Error logging download:', err));
-    } catch (err) {
-      console.error(err);
-    }
+    console.log('Downloading resume...');
   };
 
   return (
@@ -121,7 +113,7 @@ export const Hero: React.FC = () => {
               <motion.a
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                href="/resume.pdf"
+                href={`${apiBaseUrl}/api/contact/resume/?t=${Date.now()}`}
                 onClick={handleDownloadResume}
                 download="Pankaj_Patel_Resume.pdf"
                 className="group px-4 sm:px-6 py-3 sm:py-3.5 rounded-md bg-accent-gradient text-white font-semibold text-xs sm:text-sm flex items-center gap-2 sm:gap-2.5 transition-all duration-200 shadow-lg shadow-blue-600/10 active:scale-98"

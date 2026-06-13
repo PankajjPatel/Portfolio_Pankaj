@@ -79,12 +79,20 @@ class ResumeView(APIView):
 
         file_path = os.path.join(settings.MEDIA_ROOT, 'resume.pdf')
         if os.path.exists(file_path):
-            return FileResponse(open(file_path, 'rb'), as_attachment=True, filename='Pankaj_Patel_Resume.pdf', content_type='application/pdf')
+            response = FileResponse(open(file_path, 'rb'), as_attachment=True, filename='Pankaj_Patel_Resume.pdf', content_type='application/pdf')
+            response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+            response['Pragma'] = 'no-cache'
+            response['Expires'] = '0'
+            return response
         
         # Fallback to an existing public/resume.pdf file if media doesn't exist
         fallback_path = os.path.join(settings.BASE_DIR, '..', 'frontend', 'public', 'resume.pdf')
         if os.path.exists(fallback_path):
-            return FileResponse(open(fallback_path, 'rb'), as_attachment=True, filename='Pankaj_Patel_Resume.pdf', content_type='application/pdf')
+            response = FileResponse(open(fallback_path, 'rb'), as_attachment=True, filename='Pankaj_Patel_Resume.pdf', content_type='application/pdf')
+            response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+            response['Pragma'] = 'no-cache'
+            response['Expires'] = '0'
+            return response
             
         raise Http404("Resume PDF not found. Please upload one first.")
 
