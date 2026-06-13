@@ -77,9 +77,12 @@ class ResumeView(APIView):
         except Exception as e:
             logger.error(f"Failed to increment resume download counter: {str(e)}")
 
+        # Check if download query parameter is set to true (default is false for inline viewing)
+        download_param = request.query_params.get('download', 'false').lower() == 'true'
+
         file_path = os.path.join(settings.MEDIA_ROOT, 'resume.pdf')
         if os.path.exists(file_path):
-            response = FileResponse(open(file_path, 'rb'), as_attachment=True, filename='Pankaj_Patel_Resume.pdf', content_type='application/pdf')
+            response = FileResponse(open(file_path, 'rb'), as_attachment=download_param, filename='Pankaj_Patel_Resume.pdf', content_type='application/pdf')
             response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
             response['Pragma'] = 'no-cache'
             response['Expires'] = '0'
@@ -88,7 +91,7 @@ class ResumeView(APIView):
         # Fallback to an existing public/resume.pdf file if media doesn't exist
         fallback_path = os.path.join(settings.BASE_DIR, '..', 'frontend', 'public', 'resume.pdf')
         if os.path.exists(fallback_path):
-            response = FileResponse(open(fallback_path, 'rb'), as_attachment=True, filename='Pankaj_Patel_Resume.pdf', content_type='application/pdf')
+            response = FileResponse(open(fallback_path, 'rb'), as_attachment=download_param, filename='Pankaj_Patel_Resume.pdf', content_type='application/pdf')
             response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
             response['Pragma'] = 'no-cache'
             response['Expires'] = '0'
