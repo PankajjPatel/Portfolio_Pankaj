@@ -116,5 +116,7 @@ The portfolio features a contact form that enables users to write messages direc
     "subject": "Inquiry",
     "message": "Message content"
   }
+
+  thanks for watching this read.me
   ```
 - Saved data can be managed through the Django Admin panel at `http://127.0.0.1:8000/admin`.
