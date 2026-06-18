@@ -15,23 +15,23 @@
   --secondary-blue: #60A5FA;
   --heading-grad-start: #0F172A;
   --heading-grad-end: #334155;
-  --grid-color: rgba(0, 0, 0, 0.03);
+  --grid-color: rgba(0, 0, 0, 0.08);
 }
 
 :root.dark {
-  --background: #09090b; /* Zinc 950 */
+  --background: #000000; /* Pitch black background */
   --text: #e4e4e7;       /* Zinc 200 */
-  --panel-bg: #121214;   /* Sleek Dark Zinc */
-  --panel-bg-heavy: #18181b; /* Zinc 900 */
-  --panel-border: rgba(255, 255, 255, 0.06);
-  --panel-border-heavy: rgba(255, 255, 255, 0.12);
-  --scrollbar-bg: #09090b;
-  --scrollbar-thumb: #27272a;
+  --panel-bg: #0b0b0d;   /* Sleek, slightly lighter dark panel */
+  --panel-bg-heavy: #121214; /* Zinc 900 */
+  --panel-border: rgba(255, 255, 255, 0.05);
+  --panel-border-heavy: rgba(255, 255, 255, 0.1);
+  --scrollbar-bg: #000000;
+  --scrollbar-thumb: #18181b;
   --primary-blue: #3b82f6;
   --secondary-blue: #60a5fa;
   --heading-grad-start: #e4e4e7;
   --heading-grad-end: #a1a1aa;
-  --grid-color: rgba(255, 255, 255, 0.025);
+  --grid-color: rgba(255, 255, 255, 0.12); /* Perfect visibility for dots */
 }
 
 @theme {
@@ -75,16 +75,14 @@ body {
   min-height: 100vh;
 }
 
-/* Subtle dark grid background spans the whole viewport */
+/* Subtle dark dot grid background spans the whole viewport */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -10;
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-image: radial-gradient(var(--grid-color) 1px, transparent 1px);
   pointer-events: none;
 }
 
