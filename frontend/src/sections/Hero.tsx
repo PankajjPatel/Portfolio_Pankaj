@@ -52,11 +52,11 @@ export const Hero: React.FC = () => {
 
           <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
             {/* Avatar container */}
-            <div className="relative w-24 h-28 rounded-2xl border border-themeBorderHeavy p-0.5 shrink-0 bg-themeBg overflow-hidden shadow-md">
+            <div className="relative w-20 h-20 rounded-full border border-themeBorderHeavy p-0.5 shrink-0 bg-themeBg">
               <img
                 src="/avatar.png"
                 alt="Pankaj Patel"
-                className="w-full h-full rounded-xl object-cover"
+                className="w-full h-full rounded-full object-cover"
                 onError={(e) => {
                   // Fallback to jpg if png not present
                   const target = e.target as HTMLImageElement;

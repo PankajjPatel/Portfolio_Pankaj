@@ -4,11 +4,11 @@ import { Mail, Phone, Linkedin, Twitter, Github } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="relative py-12 px-6 flex flex-col items-center justify-center select-none text-center">
+    <footer className="relative pt-4 pb-8 px-6 flex flex-col items-center justify-center select-none text-center">
       {/* Divider */}
-      <div className="w-full max-w-2xl border-t border-themeBorder pt-8 flex flex-col items-center justify-center gap-3">
+      <div className="w-full max-w-2xl border-t border-themeBorder pt-6 flex flex-col items-center justify-center gap-4">
         {/* Contact details row */}
-        <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-[10px] text-slate-500 dark:text-slate-400 font-mono tracking-tight pb-3">
+        <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-1.5 text-[10px] text-slate-500 dark:text-slate-400 font-mono tracking-tight">
           <a href="mailto:pankajlucky678@gmail.com" className="hover:text-primaryBlue transition-colors flex items-center gap-1">
             <Mail size={11} />
             <span>pankajlucky678@gmail.com</span>
@@ -33,13 +33,6 @@ export const Footer: React.FC = () => {
             <Twitter size={11} />
             <span>Twitter</span>
           </a>
-        </div>
-
-        {/* Subtle dot animation */}
-        <div className="flex items-center gap-2">
-          <span className="h-[1px] w-8 bg-slate-200/50 dark:bg-white/5" />
-          <span className="w-1 h-1 rounded-full bg-primaryBlue/50 animate-ping" />
-          <span className="h-[1px] w-8 bg-slate-200/50 dark:bg-white/5" />
         </div>
 
         {/* Footer text */}
