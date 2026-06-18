@@ -126,6 +126,7 @@ CORS_ALLOW_ALL_ORIGINS = env.bool('CORS_ALLOW_ALL_ORIGINS', default=True) # Set 
 CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[
     "http://localhost:5173",
     "http://localhost:3000",
+    "https://pankaj-portfolio.up.railway.app",
 ])
 CORS_ALLOW_CREDENTIALS = True
 
