@@ -90,7 +90,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-themeBg text-themeText selection:bg-primaryBlue selection:text-white transition-colors duration-200">
+    <div className="min-h-screen text-themeText selection:bg-primaryBlue selection:text-white transition-colors duration-200">
       {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-[2px] bg-primaryBlue origin-left z-50"

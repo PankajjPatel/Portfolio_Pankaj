@@ -66,24 +66,16 @@
 
 body {
   background-color: var(--background);
+  background-image: radial-gradient(var(--grid-color) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
+  background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, background-image 0.2s ease;
   position: relative;
   min-height: 100vh;
-}
-
-/* Subtle dark dot grid background spans the whole viewport */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -10;
-  background-size: 24px 24px;
-  background-image: radial-gradient(var(--grid-color) 1px, transparent 1px);
-  pointer-events: none;
 }
 
 /* Custom scrollbar */
