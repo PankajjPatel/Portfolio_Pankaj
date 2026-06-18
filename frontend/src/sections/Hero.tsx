@@ -4,6 +4,7 @@ import { Github, Linkedin, Twitter, Mail, FileText, ArrowRight } from 'lucide-re
 
 
 const roles = ["Full Stack Developer", "Python Developer", "Django Developer"];
+const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
 export const Hero: React.FC = () => {
   const [roleIndex, setRoleIndex] = useState(0);
@@ -18,34 +19,27 @@ export const Hero: React.FC = () => {
 
   const handleScrollToContact = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const target = document.querySelector('#contact');
-    if (target) {
-      const offsetTop = (target as HTMLElement).offsetTop - 80;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth',
-      });
+    const contactSection = document.getElementById('contact');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <section
-      id="hero"
-      className="relative pt-24 pb-12 px-4 sm:px-6 flex items-center justify-center overflow-hidden"
-    >
-      {/* Background Radial Glow */}
+    <section id="home" className="min-h-[80vh] flex flex-col justify-center py-8 relative">
+      {/* Background Soft Glow */}
       <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] rounded-full bg-primaryBlue/5 dark:bg-primaryBlue/8 blur-[120px] pointer-events-none -z-10" />
 
-      {/* Centered Card Container */}
-      <div className="w-full max-w-2xl mt-4">
+      {/* Main Developer Profile Card */}
+      <div className="w-full max-w-xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
           className="relative rounded-[2rem] border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 backdrop-blur-md p-6 sm:p-10 shadow-lg"
         >
-          {/* Header Row: Available Badges */}
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-8">
+          {/* Top Status & Education Badges Row */}
+          <div className="flex flex-wrap gap-2 mb-6">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/15">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Python Intern @ Infotact Solutions
@@ -56,46 +50,46 @@ export const Hero: React.FC = () => {
             </span>
           </div>
 
-          {/* Profile Core Info (Avatar, Name, Title) */}
-          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-6">
-            {/* Avatar Circle */}
+          <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">
+            {/* Avatar container */}
             <div className="relative w-20 h-20 rounded-full border border-themeBorderHeavy p-0.5 shrink-0 bg-themeBg">
               <img
-                src="/avatar.jpg"
-                alt="Pankaj Patel Portrait"
-                className="w-full h-full object-cover rounded-full"
+                src="/avatar.png"
+                alt="Pankaj Patel"
+                className="w-full h-full rounded-full object-cover"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://github.com/PankajjPatel.png';
+                  // Fallback to jpg if png not present
+                  const target = e.target as HTMLImageElement;
+                  if (!target.src.includes('avatar.jpg')) {
+                    target.src = '/avatar.jpg';
+                  }
                 }}
               />
             </div>
 
-            {/* Profile Titles */}
-            <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white font-sans">
+            <div>
+              <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight font-kanit text-slate-900 dark:text-white">
                 Pankaj Patel
               </h1>
               
-              {/* Rotating Roles */}
-              <div className="h-6 overflow-hidden relative flex items-center justify-center sm:justify-start mt-1">
+              {/* Repeating role switcher */}
+              <div className="h-6 overflow-hidden mt-1 text-sm font-semibold text-primaryBlue">
                 <AnimatePresence mode="wait">
-                  <motion.p
-                    key={roles[roleIndex]}
-                    initial={{ y: 12, opacity: 0 }}
+                  <motion.div
+                    key={roleIndex}
+                    initial={{ y: 15, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    exit={{ y: -12, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: 'easeInOut' }}
-                    className="text-xs sm:text-sm font-bold text-primaryBlue font-sans"
+                    exit={{ y: -15, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: "easeInOut" }}
                   >
                     {roles[roleIndex]}
-                  </motion.p>
+                  </motion.div>
                 </AnimatePresence>
               </div>
             </div>
           </div>
 
-          {/* Brief Bio / Objective */}
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light leading-relaxed mb-8 text-center sm:text-left">
+          <p className="mt-6 text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
             Full Stack Developer with expertise in Python, Django, MySQL, REST APIs, responsive design, and AI-assisted tools. Seeking opportunity to deliver quality solutions in collaborative environments.
           </p>
 
@@ -104,7 +98,7 @@ export const Hero: React.FC = () => {
             {/* Primary Action Buttons */}
             <div className="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
               <a
-                href="/resume.pdf"
+                href={`${apiBaseUrl}/api/contact/resume/`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black font-semibold text-xs transition-transform hover:scale-105 active:scale-95 shadow-md"
