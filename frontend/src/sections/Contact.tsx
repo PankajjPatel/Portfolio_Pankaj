@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Github, Linkedin, Mail, Loader2, CheckCircle2, AlertCircle, Twitter, Phone } from 'lucide-react';
+import { Send, Loader2, CheckCircle2, AlertCircle, FileText } from 'lucide-react';
 
 interface Toast {
   type: 'success' | 'error';
   message: string;
 }
 
+const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
 export const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const [toast, setToast] = useState<Toast | null>(null);
@@ -27,10 +29,16 @@ export const Contact: React.FC = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.name.trim()) tempErrors.name = 'Full Name is required.';
     else if (formData.name.length < 2) tempErrors.name = 'Name must be at least 2 characters.';
+    
     if (!formData.email.trim()) tempErrors.email = 'Email Address is required.';
     else if (!emailRegex.test(formData.email)) tempErrors.email = 'Please enter a valid email address.';
+    
+    if (!formData.subject.trim()) tempErrors.subject = 'Subject is required.';
+    else if (formData.subject.length < 4) tempErrors.subject = 'Subject must be at least 4 characters.';
+
     if (!formData.message.trim()) tempErrors.message = 'Message is required.';
     else if (formData.message.length < 10) tempErrors.message = 'Message must be at least 10 characters.';
+    
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
@@ -41,11 +49,12 @@ export const Contact: React.FC = () => {
     setIsLoading(true);
     setToast(null);
     try {
-      const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
-      const response = await axios.post(`${apiBaseUrl}/api/contact/`, formData, { headers: { 'Content-Type': 'application/json' } });
+      const response = await axios.post(`${apiBaseUrl}/api/contact/`, formData, { 
+        headers: { 'Content-Type': 'application/json' } 
+      });
       if (response.status === 201) {
         setToast({ type: 'success', message: 'Message sent successfully! Pankaj will contact you soon.' });
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ name: '', email: '', subject: '', message: '' });
       }
     } catch (err: unknown) {
       console.error(err);
@@ -71,18 +80,19 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6 bg-themeBg border-t border-themeBorder select-none">
+    <section id="contact" className="relative py-16 px-4 sm:px-6 flex flex-col items-center justify-center">
+      {/* Toast Alert */}
       <div className="fixed top-24 left-4 right-4 sm:left-auto sm:right-6 z-50 flex flex-col gap-3 max-w-md w-auto sm:w-full">
         <AnimatePresence>
           {toast && (
             <motion.div
-              initial={{ opacity: 0, y: -20, scale: 0.9 }}
+              initial={{ opacity: 0, y: -20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-              className={`p-4 rounded-lg shadow-lg flex items-start gap-3 border ${
+              exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+              className={`p-4 rounded-xl shadow-lg flex items-start gap-3 border ${
                 toast.type === 'success' 
-                  ? 'bg-emerald-950/80 border-emerald-500/30 text-emerald-200' 
-                  : 'bg-rose-950/80 border-rose-500/30 text-rose-200'
+                  ? 'bg-emerald-950/90 border-emerald-500/30 text-emerald-200' 
+                  : 'bg-rose-950/90 border-rose-500/30 text-rose-200'
               }`}
             >
               {toast.type === 'success' 
@@ -94,160 +104,138 @@ export const Contact: React.FC = () => {
         </AnimatePresence>
       </div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 md:gap-16 items-center">
-        {/* Info Column */}
-        <div className="lg:col-span-5 flex flex-col gap-6">
-          <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5 }} className="flex flex-col gap-6">
-            <div className="flex items-center gap-3">
-              <span className="h-[2px] w-8 bg-accent-gradient" />
-              <span className="text-xs font-bold uppercase tracking-widest text-primaryBlue">Contact</span>
-            </div>
-            <h2 className="text-[9vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
-              Let's Connect
-            </h2>
-            <p className="text-slate-600 dark:text-slate-400 font-light text-base leading-relaxed">
-              I'm always open to discussing internships, collaborations, freelance work, and technical projects.
-            </p>
+      {/* Background Soft Glow */}
+      <div className="absolute top-[30%] right-10 w-[200px] h-[200px] bg-primaryBlue/5 rounded-full filter blur-[90px] pointer-events-none -z-10" />
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4 mt-4 w-full">
-              {/* Mail Card */}
-              <a href="mailto:Pankajlucky678@gmail.com" className="flex items-center gap-4 p-4 rounded-2xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/40 hover:bg-themePanel transition-colors group">
-                <span className="w-10 h-10 rounded-lg bg-slate-200/50 dark:bg-white/5 flex items-center justify-center shrink-0 border border-themeBorderHeavy">
-                  <Mail size={18} className="text-primaryBlue" />
-                </span>
-                <div className="flex flex-col gap-0.5 overflow-hidden">
-                  <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Email</span>
-                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">Pankajlucky678@gmail.com</span>
-                </div>
-              </a>
-
-              {/* Phone Card */}
-              <a href="tel:+919754789747" className="flex items-center gap-4 p-4 rounded-2xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/40 hover:bg-themePanel transition-colors group">
-                <span className="w-10 h-10 rounded-lg bg-slate-200/50 dark:bg-white/5 flex items-center justify-center shrink-0 border border-themeBorderHeavy">
-                  <Phone size={18} className="text-primaryBlue" />
-                </span>
-                <div className="flex flex-col gap-0.5 overflow-hidden">
-                  <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Phone / WhatsApp</span>
-                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">+91 97547 89747</span>
-                </div>
-              </a>
-
-              {/* LinkedIn Card */}
-              <a href="https://linkedin.com/in/pankajpatel-dev" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/40 hover:bg-themePanel transition-colors group">
-                <span className="w-10 h-10 rounded-lg bg-slate-200/50 dark:bg-white/5 flex items-center justify-center shrink-0 border border-themeBorderHeavy">
-                  <Linkedin size={18} className="text-primaryBlue" />
-                </span>
-                <div className="flex flex-col gap-0.5 overflow-hidden">
-                  <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">LinkedIn</span>
-                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">pankajpatel-dev</span>
-                </div>
-              </a>
-
-              {/* GitHub Card */}
-              <a href="https://github.com/PankajjPatel" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/40 hover:bg-themePanel transition-colors group">
-                <span className="w-10 h-10 rounded-lg bg-slate-200/50 dark:bg-white/5 flex items-center justify-center shrink-0 border border-themeBorderHeavy">
-                  <Github size={18} className="text-primaryBlue" />
-                </span>
-                <div className="flex flex-col gap-0.5 overflow-hidden">
-                  <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">GitHub</span>
-                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">PankajjPatel</span>
-                </div>
-              </a>
-
-              {/* Twitter Card */}
-              <a href="https://x.com/Pankajpatel536" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-4 rounded-2xl border border-themeBorder bg-themePanel/80 hover:border-primaryBlue/40 hover:bg-themePanel transition-colors group">
-                <span className="w-10 h-10 rounded-lg bg-slate-200/50 dark:bg-white/5 flex items-center justify-center shrink-0 border border-themeBorderHeavy">
-                  <Twitter size={18} className="text-primaryBlue" />
-                </span>
-                <div className="flex flex-col gap-0.5 overflow-hidden">
-                  <span className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Twitter (X)</span>
-                  <span className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors truncate">@Pankajpatel536</span>
-                </div>
-              </a>
-            </div>
-          </motion.div>
+      <div className="w-full max-w-2xl">
+        {/* Section Heading */}
+        <div className="flex flex-col items-center text-center gap-2 mb-12">
+          <div className="flex items-center gap-2">
+            <span className="h-[2px] w-6 bg-primaryBlue/50" />
+            <span className="text-[10px] font-bold uppercase tracking-wider text-primaryBlue">Get in Touch</span>
+            <span className="h-[2px] w-6 bg-primaryBlue/50" />
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white font-sans uppercase">
+            Contact Me
+          </h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md">
+            I'm always open to discussing internships, placements, open-source projects, and technical collaborations.
+          </p>
         </div>
 
-        {/* Form Column */}
-        <div className="lg:col-span-7">
-          <motion.div initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }} className="p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl border border-themeBorder bg-themePanel/80 shadow-md">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="name" className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Full Name</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    name="name" 
-                    value={formData.name} 
-                    onChange={handleChange} 
-                    className={`w-full px-3.5 py-3 rounded-xl bg-themeBg border text-xs text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none transition-colors ${
-                      errors.name 
-                        ? 'border-red-500 focus:border-red-500' 
-                        : 'border-themeBorder focus:border-primaryBlue/50'
-                    }`} 
-                    placeholder="John Doe" 
-                    disabled={isLoading} 
-                  />
-                  {errors.name && <span className="text-[10px] text-red-500 font-bold">{errors.name}</span>}
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <label htmlFor="email" className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Email Address</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    value={formData.email} 
-                    onChange={handleChange} 
-                    className={`w-full px-3.5 py-3 rounded-xl bg-themeBg border text-xs text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none transition-colors ${
-                      errors.email 
-                        ? 'border-red-500 focus:border-red-500' 
-                        : 'border-themeBorder focus:border-primaryBlue/50'
-                    }`} 
-                    placeholder="john@example.com" 
-                    disabled={isLoading} 
-                  />
-                  {errors.email && <span className="text-[10px] text-red-500 font-bold">{errors.email}</span>}
-                </div>
-              </div>
-
-              
-              <div className="flex flex-col gap-1.5">
-                <label htmlFor="message" className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Message</label>
-                <textarea 
-                  id="message" 
-                  name="message" 
-                  rows={5} 
-                  value={formData.message} 
+        {/* Outer Card Compartment */}
+        <div className="rounded-3xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 p-5 sm:p-8 flex flex-col gap-8 shadow-sm">
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {/* Name */}
+              <div className="flex flex-col gap-1">
+                <label htmlFor="name" className="text-[9px] font-bold uppercase tracking-wider text-slate-500 font-mono">Full Name</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  value={formData.name} 
                   onChange={handleChange} 
-                  className={`w-full px-3.5 py-3 rounded-xl bg-themeBg border text-xs text-slate-900 dark:text-white placeholder-slate-600 focus:outline-none resize-none transition-colors ${
-                    errors.message 
+                  className={`w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-zinc-900/50 border text-xs text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none transition-colors ${
+                    errors.name 
                       ? 'border-red-500 focus:border-red-500' 
                       : 'border-themeBorder focus:border-primaryBlue/50'
                   }`} 
-                  placeholder="Detail your requirements..." 
+                  placeholder="John Doe" 
                   disabled={isLoading} 
                 />
-                {errors.message && <span className="text-[10px] text-red-500 font-bold">{errors.message}</span>}
+                {errors.name && <span className="text-[10px] text-red-500 font-semibold">{errors.name}</span>}
               </div>
-              
-              <div className="flex flex-wrap items-center gap-4 mt-2">
-                <motion.button 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  type="submit" 
-                  className="flex-1 py-3.5 rounded-xl bg-accent-gradient text-white font-semibold text-xs flex items-center justify-center gap-2 transition-colors disabled:opacity-75 disabled:cursor-not-allowed shadow-md shadow-blue-600/10" 
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <><Loader2 size={14} className="animate-spin" />Sending...</>
-                  ) : (
-                    <><Send size={14} />Send Message</>
-                  )}
-                </motion.button>
+
+              {/* Email */}
+              <div className="flex flex-col gap-1">
+                <label htmlFor="email" className="text-[9px] font-bold uppercase tracking-wider text-slate-500 font-mono">Email Address</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  value={formData.email} 
+                  onChange={handleChange} 
+                  className={`w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-zinc-900/50 border text-xs text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none transition-colors ${
+                    errors.email 
+                      ? 'border-red-500 focus:border-red-500' 
+                      : 'border-themeBorder focus:border-primaryBlue/50'
+                  }`} 
+                  placeholder="john@example.com" 
+                  disabled={isLoading} 
+                />
+                {errors.email && <span className="text-[10px] text-red-500 font-semibold">{errors.email}</span>}
               </div>
-            </form>
-          </motion.div>
+            </div>
+
+            {/* Subject */}
+            <div className="flex flex-col gap-1">
+              <label htmlFor="subject" className="text-[9px] font-bold uppercase tracking-wider text-slate-500 font-mono">Subject</label>
+              <input 
+                type="text" 
+                id="subject" 
+                name="subject" 
+                value={formData.subject} 
+                onChange={handleChange} 
+                className={`w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-zinc-900/50 border text-xs text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none transition-colors ${
+                  errors.subject 
+                    ? 'border-red-500 focus:border-red-500' 
+                    : 'border-themeBorder focus:border-primaryBlue/50'
+                }`} 
+                placeholder="Inquiry / Internship / Project Collaboration" 
+                disabled={isLoading} 
+              />
+              {errors.subject && <span className="text-[10px] text-red-500 font-semibold">{errors.subject}</span>}
+            </div>
+
+            {/* Message */}
+            <div className="flex flex-col gap-1">
+              <label htmlFor="message" className="text-[9px] font-bold uppercase tracking-wider text-slate-500 font-mono">Message</label>
+              <textarea 
+                id="message" 
+                name="message" 
+                rows={4} 
+                value={formData.message} 
+                onChange={handleChange} 
+                className={`w-full px-3.5 py-2.5 rounded-xl bg-slate-100 dark:bg-zinc-900/50 border text-xs text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none resize-none transition-colors ${
+                  errors.message 
+                    ? 'border-red-500 focus:border-red-500' 
+                    : 'border-themeBorder focus:border-primaryBlue/50'
+                }`} 
+                placeholder="Detail your requirements..." 
+                disabled={isLoading} 
+              />
+              {errors.message && <span className="text-[10px] text-red-500 font-semibold">{errors.message}</span>}
+            </div>
+            
+            {/* Buttons Row */}
+            <div className="flex flex-col sm:flex-row items-center gap-3 mt-2">
+              <motion.button 
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                type="submit" 
+                className="w-full sm:w-auto flex-1 py-2.5 rounded-xl bg-slate-900 dark:bg-white hover:bg-slate-800 dark:hover:bg-zinc-100 text-white dark:text-black font-semibold text-xs flex items-center justify-center gap-2 transition-colors disabled:opacity-75 disabled:cursor-not-allowed cursor-pointer" 
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <><Loader2 size={13} className="animate-spin" />Sending...</>
+                ) : (
+                  <><Send size={13} />Send Message</>
+                )}
+              </motion.button>
+
+              <a
+                href="/resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto py-2.5 px-5 rounded-xl border border-themeBorder bg-themePanel hover:bg-slate-200/50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
+              >
+                <FileText size={13} />
+                <span>Download Resume</span>
+              </a>
+            </div>
+          </form>
         </div>
       </div>
     </section>

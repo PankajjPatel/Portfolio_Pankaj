@@ -7,33 +7,34 @@
   --text: #0F172A;
   --panel-bg: #FFFFFF;
   --panel-bg-heavy: #F1F5F9;
-  --panel-border: rgba(0, 0, 0, 0.07);
-  --panel-border-heavy: rgba(0, 0, 0, 0.14);
+  --panel-border: rgba(0, 0, 0, 0.05);
+  --panel-border-heavy: rgba(0, 0, 0, 0.1);
   --scrollbar-bg: #F1F5F9;
   --scrollbar-thumb: #3B82F6;
   --primary-blue: #2563EB;
   --secondary-blue: #60A5FA;
   --heading-grad-start: #0F172A;
   --heading-grad-end: #334155;
+  --grid-color: rgba(0, 0, 0, 0.03);
 }
 
 :root.dark {
-  --background: #0C0C0C;
-  --text: #D7E2EA;
-  --panel-bg: #111827;
-  --panel-bg-heavy: #1F2937;
-  --panel-border: rgba(255, 255, 255, 0.05);
-  --panel-border-heavy: rgba(255, 255, 255, 0.1);
-  --scrollbar-bg: #0C0C0C;
-  --scrollbar-thumb: #2563EB;
-  --primary-blue: #2563EB;
-  --secondary-blue: #60A5FA;
-  --heading-grad-start: #646973;
-  --heading-grad-end: #BBCCD7;
+  --background: #09090b; /* Zinc 950 */
+  --text: #e4e4e7;       /* Zinc 200 */
+  --panel-bg: #121214;   /* Sleek Dark Zinc */
+  --panel-bg-heavy: #18181b; /* Zinc 900 */
+  --panel-border: rgba(255, 255, 255, 0.06);
+  --panel-border-heavy: rgba(255, 255, 255, 0.12);
+  --scrollbar-bg: #09090b;
+  --scrollbar-thumb: #27272a;
+  --primary-blue: #3b82f6;
+  --secondary-blue: #60a5fa;
+  --heading-grad-start: #e4e4e7;
+  --heading-grad-end: #a1a1aa;
+  --grid-color: rgba(255, 255, 255, 0.025);
 }
 
 @theme {
-  --color-darkBg: #0C0C0C;
   --color-primaryBlue: var(--primary-blue);
   --color-secondaryBlue: var(--secondary-blue);
   
@@ -63,33 +64,6 @@
   background-image: linear-gradient(135deg, #2563EB 0%, #3B82F6 50%, #60A5FA 100%);
 }
 
-/* Glass panel utility with high-end blur */
-@utility glass-panel {
-  background-color: rgba(17, 24, 39, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-}
-
-@utility glass-panel-heavy {
-  background-color: rgba(17, 24, 39, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: all 0.3s ease;
-}
-
-@utility glass-card-hover {
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  &:hover {
-    background-color: rgba(31, 41, 55, 0.8);
-    border-color: rgba(37, 99, 235, 0.4);
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
-  }
-}
-
 body {
   background-color: var(--background);
   color: var(--text);
@@ -97,6 +71,21 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   transition: background-color 0.2s ease, color 0.2s ease;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Subtle dark grid background spans the whole viewport */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+  pointer-events: none;
 }
 
 /* Custom scrollbar */
@@ -125,33 +114,16 @@ body {
   animation: whatsapp-pulse 2.5s infinite;
 }
 
-/* Constrain floating buttons inside the 1440px centered container */
-.floating-button-right {
-  right: 16px;
-}
-
-@media (min-width: 640px) {
-  .floating-button-right {
-    right: 24px;
-  }
-}
-
-@media (min-width: 1440px) {
-  .floating-button-right {
-    right: calc(50vw - 720px + 24px);
-  }
-}
-
 /* Floating Animations */
 @keyframes float {
   0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(3deg); }
+  50% { transform: translateY(-8px) rotate(1deg); }
   100% { transform: translateY(0px) rotate(0deg); }
 }
 
 @keyframes float-reverse {
   0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(12px) rotate(-2deg); }
+  50% { transform: translateY(6px) rotate(-1deg); }
   100% { transform: translateY(0px) rotate(0deg); }
 }
 
@@ -163,42 +135,23 @@ body {
   animation: float-reverse 7s ease-in-out infinite;
 }
 
-/* Premium grid-line texture */
-.grid-texture {
-  position: relative;
-}
-.grid-texture::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-}
-
-.sub-grid-texture::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background-size: 8px 8px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.005) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.005) 1px, transparent 1px);
-}
-
+/* Soft blur glow behind cards */
 .radial-glow {
-  background: radial-gradient(circle at 50% 30%, rgba(37, 99, 235, 0.07), transparent 70%);
+  background: radial-gradient(circle at 50% 30%, rgba(37, 99, 235, 0.08), transparent 70%);
 }
 
 @keyframes slow-glow {
-  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
-  50% { transform: translate(-50%, -50%) scale(1.1) translate(15px, -15px); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.08) translate(10px, -10px); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
 }
 
 .animate-slow-glow {
   animation: slow-glow 15s infinite ease-in-out;
+}
+
+/* Bottom Floating Dock styles */
+.dock-blur {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }

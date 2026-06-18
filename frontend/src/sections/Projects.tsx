@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, AlertCircle, CheckCircle } from 'lucide-react';
+import { Github, ExternalLink, AlertCircle, CheckCircle, Database, Layout } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -12,54 +12,55 @@ interface Project {
   repoName: string;
   image: string;
   features: string[];
+  role?: string;
 }
 
-const projects: Project[] = [
+const allProjects: Project[] = [
   {
     id: '01',
     title: 'Smart Queue Management System',
-    description: 'Queue management solution for hospitals, banks and colleges.',
-    tech: ['MySQL', 'SQL', 'Database Design'],
-    githubUrl: 'https://github.com/PankajjPatel',
-    demoUrl: '#',
-    repoName: 'Smart-Queue-Management',
+    description: 'Collaborated in a team to develop a Smart Queue Management System for hospitals, banks, and colleges. Developed key administrative dashboard portals and scheduled counters.',
+    tech: ['Spring Boot (Java)', 'React.js', 'Tailwind CSS', 'MySQL'],
+    githubUrl: 'https://github.com/PankajjPatel/Smart-Queue-System.git',
+    demoUrl: 'https://github.com/PankajjPatel/Smart-Queue-System.git',
+    repoName: 'Smart-Queue-System',
     image: '/project1.png',
+    role: 'Database Design & Management',
     features: [
-      'Appointment booking integration',
-      'Queue tracking algorithms',
-      'Token management workflows',
-      'Normalized relational database schema design'
+      'Designed and managed MySQL database schemas, relationships, and SQL queries',
+      'Supported admin functionalities for managing organizations, staff, and queue records',
+      'Engineered relational database triggers and constraints to optimize transaction performance'
     ],
   },
   {
     id: '02',
     title: 'Student Management System',
-    description: 'Web-based application for efficient student record management.',
+    description: 'Developed a full-stack student management system handling 500+ records with complete CRUD functionality. Implemented CRUD operations and database integration using MySQL. Designed responsive user interfaces with Tailwind CSS.',
     tech: ['Python', 'Django', 'MySQL', 'HTML5', 'Tailwind CSS'],
     githubUrl: 'https://github.com/PankajjPatel/Campus-Core',
-    demoUrl: 'https://campus-core-j9e0.onrender.com',
+    demoUrl: 'https://campus-core-portal.onrender.com',
     repoName: 'Campus-Core',
     image: '/project2.png',
     features: [
-      'CRUD operations for student profiles',
-      'Student record tracking',
-      'MySQL database integration',
-      'Responsive user interface'
+      'Developed a full-stack student management system handling 500+ records with complete CRUD functionality',
+      'Implemented CRUD operations and database integration using MySQL',
+      'Designed responsive user interfaces with Tailwind CSS',
+      'Improved data management through efficient database operations'
     ],
   },
   {
     id: '03',
-    title: 'Portfolio Website',
-    description: 'Responsive personal portfolio website showcasing projects, skills and certifications.',
-    tech: ['Python', 'Django', 'Tailwind CSS', 'Git', 'GitHub'],
+    title: 'Personal Portfolio Website',
+    description: 'Developed a responsive portfolio website to showcase projects and technical skills. Implemented dark/light mode and mobile-friendly layouts. Utilized Git and GitHub for version control and deployment.',
+    tech: ['Python', 'Django', 'HTML5', 'Tailwind CSS', 'Git', 'GitHub'],
     githubUrl: 'https://github.com/PankajjPatel/Portfolio_Pankaj',
-    demoUrl: '/',
+    demoUrl: 'https://pankaj-portfolio.up.railway.app',
     repoName: 'Portfolio_Pankaj',
     image: '/project3.png',
     features: [
-      'Passcode-protected interactive resume uploader modal',
-      'Dynamic visitor sessions and download counter API',
-      'Fully responsive, clean grid layout with dark mode variables'
+      'Developed a responsive portfolio website to showcase projects and technical skills',
+      'Implemented dark/light mode and mobile-friendly layouts',
+      'Utilized Git and GitHub for version control and deployment'
     ],
   },
 ];
@@ -106,36 +107,33 @@ export const Projects: React.FC = () => {
     setTimeout(() => setToast(null), 4000);
   };
 
-  const handleSourceCodeClick = (e: React.MouseEvent, resolvedGithubUrl: string) => {
-    if (resolvedGithubUrl === '#') {
-      e.preventDefault();
-      triggerToast('Source code is being prepared for release. It will be public on GitHub soon!');
-    }
-  };
 
   const handleLiveClick = (e: React.MouseEvent, project: Project, resolvedDemoUrl: string) => {
-    if (project.title === 'Portfolio Website') {
+    if (project.title === 'Personal Portfolio Website' && window.location.hostname !== 'localhost') {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      triggerToast('You are currently viewing the Live Demo!', 'success');
+      triggerToast('You are currently viewing this live portfolio!', 'success');
       return;
     }
-    if (resolvedDemoUrl === '#') {
+    if (resolvedDemoUrl === '#' || !resolvedDemoUrl) {
       e.preventDefault();
       triggerToast(`Live demo for "${project.title}" will be deployed soon.`);
     }
   };
 
+  const featuredProject = allProjects[0];
+  const secondaryProjects = allProjects.slice(1);
+
   return (
-    <section id="projects" className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6 bg-themeBg border-b border-themeBorder overflow-hidden select-none">
+    <section id="projects" className="relative py-16 px-4 sm:px-6 flex flex-col items-center justify-center">
       {/* Toast Message */}
       <AnimatePresence>
         {toast && (
           <motion.div
-            initial={{ opacity: 0, y: -50, scale: 0.9 }}
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.9 }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-themePanel border border-themeBorderHeavy text-white shadow-lg flex items-center gap-2.5 text-xs font-semibold"
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-themePanel border border-themeBorderHeavy text-slate-800 dark:text-white shadow-lg flex items-center gap-2.5 text-xs font-semibold"
           >
             {toast.type === 'success' ? (
               <CheckCircle size={14} className="text-green-500" />
@@ -147,29 +145,140 @@ export const Projects: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Background Glowing Orb */}
-      <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-primaryBlue/5 rounded-full filter blur-[120px] pointer-events-none -z-10" />
-
-      <div className="max-w-6xl mx-auto flex flex-col gap-12 sm:gap-16 md:gap-20 relative z-10">
-        
-        {/* Header */}
-        <div className="flex flex-col items-center justify-center text-center gap-4">
-          <div className="flex items-center gap-3">
-            <span className="h-[2px] w-8 bg-accent-gradient" />
-            <span className="text-xs font-bold uppercase tracking-widest text-primaryBlue">Works</span>
-            <span className="h-[2px] w-8 bg-accent-gradient" />
+      <div className="w-full max-w-2xl">
+        {/* Section Heading */}
+        <div className="flex flex-col items-center text-center gap-2 mb-12">
+          <div className="flex items-center gap-2">
+            <span className="h-[2px] w-6 bg-primaryBlue/50" />
+            <span className="text-[10px] font-bold uppercase tracking-wider text-primaryBlue">Works</span>
+            <span className="h-[2px] w-6 bg-primaryBlue/50" />
           </div>
-          <h2 className="text-[9vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
-            Featured Projects
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white font-sans uppercase">
+            Projects
           </h2>
-          <p className="text-slate-600 dark:text-slate-400 font-light text-base max-w-xl">
-            A selection of hand-crafted systems and web products showcasing my backend and frontend engineering abilities.
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md">
+            Hand-crafted solutions demonstrating automation, database optimizations, and full-stack developments.
           </p>
         </div>
 
-        {/* Sticky Stacking Cards Deck */}
-        <div className="flex flex-col gap-8 sm:gap-12 md:gap-16 max-w-4xl mx-auto w-full relative">
-          {projects.map((project, idx) => {
+        {/* 1. FEATURED PROJECT SHOWCASE CARD */}
+        <div className="mb-10">
+          <div className="text-[10px] font-bold uppercase tracking-widest text-primaryBlue mb-3 font-mono flex items-center gap-1.5 justify-center sm:justify-start">
+            <span className="w-1.5 h-1.5 rounded-full bg-primaryBlue animate-ping" />
+            <span>Featured Showcase</span>
+          </div>
+
+          {(() => {
+            const repoData = githubRepos[featuredProject.repoName.toLowerCase()];
+            const resolvedGithubUrl = repoData ? repoData.githubUrl : featuredProject.githubUrl;
+            const resolvedDemoUrl = (repoData && repoData.demoUrl) ? repoData.demoUrl : featuredProject.demoUrl;
+
+            return (
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                whileHover={{ 
+                  scale: 1.01,
+                  borderColor: 'rgba(59, 130, 246, 0.25)',
+                  boxShadow: '0 10px 20px -10px rgba(59, 130, 246, 0.12)'
+                }}
+                className="rounded-3xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 p-5 sm:p-8 flex flex-col gap-6 transition-all duration-300"
+              >
+                {/* Image Showcase */}
+                <div className="aspect-[16/9] rounded-2xl overflow-hidden bg-black/40 border border-themeBorder relative group cursor-pointer">
+                  <img
+                    src={featuredProject.image}
+                    alt={featuredProject.title}
+                    className="w-full h-full object-cover opacity-80 group-hover:scale-[1.02] group-hover:opacity-100 transition-all duration-500"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&auto=format&fit=crop&q=80';
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent flex items-end p-4">
+                    <span className="text-[10px] font-bold uppercase tracking-wider bg-primaryBlue px-2.5 py-1 rounded text-white flex items-center gap-1.5">
+                      <Database size={11} /> Team Project
+                    </span>
+                  </div>
+                </div>
+
+                {/* Details */}
+                <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-1">
+                    <div className="flex justify-between items-start flex-wrap gap-2">
+                      <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white uppercase tracking-tight">
+                        {featuredProject.title}
+                      </h3>
+                      {featuredProject.role && (
+                        <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-blue-500/10 text-primaryBlue border border-blue-500/15">
+                          Role: {featuredProject.role}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light leading-relaxed mt-1">
+                      {featuredProject.description}
+                    </p>
+                  </div>
+
+                  {/* Key Features */}
+                  <div className="flex flex-col gap-2 pt-2 border-t border-themeBorder">
+                    <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 font-mono">
+                      Database & Schema Management Focus:
+                    </span>
+                    <ul className="flex flex-col gap-1.5 list-none pl-0">
+                      {featuredProject.features.map((feat, i) => (
+                        <li key={i} className="text-xs text-slate-700 dark:text-slate-300 flex items-start gap-2 leading-tight">
+                          <span className="w-1.5 h-1.5 rounded-full bg-primaryBlue mt-1.5 shrink-0" />
+                          <span>{feat}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Tech Stack */}
+                  <div className="flex flex-wrap gap-1.5 pt-2">
+                    {featuredProject.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="px-2 py-0.5 text-[9px] font-bold bg-slate-200/50 dark:bg-white/5 text-slate-700 dark:text-slate-400 rounded-md border border-themeBorderHeavy uppercase tracking-wider font-mono"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Links */}
+                  <div className="flex items-center gap-3 mt-2">
+                    <a
+                      href={resolvedGithubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2.5 px-4 rounded-xl bg-slate-200/50 dark:bg-white/5 hover:bg-slate-200/80 dark:hover:bg-zinc-800/80 text-slate-900 dark:text-white font-semibold text-xs border border-themeBorderHeavy transition-colors flex items-center justify-center gap-1.5"
+                    >
+                      <Github size={13} />
+                      Code Repository
+                    </a>
+                    
+                    <a
+                      href={resolvedDemoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2.5 px-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                    >
+                      <ExternalLink size={13} />
+                      View Demo Link
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })()}
+        </div>
+
+        {/* 2. SECONDARY PROJECTS GRID */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {secondaryProjects.map((project, idx) => {
             const repoData = githubRepos[project.repoName.toLowerCase()];
             const resolvedGithubUrl = repoData ? repoData.githubUrl : project.githubUrl;
             const resolvedDemoUrl = (repoData && repoData.demoUrl) ? repoData.demoUrl : project.demoUrl;
@@ -177,94 +286,85 @@ export const Projects: React.FC = () => {
             return (
               <motion.div
                 key={project.id}
-                style={{ top: `calc(100px + ${idx * 35}px)` }}
-                className="md:sticky rounded-2xl sm:rounded-3xl border border-themeBorder bg-themePanel shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden transition-all duration-300 w-full"
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                whileHover={{ 
+                  scale: 1.01,
+                  borderColor: 'rgba(59, 130, 246, 0.25)',
+                  boxShadow: '0 10px 20px -10px rgba(59, 130, 246, 0.12)'
+                }}
+                className="rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 p-5 flex flex-col gap-4 transition-all duration-300"
               >
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 md:gap-8 p-4 sm:p-6 md:p-10 items-center">
-                  
-                  {/* Left Column: Details (Grid: 5/12) */}
-                  <div className="md:col-span-5 flex flex-col gap-6">
-                    <div className="flex flex-col gap-2">
-                      <span className="text-xs font-mono font-bold text-primaryBlue uppercase tracking-wider">
-                        Project {project.id}
-                      </span>
-                      <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-slate-900 dark:text-white font-kanit uppercase tracking-tight">
-                        {project.title}
-                      </h3>
-                      <p className="text-sm text-slate-600 dark:text-slate-400 font-light leading-relaxed mt-1">
-                        {project.description}
-                      </p>
-                    </div>
+                {/* Thumbnail */}
+                <div className="aspect-[1.6] rounded-xl overflow-hidden bg-black/40 border border-themeBorder relative group cursor-pointer">
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover opacity-85 group-hover:scale-[1.02] group-hover:opacity-100 transition-all duration-500"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format&fit=crop&q=80';
+                    }}
+                  />
+                  <div className="absolute top-2 left-2">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-slate-900/90 text-slate-300 border border-white/5">
+                      <Layout size={9} /> {project.title.includes('Portfolio') ? 'Personal' : 'Core App'}
+                    </span>
+                  </div>
+                </div>
 
-                    {/* Key Features */}
-                    <div className="flex flex-col gap-2">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                        Key Features
-                      </span>
-                      <ul className="flex flex-col gap-1.5 list-none pl-0">
-                        {project.features.map((feat, i) => (
-                          <li key={i} className="text-xs text-slate-700 dark:text-slate-300 flex items-start gap-2 leading-tight">
-                            <span className="w-1.5 h-1.5 rounded-full bg-primaryBlue mt-1.5 shrink-0" />
-                            <span>{feat}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Tech Badges */}
-                    <div className="flex flex-wrap gap-1.5 pt-2 border-t border-themeBorder">
-                      {project.tech.map((t) => (
-                        <span
-                          key={t}
-                          className="px-2 py-0.5 text-[9px] font-bold bg-slate-200/50 dark:bg-white/5 text-slate-700 dark:text-slate-300 rounded-md border border-themeBorderHeavy uppercase tracking-wide"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Action Buttons */}
-                    <div className="flex items-center gap-3 pt-2">
-                      <a
-                        href={resolvedGithubUrl}
-                        target={resolvedGithubUrl === '#' ? '_self' : '_blank'}
-                        rel="noopener noreferrer"
-                        onClick={(e) => handleSourceCodeClick(e, resolvedGithubUrl)}
-                        className="flex-1 py-2.5 px-4 rounded-xl bg-slate-200/50 dark:bg-white/5 hover:bg-white/10 text-slate-900 dark:text-white font-semibold text-xs border border-themeBorderHeavy transition-colors flex items-center justify-center gap-1.5"
-                      >
-                        <Github size={14} />
-                        Code
-                      </a>
-                      
-                      <a
-                        href={resolvedDemoUrl}
-                        target={resolvedDemoUrl === '#' ? '_self' : '_blank'}
-                        rel="noopener noreferrer"
-                        onClick={(e) => handleLiveClick(e, project, resolvedDemoUrl)}
-                        className="flex-1 py-2.5 px-4 rounded-xl bg-accent-gradient text-white font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-md shadow-blue-600/10"
-                      >
-                        <ExternalLink size={14} />
-                        Live Demo
-                      </a>
-                    </div>
+                {/* Details */}
+                <div className="flex flex-col gap-3 flex-1 justify-between">
+                  <div className="flex flex-col gap-1">
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight font-sans">
+                      {project.title}
+                    </h4>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-400 font-light leading-relaxed">
+                      {project.description}
+                    </p>
                   </div>
 
-                  {/* Right Column: Screenshot Visual (Grid: 7/12) */}
-                  <div className="md:col-span-7 aspect-[16/10] rounded-xl sm:rounded-2xl overflow-hidden bg-black/60 border border-themeBorder relative group/img cursor-pointer">
-                    <img
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover opacity-80 group-hover/img:scale-105 group-hover/img:opacity-100 transition-all duration-500"
-                      loading="lazy"
-                    />
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-1">
+                    {project.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="px-1.5 py-0.5 text-[8px] font-bold bg-slate-200/50 dark:bg-white/5 text-slate-700 dark:text-slate-400 rounded border border-themeBorderHeavy uppercase tracking-wider font-mono"
+                      >
+                        {t}
+                      </span>
+                    ))}
                   </div>
 
+                  {/* Buttons */}
+                  <div className="flex items-center gap-2 pt-2 border-t border-themeBorder">
+                    <a
+                      href={resolvedGithubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-2 px-3 rounded-lg bg-slate-200/50 dark:bg-white/5 hover:bg-slate-200/80 dark:hover:bg-zinc-800/80 text-slate-900 dark:text-white font-semibold text-[10px] border border-themeBorderHeavy transition-colors flex items-center justify-center gap-1"
+                    >
+                      <Github size={11} />
+                      Code
+                    </a>
+                    
+                    <a
+                      href={resolvedDemoUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => handleLiveClick(e, project, resolvedDemoUrl)}
+                      className="flex-1 py-2 px-3 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-black font-semibold text-[10px] transition-colors flex items-center justify-center gap-1"
+                    >
+                      <ExternalLink size={11} />
+                      Live Demo
+                    </a>
+                  </div>
                 </div>
               </motion.div>
             );
           })}
         </div>
-
       </div>
     </section>
   );

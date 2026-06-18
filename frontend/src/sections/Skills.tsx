@@ -1,186 +1,131 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Code, Server, Database, Palette, Github, Cpu, Brain, Users, RefreshCw, MessageSquare } from 'lucide-react';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Code2, Cpu, Wrench, Layers, CheckCircle2 } from 'lucide-react';
 
-interface SkillItem {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ReactNode;
+interface Skill {
+  name: string;
 }
 
-const techSkills: SkillItem[] = [
-  {
-    id: '01',
-    title: 'Python',
-    description: 'Creation of backend systems, automation scripts and web applications.',
-    icon: <Code className="w-7 h-7 text-primaryBlue" />,
-  },
-  {
-    id: '02',
-    title: 'Django',
-    description: 'Building scalable and maintainable web applications.',
-    icon: <Server className="w-7 h-7 text-secondaryBlue" />,
-  },
-  {
-    id: '03',
-    title: 'MySQL',
-    description: 'Database design, optimization and management.',
-    icon: <Database className="w-7 h-7 text-blue-500" />,
-  },
-  {
-    id: '04',
-    title: 'Tailwind CSS',
-    description: 'Responsive and modern UI development.',
-    icon: <Palette className="w-7 h-7 text-indigo-400" />,
-  },
-  {
-    id: '05',
-    title: 'Git & GitHub',
-    description: 'Version control and collaborative development.',
-    icon: <Github className="w-7 h-7 text-slate-700 dark:text-slate-300" />,
-  },
-  {
-    id: '06',
-    title: 'AI-Assisted Development',
-    description: 'Leveraging modern AI tools to accelerate development workflows.',
-    icon: <Cpu className="w-7 h-7 text-emerald-400" />,
-  },
-];
+interface SkillCategory {
+  id: string;
+  title: string;
+  icon: React.ReactNode;
+  skills: Skill[];
+}
 
-const behavioralSkills: SkillItem[] = [
+const skillCategories: SkillCategory[] = [
   {
-    id: '01',
-    title: 'Problem Solving',
-    description: 'Analyzing complex coding challenges, designing database schemas, and building optimized algorithms.',
-    icon: <Brain className="w-7 h-7 text-amber-400" />,
+    id: 'languages',
+    title: 'Programming Languages',
+    icon: <Code2 className="w-5 h-5 text-blue-500" />,
+    skills: [
+      { name: 'Python' },
+      { name: 'C' },
+      { name: 'C++' }
+    ]
   },
   {
-    id: '02',
-    title: 'Team Collaboration',
-    description: 'Working in group settings, participating in class projects, and using Git for shared repository workflows.',
-    icon: <Users className="w-7 h-7 text-sky-400" />,
+    id: 'technologies',
+    title: 'Technologies / Frameworks',
+    icon: <Cpu className="w-5 h-5 text-emerald-500" />,
+    skills: [
+      { name: 'Django (Framework)' },
+      { name: 'MySQL' },
+      { name: 'HTML5' },
+      { name: 'CSS3' },
+      { name: 'Tailwind CSS' }
+    ]
   },
   {
-    id: '03',
-    title: 'Adaptability',
-    description: 'Quickly learning new tech stacks, exploring modern web frameworks, and embracing AI-assisted dev workflows.',
-    icon: <RefreshCw className="w-7 h-7 text-pink-400" />,
+    id: 'tools',
+    title: 'Developer Tools',
+    icon: <Wrench className="w-5 h-5 text-amber-500" />,
+    skills: [
+      { name: 'VS Code' },
+      { name: 'Git & GitHub' },
+      { name: 'Render' },
+      { name: 'Railway' },
+      { name: 'AI-Assisted Development Tools' }
+    ]
   },
   {
-    id: '04',
-    title: 'Communication',
-    description: 'Presenting project architectures, writing clear documentation, and explaining technical logic clearly.',
-    icon: <MessageSquare className="w-7 h-7 text-violet-400" />,
-  },
+    id: 'concepts',
+    title: 'Core Concepts',
+    icon: <Layers className="w-5 h-5 text-purple-500" />,
+    skills: [
+      { name: 'OOPs' },
+      { name: 'CRUD Operations' },
+      { name: 'REST APIs Development' },
+      { name: 'Version Control' },
+      { name: 'Problem Solving' }
+    ]
+  }
 ];
 
 export const Skills: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'technical' | 'behavioral'>('technical');
-
-  const currentSkills = activeTab === 'technical' ? techSkills : behavioralSkills;
-
   return (
-    <section id="skills" className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6 bg-themeBg border-b border-themeBorder overflow-hidden select-none">
+    <section id="skills" className="relative py-16 px-4 sm:px-6 flex flex-col items-center justify-center">
       {/* Background Soft Glow */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primaryBlue/5 rounded-full filter blur-[100px] pointer-events-none -z-10" />
+      <div className="absolute top-[40%] right-10 w-[250px] h-[250px] bg-primaryBlue/5 rounded-full filter blur-[100px] pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto flex flex-col gap-10 sm:gap-12 md:gap-16 relative z-10">
-        
-        {/* Header */}
-        <div className="flex flex-col items-center justify-center text-center gap-6">
-          <div className="flex items-center gap-3">
-            <span className="h-[2px] w-8 bg-accent-gradient" />
-            <span className="text-xs font-bold uppercase tracking-widest text-primaryBlue">Capabilities</span>
-            <span className="h-[2px] w-8 bg-accent-gradient" />
+      <div className="w-full max-w-2xl">
+        {/* Section Heading */}
+        <div className="flex flex-col items-center text-center gap-2 mb-12">
+          <div className="flex items-center gap-2">
+            <span className="h-[2px] w-6 bg-primaryBlue/50" />
+            <span className="text-[10px] font-bold uppercase tracking-wider text-primaryBlue">Capabilities</span>
+            <span className="h-[2px] w-6 bg-primaryBlue/50" />
           </div>
-          <h2 className="text-[9vw] sm:text-[7vw] md:text-[5.5vw] lg:text-[5vw] font-kanit font-black uppercase tracking-tighter text-gradient leading-none">
-            SKILLS & ABILITIES
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white font-sans uppercase">
+            Technical Skills
           </h2>
-          <p className="text-slate-600 dark:text-slate-400 font-light text-base max-w-xl">
-            My engineering expertise and behavioral strengths built through academic courses and practical engineering.
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md">
+            Professional stack, tools, and computer science concepts verified from my resume.
           </p>
-
-          {/* Premium Sliding Toggle Selector */}
-          <div className="relative flex p-1 rounded-full bg-slate-200/50 dark:bg-white/5 border border-themeBorderHeavy w-full max-w-[320px] mx-auto mt-4 overflow-hidden">
-            {/* Sliding Pill */}
-            <motion.div
-              layoutId="activeTabPill"
-              className="absolute top-1 bottom-1 rounded-full bg-primaryBlue"
-              style={{
-                left: activeTab === 'technical' ? '4px' : 'calc(50% + 2px)',
-                width: 'calc(50% - 6px)',
-              }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            />
-
-            <button
-              onClick={() => setActiveTab('technical')}
-              className={`relative z-10 w-1/2 py-2 text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${
-                activeTab === 'technical' ? 'text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
-              }`}
-            >
-              Technical
-            </button>
-            <button
-              onClick={() => setActiveTab('behavioral')}
-              className={`relative z-10 w-1/2 py-2 text-xs font-bold uppercase tracking-wider transition-colors duration-300 ${
-                activeTab === 'behavioral' ? 'text-white' : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:text-slate-200'
-              }`}
-            >
-              Behavioral
-            </button>
-          </div>
         </div>
 
-        {/* Grid Layout with AnimatePresence */}
-        <div className="relative min-h-[300px]">
-          <AnimatePresence mode="wait">
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {skillCategories.map((category, index) => (
             <motion.div
-              key={activeTab}
+              key={category.id}
               initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8"
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.5, delay: index * 0.08 }}
+              whileHover={{ 
+                y: -4,
+                borderColor: 'rgba(59, 130, 246, 0.25)',
+                boxShadow: '0 10px 20px -10px rgba(59, 130, 246, 0.12)'
+              }}
+              className="p-5 rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 transition-all duration-300"
             >
-              {currentSkills.map((skill) => (
-                <motion.div
-                  key={skill.title}
-                  whileHover={{ 
-                    y: -8,
-                    boxShadow: '0 20px 40px -15px rgba(37, 99, 235, 0.15)'
-                  }}
-                  className="group bg-themePanel/40 border border-themeBorder rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8 hover:bg-themePanel/80 hover:border-primaryBlue/30 transition-all duration-300 cursor-pointer flex flex-col justify-between min-h-[200px] sm:min-h-[250px]"
-                >
-                  <div className="flex flex-col gap-6">
-                    {/* Header: Icon & Number Badge */}
-                    <div className="flex items-center justify-between">
-                      <div className="w-14 h-14 rounded-2xl bg-slate-200/50 dark:bg-white/5 flex items-center justify-center border border-themeBorderHeavy group-hover:scale-110 transition-transform duration-300">
-                        {skill.icon}
-                      </div>
-                      <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-widest">
-                        {skill.id}
-                      </span>
-                    </div>
+              {/* Category Header */}
+              <div className="flex items-center gap-2.5 mb-4 pb-2 border-b border-themeBorder">
+                <div className="p-1.5 rounded-lg bg-slate-200/50 dark:bg-white/5 border border-themeBorderHeavy">
+                  {category.icon}
+                </div>
+                <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white font-sans">
+                  {category.title}
+                </h3>
+              </div>
 
-                    {/* Info */}
-                    <div className="flex flex-col gap-2">
-                      <h3 className="text-lg font-bold tracking-tight text-slate-900 dark:text-white group-hover:text-secondaryBlue transition-colors duration-300">
-                        {skill.title}
-                      </h3>
-                      <p className="text-xs text-slate-600 dark:text-slate-400 font-light leading-relaxed">
-                        {skill.description}
-                      </p>
-                    </div>
+              {/* Skills list */}
+              <div className="flex flex-wrap gap-2">
+                {category.skills.map((skill) => (
+                  <div
+                    key={skill.name}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-200/30 dark:bg-white/5 border border-themeBorderHeavy hover:border-primaryBlue/30 hover:bg-slate-200/50 dark:hover:bg-zinc-800/60 transition-all duration-200"
+                  >
+                    <CheckCircle2 size={11} className="text-primaryBlue" />
+                    <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                      {skill.name}
+                    </span>
                   </div>
-
-                  {/* Bottom animated expander line */}
-                  <div className="mt-6 h-[2px] w-0 group-hover:w-full bg-accent-gradient rounded-full transition-all duration-500" />
-                </motion.div>
-              ))}
+                ))}
+              </div>
             </motion.div>
-          </AnimatePresence>
+          ))}
         </div>
       </div>
     </section>

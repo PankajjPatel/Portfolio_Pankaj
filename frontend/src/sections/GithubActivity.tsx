@@ -1,127 +1,236 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Github } from 'lucide-react';
+import { Github, Folder, Users, Star, Code } from 'lucide-react';
 
 interface GitHubStats {
-  avatar_url: string;
-  login: string;
-  name: string;
-  bio: string;
+  repos: number;
+  followers: number;
+  stars: number;
+  languages: { name: string; percentage: number; color: string }[];
 }
 
+const fallbackStats: GitHubStats = {
+  repos: 18,
+  followers: 12,
+  stars: 8,
+  languages: [
+    { name: 'Python', percentage: 55, color: 'bg-blue-500' },
+    { name: 'JavaScript', percentage: 25, color: 'bg-yellow-500' },
+    { name: 'HTML/CSS', percentage: 15, color: 'bg-orange-500' },
+    { name: 'SQL', percentage: 5, color: 'bg-purple-500' }
+  ]
+};
+
 export const GithubActivity: React.FC = () => {
-  const [userData, setUserData] = useState<GitHubStats | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<GitHubStats>(fallbackStats);
+
 
   useEffect(() => {
     const fetchGitHubData = async () => {
       try {
-        const response = await fetch('https://api.github.com/users/PankajjPatel');
-        if (response.ok) {
-          const data = await response.json();
-          setUserData({
-            avatar_url: data.avatar_url,
-            login: data.login,
-            name: data.name || 'Pankaj Patel',
-            bio: data.bio || 'Python Developer | Django Developer',
+        const userRes = await fetch('https://api.github.com/users/PankajjPatel');
+        if (!userRes.ok) {
+
+          return;
+        }
+        const userData = await userRes.ok ? await userRes.json() : null;
+
+        const reposRes = await fetch('https://api.github.com/users/PankajjPatel/repos?per_page=100');
+        let starCount = 0;
+        const langCounts: Record<string, number> = {};
+
+        if (reposRes.ok) {
+          interface GitHubRepo {
+            stargazers_count: number;
+            language: string | null;
+          }
+          const reposData = (await reposRes.json()) as GitHubRepo[];
+          reposData.forEach((repo) => {
+            starCount += repo.stargazers_count;
+            if (repo.language) {
+              langCounts[repo.language] = (langCounts[repo.language] || 0) + 1;
+            }
           });
         }
+
+        // Calculate language breakdown percentages
+        const totalLangs = Object.values(langCounts).reduce((a, b) => a + b, 0);
+        const languageColors: Record<string, string> = {
+          Python: 'bg-blue-500',
+          JavaScript: 'bg-yellow-500',
+          TypeScript: 'bg-blue-600',
+          HTML: 'bg-orange-500',
+          CSS: 'bg-purple-500',
+          Shell: 'bg-gray-600',
+          Vue: 'bg-emerald-500'
+        };
+
+        const languages = Object.entries(langCounts)
+          .map(([name, count]) => ({
+            name,
+            percentage: Math.round((count / (totalLangs || 1)) * 100),
+            color: languageColors[name] || 'bg-slate-500'
+          }))
+          .sort((a, b) => b.percentage - a.percentage)
+          .slice(0, 4);
+
+        setStats({
+          repos: userData?.public_repos || fallbackStats.repos,
+          followers: userData?.followers || fallbackStats.followers,
+          stars: starCount || fallbackStats.stars,
+          languages: languages.length > 0 ? languages : fallbackStats.languages
+        });
       } catch (err) {
-        console.error('Error fetching GitHub user:', err);
+        console.error('Error fetching GitHub user details:', err);
       } finally {
-        setLoading(false);
+
       }
     };
 
     fetchGitHubData();
   }, []);
 
-  const avatarUrl = userData?.avatar_url || 'https://github.com/PankajjPatel.png';
-
   return (
-    <section id="github" className="relative py-16 sm:py-20 md:py-28 px-4 sm:px-6 bg-themeBg border-b border-themeBorder overflow-hidden select-none">
-      {/* Texture Background Grid Lines */}
-      <div className="absolute inset-0 bg-grid-pattern opacity-[0.01] pointer-events-none" />
+    <section id="github" className="relative py-16 px-4 sm:px-6 flex flex-col items-center justify-center">
+      {/* Background Soft Glow */}
+      <div className="absolute top-[30%] left-10 w-[200px] h-[200px] bg-primaryBlue/5 rounded-full filter blur-[90px] pointer-events-none -z-10" />
 
-      {/* Floating profile avatar on the far left - overlapping slightly (matches screenshot style) */}
-      <div className="absolute left-4 top-1/2 -translate-y-1/2 hidden xl:block z-20">
-        <div className="w-16 h-16 rounded-full border-2 border-themeBorderHeavy overflow-hidden shadow-lg shadow-black/80 hover:scale-105 transition-transform duration-300">
-          <img
-            src={avatarUrl}
-            alt="Pankaj Patel"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </div>
-
-      <div className="max-w-4xl mx-auto flex flex-col gap-6 sm:gap-8 relative z-10">
-        
-        {/* GitHub Header Row (matches screenshot) */}
-        <div className="flex items-center justify-between w-full gap-3">
-          <div className="flex items-center gap-2 sm:gap-3 bg-slate-200/50 dark:bg-white/5 border border-themeBorderHeavy px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl">
-            <Github className="w-5 h-5 text-slate-900 dark:text-white" />
-            <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider font-kanit">GitHub Activity</span>
+      <div className="w-full max-w-2xl">
+        {/* Section Heading */}
+        <div className="flex flex-col items-center text-center gap-2 mb-12">
+          <div className="flex items-center gap-2">
+            <span className="h-[2px] w-6 bg-primaryBlue/50" />
+            <span className="text-[10px] font-bold uppercase tracking-wider text-primaryBlue">Contributions</span>
+            <span className="h-[2px] w-6 bg-primaryBlue/50" />
           </div>
-
-          <a
-            href="https://github.com/PankajjPatel"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 rounded-full border border-themeBorderHeavy hover:bg-slate-200/50 dark:bg-white/5 text-slate-900 dark:text-white text-xs font-bold transition-all active:scale-95"
-          >
-            <Github className="w-3.5 h-3.5" />
-            <span>Follow</span>
-          </a>
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white font-sans uppercase">
+            GitHub Activity
+          </h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md">
+            Real-time developer analytics fetched directly from my GitHub profile.
+          </p>
         </div>
 
-        {/* GitHub Activity Main Card */}
-        {loading ? (
-          <div className="p-8 rounded-3xl border border-themeBorder bg-themePanel/80 shadow-md flex items-center justify-center min-h-[220px]">
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-8 h-8 rounded-full border-2 border-primaryBlue border-t-transparent animate-spin" />
-              <span className="text-xs font-semibold text-slate-500 font-mono">Loading contribution calendar...</span>
+        {/* Outer Card Compartment */}
+        <div className="rounded-3xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 p-5 sm:p-8 flex flex-col gap-6 shadow-sm">
+          {/* Header row: GitHub Logo and Follow button */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="p-2 rounded-xl bg-slate-200/50 dark:bg-white/5 border border-themeBorderHeavy">
+                <Github className="w-5 h-5 text-slate-900 dark:text-white" />
+              </div>
+              <div>
+                <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white leading-none">
+                  PankajjPatel
+                </h3>
+                <span className="text-[9px] font-semibold text-slate-500 tracking-wider font-mono">
+                  github.com/PankajjPatel
+                </span>
+              </div>
             </div>
+
+            <a
+              href="https://github.com/PankajjPatel"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border border-themeBorder bg-themePanel hover:bg-slate-200/50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 font-semibold text-[10px] uppercase tracking-wider transition-all active:scale-95"
+            >
+              <span>Follow</span>
+            </a>
           </div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col gap-4 sm:gap-6 p-4 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl border border-themeBorder bg-themePanel/60 shadow-[0_20px_50px_rgba(0,0,0,0.6)] w-full"
-          >
-            {/* Header inside the card: Large commits count */}
-            <div className="flex flex-col sm:flex-row sm:items-baseline gap-2">
-              <span className="text-3xl sm:text-4xl md:text-5xl font-kanit font-black text-slate-900 dark:text-white leading-none">867</span>
-              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-600 dark:text-slate-400 font-mono">
-                Commits Shipped in the Last 365 Days
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-3 gap-3">
+            <div className="p-4 rounded-xl border border-themeBorder bg-slate-200/30 dark:bg-white/5 text-center flex flex-col items-center justify-center">
+              <Folder className="w-4 h-4 text-blue-500 mb-1" />
+              <span className="text-lg sm:text-2xl font-bold font-mono text-slate-900 dark:text-white leading-none">
+                {stats.repos}
+              </span>
+              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-1">
+                Repositories
               </span>
             </div>
 
-            {/* Contribution Grid Graph (from screenshot) */}
-            <div className="flex flex-col gap-3">
-              <div className="p-2 sm:p-4 rounded-lg sm:rounded-xl bg-slate-100 dark:bg-black/40 border border-themeBorder flex items-center justify-center select-none overflow-hidden py-5 sm:py-8 px-4 sm:px-6">
-                <img
-                  src="https://ghchart.rshah.org/2563EB/PankajjPatel"
-                  alt="Pankaj Patel's GitHub Contributions"
-                  className="w-full h-auto transform scale-x-[1.08] scale-y-[1.4] origin-center dark:invert dark:hue-rotate-180 dark:contrast-[1.15]"
-                  loading="lazy"
-                />
-              </div>
-
-              {/* Less / More Legend (matches screenshot) */}
-              <div className="flex items-center justify-end gap-1.5 text-[9px] font-bold uppercase tracking-wider text-slate-500 font-mono">
-                <span>Less</span>
-                <span className="w-2.5 h-2.5 rounded-sm bg-slate-900 border border-themeBorder" />
-                <span className="w-2.5 h-2.5 rounded-sm bg-blue-900/40 border border-themeBorder" />
-                <span className="w-2.5 h-2.5 rounded-sm bg-blue-700/60 border border-themeBorder" />
-                <span className="w-2.5 h-2.5 rounded-sm bg-blue-500/80 border border-themeBorder" />
-                <span className="w-2.5 h-2.5 rounded-sm bg-primaryBlue border border-themeBorder" />
-                <span>More</span>
-              </div>
+            <div className="p-4 rounded-xl border border-themeBorder bg-slate-200/30 dark:bg-white/5 text-center flex flex-col items-center justify-center">
+              <Users className="w-4 h-4 text-emerald-500 mb-1" />
+              <span className="text-lg sm:text-2xl font-bold font-mono text-slate-900 dark:text-white leading-none">
+                {stats.followers}
+              </span>
+              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-1">
+                Followers
+              </span>
             </div>
-          </motion.div>
-        )}
+
+            <div className="p-4 rounded-xl border border-themeBorder bg-slate-200/30 dark:bg-white/5 text-center flex flex-col items-center justify-center">
+              <Star className="w-4 h-4 text-amber-500 mb-1" />
+              <span className="text-lg sm:text-2xl font-bold font-mono text-slate-900 dark:text-white leading-none">
+                {stats.stars}
+              </span>
+              <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-1">
+                Stars
+              </span>
+            </div>
+          </div>
+
+          {/* Languages Breakdown */}
+          <div className="flex flex-col gap-3 p-4 rounded-xl border border-themeBorder bg-slate-200/20 dark:bg-white/5">
+            <div className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-wider text-slate-500">
+              <Code size={12} />
+              <span>Most Used Languages</span>
+            </div>
+
+            <div className="flex flex-col gap-3">
+              {stats.languages.map((lang) => (
+                <div key={lang.name} className="flex flex-col gap-1">
+                  <div className="flex items-center justify-between text-xs font-semibold">
+                    <span className="text-slate-800 dark:text-slate-300">{lang.name}</span>
+                    <span className="text-slate-500 font-mono">{lang.percentage}%</span>
+                  </div>
+                  <div className="w-full h-1.5 bg-slate-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${lang.percentage}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.8, ease: 'easeOut' }}
+                      className={`h-full rounded-full ${lang.color}`}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Contribution Graph Calendar */}
+          <div className="flex flex-col gap-3 mt-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[9px] font-bold uppercase tracking-wider text-slate-500 font-mono">
+                Contribution Calendar
+              </span>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-100 dark:bg-black/35 border border-themeBorder flex items-center justify-center select-none overflow-hidden">
+              <img
+                src="https://ghchart.rshah.org/2563EB/PankajjPatel"
+                alt="Pankaj Patel's GitHub Contributions"
+                className="w-full h-auto dark:invert dark:hue-rotate-180 dark:contrast-[1.15]"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://ghchart.rshah.org/3b82f6/PankajjPatel';
+                }}
+              />
+            </div>
+
+            {/* Calendar Legend */}
+            <div className="flex items-center justify-end gap-1 text-[8px] font-bold uppercase tracking-wider text-slate-500 font-mono">
+              <span>Less</span>
+              <span className="w-2 h-2 rounded-sm bg-slate-900 border border-themeBorder" />
+              <span className="w-2 h-2 rounded-sm bg-blue-900/30 border border-themeBorder" />
+              <span className="w-2 h-2 rounded-sm bg-blue-700/50 border border-themeBorder" />
+              <span className="w-2 h-2 rounded-sm bg-blue-500/70 border border-themeBorder" />
+              <span className="w-2 h-2 rounded-sm bg-primaryBlue border border-themeBorder" />
+              <span>More</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

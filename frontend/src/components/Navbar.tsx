@@ -8,53 +8,34 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
+  { label: 'Home', href: '#hero' },
   { label: 'About', href: '#about' },
   { label: 'Skills', href: '#skills' },
   { label: 'Projects', href: '#projects' },
   { label: 'Certifications', href: '#certifications' },
-  { label: 'Education', href: '#education' },
+  { label: 'Achievements', href: '#achievements' },
   { label: 'GitHub', href: '#github' },
   { label: 'Contact', href: '#contact' },
 ];
 
-const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
-export const Navbar: React.FC = () => {
+interface NavbarProps {
+  theme: string;
+  toggleTheme: () => void;
+}
+
+export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('');
+  const [activeSection, setActiveSection] = useState('#hero');
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
-  const [theme, setTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('theme') || 'dark';
-    }
-    return 'dark';
-  });
-
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    localStorage.setItem('theme', theme);
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-  const handleDownloadResume = () => {
-    console.log('Downloading resume...');
-  };
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
       // Determine active section on scroll
-      const scrollPosition = window.scrollY + 100;
+      const scrollPosition = window.scrollY + 120;
       for (const item of navItems) {
         const el = document.querySelector(item.href);
         if (el) {
@@ -88,21 +69,20 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[1440px] z-50 transition-all duration-200 sm:border-x border-themeBorder ${
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           scrolled
-            ? 'bg-themeBg/95 border-b border-themeBorder py-4 shadow-sm backdrop-blur-md'
+            ? 'bg-themeBg/85 border-b border-themeBorder py-4 shadow-xs backdrop-blur-md'
             : 'bg-transparent py-6'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
-          {/* Logo */}
+        <div className="max-w-4xl mx-auto px-6 flex justify-between items-center">
+          {/* Minimal Lowercase Dot Logo like the reference image */}
           <a
             href="#hero"
             onClick={(e) => handleScrollTo(e, '#hero')}
-            className="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white flex items-center gap-1.5 hover:opacity-90 transition-opacity"
+            className="text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center hover:opacity-85 transition-opacity font-sans"
           >
-            <span>Pankaj Patel</span>
-            <span className="w-2 h-2 rounded-full bg-primaryBlue"></span>
+            <span>pankaj.</span>
           </a>
 
           {/* Desktop Menu */}
@@ -112,143 +92,107 @@ export const Navbar: React.FC = () => {
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleScrollTo(e, item.href)}
-                className={`text-sm font-medium tracking-wide transition-colors duration-200 relative py-1 ${
+                className={`text-[11px] font-bold uppercase tracking-wider transition-colors duration-200 py-1 ${
                   activeSection === item.href
                     ? 'text-primaryBlue'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-primaryBlue dark:hover:text-primaryBlue'
+                    : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 {item.label}
-                {activeSection === item.href && (
-                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primaryBlue rounded-full" />
-                )}
               </a>
             ))}
-            
-            {/* Resume Button with subtle Upload trigger */}
-            <div className="flex items-center pl-2 border-l border-themeBorder">
-              <a
-                href={`${apiBaseUrl}/api/contact/resume/`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={handleDownloadResume}
-                className="px-3.5 py-1.5 text-xs font-semibold rounded-md border border-themeBorder bg-themePanel text-slate-700 dark:text-slate-200 hover:bg-themePanelHeavy hover:border-themeBorderHeavy transition-colors shadow-xs"
-              >
-                Resume
-              </a>
-              <button
-                onClick={() => setIsUploadModalOpen(true)}
-                className="p-2 ml-1 text-slate-600 dark:text-slate-400 hover:text-primaryBlue transition-colors cursor-pointer flex items-center justify-center min-w-[36px] min-h-[36px]"
-                title="Update Resume PDF"
-                aria-label="Update resume"
-              >
-                <Upload size={16} />
-              </button>
-            </div>
-
-            {/* Hire Me CTA */}
-            <a
-              href="#contact"
-              onClick={(e) => handleScrollTo(e, '#contact')}
-              className="px-4 py-2 text-xs font-semibold rounded-md bg-primaryBlue hover:bg-blue-700 text-white transition-colors duration-200 shadow-sm"
-            >
-              Hire Me
-            </a>
 
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-md border border-themeBorder bg-themePanel text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:border-primaryBlue/30 transition-all duration-200 cursor-pointer flex items-center justify-center"
+              className="p-1.5 rounded-md text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center"
               aria-label="Toggle Theme"
             >
               {theme === 'dark' ? (
-                <Sun size={16} className="text-yellow-500" />
+                <Sun size={15} className="text-yellow-500" />
               ) : (
-                <Moon size={16} className="text-blue-600" />
-              )}
-            </button>
-          </div>
-
-          {/* Mobile Toggle & Theme control side-by-side */}
-          <div className="flex items-center gap-4 md:hidden">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-md border border-themeBorder bg-themePanel text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all duration-200 flex items-center justify-center cursor-pointer"
-              aria-label="Toggle Theme"
-            >
-              {theme === 'dark' ? (
-                <Sun size={16} className="text-yellow-500" />
-              ) : (
-                <Moon size={16} className="text-blue-600" />
+                <Moon size={15} className="text-blue-600" />
               )}
             </button>
             
+            {/* Resume Access Pin protected Modal trigger */}
+            <button
+              onClick={() => setIsUploadModalOpen(true)}
+              className="p-1.5 rounded-md text-slate-500 hover:text-primaryBlue dark:text-slate-400 dark:hover:text-primaryBlue transition-colors cursor-pointer flex items-center justify-center"
+              title="Update Resume PDF"
+              aria-label="Update resume"
+            >
+              <Upload size={14} />
+            </button>
+          </div>
+
+          {/* Mobile Actions */}
+          <div className="flex items-center gap-3 md:hidden">
+            <button
+              onClick={toggleTheme}
+              className="p-1.5 rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors flex items-center justify-center cursor-pointer"
+              aria-label="Toggle Theme"
+            >
+              {theme === 'dark' ? (
+                <Sun size={15} className="text-yellow-500" />
+              ) : (
+                <Moon size={15} className="text-blue-600" />
+              )}
+            </button>
+
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-slate-600 dark:text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors duration-200"
+              className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-colors duration-200"
               aria-label="Toggle Menu"
             >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
 
         {/* Mobile Drawer */}
         <div
-          className={`fixed inset-y-0 right-0 w-[75vw] max-w-[280px] z-40 bg-white dark:bg-[#1E293B] border-l border-themeBorder shadow-lg flex flex-col p-6 sm:p-8 pt-20 sm:pt-24 gap-4 sm:gap-5 transition-transform duration-300 ease-out md:hidden ${
+          className={`fixed inset-y-0 right-0 w-[70vw] max-w-[260px] z-50 bg-[#0c0c0c] border-l border-themeBorder shadow-2xl flex flex-col p-6 pt-24 gap-5 transition-transform duration-300 ease-out md:hidden ${
             isOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
+          <button
+            onClick={() => setIsOpen(false)}
+            className="absolute top-6 right-6 text-slate-400 hover:text-white"
+          >
+            <X size={20} />
+          </button>
+
           {navItems.map((item) => (
             <a
               key={item.label}
               href={item.href}
               onClick={(e) => handleScrollTo(e, item.href)}
-              className={`text-base font-semibold tracking-wide transition-colors duration-200 ${
-                activeSection === item.href ? 'text-primaryBlue' : 'text-slate-600 dark:text-slate-300 hover:text-primaryBlue'
+              className={`text-xs font-bold uppercase tracking-wider transition-colors duration-200 ${
+                activeSection === item.href ? 'text-primaryBlue' : 'text-slate-400 hover:text-white'
               }`}
             >
               {item.label}
             </a>
           ))}
           
-          {/* Mobile Resume Link */}
-          <div className="flex items-center justify-between border-t border-themeBorder pt-4 mt-2">
-            <a
-              href={`${apiBaseUrl}/api/contact/resume/`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleDownloadResume}
-              className="text-base font-semibold text-slate-600 dark:text-slate-300 hover:text-primaryBlue"
-            >
-              View Resume
-            </a>
-            <button
-              onClick={() => {
-                setIsOpen(false);
-                setIsUploadModalOpen(true);
-              }}
-              className="p-2 text-slate-600 dark:text-slate-400 hover:text-primaryBlue cursor-pointer flex items-center justify-center min-w-[36px] min-h-[36px]"
-              aria-label="Update resume"
-            >
-              <Upload size={16} />
-            </button>
-          </div>
-
-          <a
-            href="#contact"
-            onClick={(e) => handleScrollTo(e, '#contact')}
-            className="mt-2 w-full text-center py-2.5 rounded-md bg-primaryBlue text-white font-semibold hover:bg-blue-700 transition-colors shadow-sm text-sm"
+          <button
+            onClick={() => {
+              setIsOpen(false);
+              setIsUploadModalOpen(true);
+            }}
+            className="mt-4 flex items-center justify-center gap-2 py-2 rounded-md border border-themeBorder text-slate-300 hover:text-white text-xs font-semibold"
           >
-            Hire Me
-          </a>
+            <Upload size={13} />
+            <span>Upload Resume PIN</span>
+          </button>
         </div>
 
         {/* Mobile Overlay */}
         {isOpen && (
           <div
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-slate-100 dark:bg-black/40 backdrop-blur-xs z-30 md:hidden"
+            className="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 md:hidden"
           />
         )}
       </nav>
