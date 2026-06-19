@@ -102,7 +102,7 @@ function App() {
       <Navbar theme={theme} toggleTheme={toggleTheme} />
 
       {/* Centered Portfolio Layout Wrapper */}
-      <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 relative pb-28 pt-4">
+      <main className="w-full max-w-4xl mx-auto px-4 sm:px-6 relative pb-12 pt-4">
         {/* Sections in user requested order */}
         <Hero />
         <About />
