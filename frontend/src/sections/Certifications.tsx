@@ -27,7 +27,7 @@ export const Certifications: React.FC = () => {
   };
 
   return (
-    <section id="certifications" className="relative py-16 px-4 sm:px-6 flex flex-col items-center justify-center">
+    <section id="certifications" className="relative py-10 px-4 sm:px-6 flex flex-col items-center justify-center">
       {/* Toast Alert */}
       <AnimatePresence>
         {toast && (

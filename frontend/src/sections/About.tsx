@@ -4,7 +4,7 @@ import { Target, GraduationCap, Brain } from 'lucide-react';
 
 export const About: React.FC = () => {
   return (
-    <section id="about" className="relative py-16 px-4 sm:px-6 flex flex-col items-center justify-center">
+    <section id="about" className="relative py-10 px-4 sm:px-6 flex flex-col items-center justify-center">
       {/* Background Soft Glow */}
       <div className="absolute top-[30%] left-10 w-[200px] h-[200px] bg-primaryBlue/5 rounded-full filter blur-[100px] pointer-events-none -z-10" />
 
@@ -74,7 +74,15 @@ export const About: React.FC = () => {
               </div>
               
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light">
-                Chameli Devi Group of Institutions, Indore.
+                <a
+                  href="https://www.cdgi.edu.in"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-primaryBlue dark:hover:text-primaryBlue underline decoration-dotted transition-colors cursor-pointer"
+                >
+                  Chameli Devi Group of Institutions
+                </a>
+                , Indore.
               </p>
 
               <div className="flex gap-2 pt-2 border-t border-themeBorder">

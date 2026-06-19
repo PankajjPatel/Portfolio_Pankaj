@@ -125,7 +125,7 @@ export const Projects: React.FC = () => {
   const secondaryProjects = allProjects.slice(1);
 
   return (
-    <section id="projects" className="relative py-16 px-4 sm:px-6 flex flex-col items-center justify-center">
+    <section id="projects" className="relative py-10 px-4 sm:px-6 flex flex-col items-center justify-center">
       {/* Toast Message */}
       <AnimatePresence>
         {toast && (

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, Milestone, Award, Star } from 'lucide-react';
+import { Briefcase, Milestone, Award, Star, ExternalLink } from 'lucide-react';
 
 interface AchievementItem {
   id: string;
@@ -11,6 +11,7 @@ interface AchievementItem {
   description: string;
   icon: React.ReactNode;
   tags?: string[];
+  url?: string;
 }
 
 const achievementsData: AchievementItem[] = [
@@ -22,7 +23,8 @@ const achievementsData: AchievementItem[] = [
     date: 'May 2026 — Present',
     description: 'Working on python-based algorithms, designing data preprocessing scripts, optimizing database queries, and exploring generative AI foundations.',
     icon: <Briefcase className="w-4 h-4 text-emerald-500" />,
-    tags: ['Python', 'SQL Optimization', 'Internship']
+    tags: ['Python', 'SQL Optimization', 'Internship'],
+    url: 'https://infotact.in'
   },
   {
     id: 'cloud-certifications',
@@ -52,13 +54,14 @@ const achievementsData: AchievementItem[] = [
     date: '2023',
     description: 'Began Bachelor of Technology (B.Tech) in Computer Science Engineering. Studying Object-Oriented Programming, Database Normalization, and Algorithms.',
     icon: <Milestone className="w-4 h-4 text-purple-500" />,
-    tags: ['Computer Science', 'CDGI', 'B.Tech']
+    tags: ['Computer Science', 'CDGI', 'B.Tech'],
+    url: 'https://www.cdgi.edu.in'
   }
 ];
 
 export const Achievements: React.FC = () => {
   return (
-    <section id="achievements" className="relative py-16 px-4 sm:px-6 flex flex-col items-center justify-center">
+    <section id="achievements" className="relative py-10 px-4 sm:px-6 flex flex-col items-center justify-center">
       {/* Background Soft Glow */}
       <div className="absolute top-[30%] right-10 w-[200px] h-[200px] bg-primaryBlue/5 rounded-full filter blur-[90px] pointer-events-none -z-10" />
 
@@ -108,7 +111,19 @@ export const Achievements: React.FC = () => {
                 </div>
                 
                 <p className="text-xs font-semibold text-primaryBlue mb-3 font-sans">
-                  {item.subtitle}
+                  {item.url ? (
+                    <a
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline transition-all cursor-pointer inline-flex items-center gap-1"
+                    >
+                      {item.subtitle}
+                      <ExternalLink size={10} className="inline opacity-75" />
+                    </a>
+                  ) : (
+                    item.subtitle
+                  )}
                 </p>
 
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light leading-relaxed mb-4">

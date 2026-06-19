@@ -26,12 +26,12 @@ export const Hero: React.FC = () => {
   };
 
   return (
-    <section id="home" className="min-h-[80vh] flex flex-col justify-center py-8 relative">
+    <section id="hero" className="min-h-[60vh] flex flex-col justify-center pt-20 pb-4 relative">
       {/* Background Soft Glow */}
       <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] rounded-full bg-primaryBlue/5 dark:bg-primaryBlue/8 blur-[120px] pointer-events-none -z-10" />
 
       {/* Main Developer Profile Card */}
-      <div className="w-full max-w-xl mx-auto">
+      <div className="w-full max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -40,14 +40,24 @@ export const Hero: React.FC = () => {
         >
           {/* Top Status & Education Badges Row */}
           <div className="flex flex-wrap gap-2 mb-6">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/15">
+            <a
+              href="https://infotact.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/15 hover:bg-emerald-500/20 dark:hover:bg-emerald-500/20 transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
+            >
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Python Intern @ Infotact Solutions
-            </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/15">
+            </a>
+            <a
+              href="https://www.cdgi.edu.in"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/15 hover:bg-blue-500/20 dark:hover:bg-blue-500/20 transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
+            >
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
               B.Tech CSE Student @ CDGI
-            </span>
+            </a>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left">

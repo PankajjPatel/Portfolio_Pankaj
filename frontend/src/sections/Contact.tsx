@@ -80,7 +80,7 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="relative pt-16 pb-2 px-4 sm:px-6 flex flex-col items-center justify-center">
+    <section id="contact" className="relative pt-10 pb-2 px-4 sm:px-6 flex flex-col items-center justify-center">
       {/* Toast Alert */}
       <div className="fixed top-24 left-4 right-4 sm:left-auto sm:right-6 z-50 flex flex-col gap-3 max-w-md w-auto sm:w-full">
         <AnimatePresence>

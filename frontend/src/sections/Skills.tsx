@@ -64,7 +64,7 @@ const skillCategories: SkillCategory[] = [
 
 export const Skills: React.FC = () => {
   return (
-    <section id="skills" className="relative py-16 px-4 sm:px-6 flex flex-col items-center justify-center">
+    <section id="skills" className="relative py-10 px-4 sm:px-6 flex flex-col items-center justify-center">
       {/* Background Soft Glow */}
       <div className="absolute top-[40%] right-10 w-[250px] h-[250px] bg-primaryBlue/5 rounded-full filter blur-[100px] pointer-events-none -z-10" />
 

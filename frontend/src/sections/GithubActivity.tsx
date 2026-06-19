@@ -91,7 +91,7 @@ export const GithubActivity: React.FC = () => {
   }, []);
 
   return (
-    <section id="github" className="relative py-16 px-4 sm:px-6 flex flex-col items-center justify-center">
+    <section id="github" className="relative py-10 px-4 sm:px-6 flex flex-col items-center justify-center">
       {/* Background Soft Glow */}
       <div className="absolute top-[30%] left-10 w-[200px] h-[200px] bg-primaryBlue/5 rounded-full filter blur-[90px] pointer-events-none -z-10" />
 
