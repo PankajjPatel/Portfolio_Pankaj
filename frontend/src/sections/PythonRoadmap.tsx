@@ -22,7 +22,7 @@ export const PythonRoadmap: React.FC = () => {
       title: 'Python Core & OOPs',
       icon: <Code2 className="w-5 h-5" />,
       status: 'completed',
-      description: 'Mastering standard library, built-in data structures, functional patterns, and Object-Oriented programming.',
+      description: 'Understanding Python basics, built-in collections, data structures, and Object-Oriented Programming (OOPs) concepts.',
       skills: ['Variables & Data Types', 'Built-in Collections (List, Dict, Set)', 'Functions & Lambda Expressions', 'OOPs: Classes, Inheritance, Polymorphism', 'Exception Handling & Custom Exceptions'],
       color: 'text-blue-500 bg-blue-500/10 border-blue-500/20',
       glowColor: 'group-hover:border-blue-500/35'
@@ -31,8 +31,8 @@ export const PythonRoadmap: React.FC = () => {
       phase: 'Phase 02',
       title: 'Advanced Python Concepts',
       icon: <Cpu className="w-5 h-5" />,
-      status: 'completed',
-      description: 'Writing clean, efficient, and pythonic code using advanced features and performance optimization tools.',
+      status: 'in-progress',
+      description: 'Learning advanced features like decorators, generators, asynchronous code, and performance optimization techniques.',
       skills: ['Decorators & Generators', 'Context Managers (with statements)', 'List & Dict Comprehensions', 'Multi-threading & Multiprocessing', 'Asynchronous Programming (Asyncio)'],
       color: 'text-purple-500 bg-purple-500/10 border-purple-500/20',
       glowColor: 'group-hover:border-purple-500/35'
@@ -42,7 +42,7 @@ export const PythonRoadmap: React.FC = () => {
       title: 'Database & SQL Integration',
       icon: <Database className="w-5 h-5" />,
       status: 'completed',
-      description: 'Relational database designing, schema normalizations, optimizing complex SQL queries, and ORM integrations.',
+      description: 'Working with database schema design, SQL CRUD operations, and Django ORM queries.',
       skills: ['MySQL & PostgreSQL Schema Design', 'CRUD Operations & Indexing', 'Joins, Subqueries & Transactions', 'Django ORM Database Queries', 'Database Integrity & Triggers'],
       color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20',
       glowColor: 'group-hover:border-emerald-500/35'
@@ -51,8 +51,8 @@ export const PythonRoadmap: React.FC = () => {
       phase: 'Phase 04',
       title: 'Web Frameworks & API Development',
       icon: <Globe className="w-5 h-5" />,
-      status: 'completed',
-      description: 'Building scalable web backends, managing MVC structures, routing, custom middlewares, and creating robust REST APIs.',
+      status: 'in-progress',
+      description: 'Developing web backends and REST APIs using Django, Django REST Framework, and FastAPI.',
       skills: ['Django MVC Architecture', 'Django REST Framework (DRF)', 'FastAPI Basics', 'Token-based Authentication (JWT)', 'RESTful API Best Practices'],
       color: 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20',
       glowColor: 'group-hover:border-indigo-500/35'
@@ -62,7 +62,7 @@ export const PythonRoadmap: React.FC = () => {
       title: 'Testing, DevOps & Deployment',
       icon: <Cloud className="w-5 h-5" />,
       status: 'in-progress',
-      description: 'Writing robust unit tests, packaging containerized apps, setting up workflows, and hosting live production backends.',
+      description: 'Learning testing workflows, basic containerization, and hosting backends on cloud platforms.',
       skills: ['Unit Testing (PyTest)', 'Git & GitHub Workflows', 'Docker Containerization', 'Deploying on Render / Railway', 'API Logging & Monitoring'],
       color: 'text-amber-500 bg-amber-500/10 border-amber-500/20',
       glowColor: 'group-hover:border-amber-500/35'
@@ -125,12 +125,12 @@ export const PythonRoadmap: React.FC = () => {
                         </span>
                         {step.status === 'completed' ? (
                           <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[7px] font-bold uppercase tracking-wide bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/15">
-                            Mastered
+                            Completed
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[7px] font-bold uppercase tracking-wide bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/15">
-                            <span className="w-1 h-1 rounded-full bg-blue-500 animate-ping" />
-                            Active Focus
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                            Learning
                           </span>
                         )}
                       </div>
