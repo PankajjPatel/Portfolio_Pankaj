@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Folder, Users, Star, Code } from 'lucide-react';
+import { Github, Folder, Users, GitCommit, Code } from 'lucide-react';
 
 interface GitHubStats {
   repos: number;
   followers: number;
-  stars: number;
+  contributions: number;
   languages: { name: string; percentage: number; color: string }[];
 }
 
 const fallbackStats: GitHubStats = {
-  repos: 18,
-  followers: 12,
-  stars: 8,
+  repos: 4,
+  followers: 0,
+  contributions: 70,
   languages: [
-    { name: 'Python', percentage: 55, color: 'bg-blue-500' },
-    { name: 'JavaScript', percentage: 25, color: 'bg-yellow-500' },
-    { name: 'HTML/CSS', percentage: 15, color: 'bg-orange-500' },
-    { name: 'SQL', percentage: 5, color: 'bg-purple-500' }
+    { name: 'HTML/CSS', percentage: 40, color: 'bg-orange-500' },
+    { name: 'JavaScript', percentage: 35, color: 'bg-yellow-500' },
+    { name: 'TypeScript', percentage: 20, color: 'bg-blue-600' },
+    { name: 'Python', percentage: 5, color: 'bg-blue-500' }
   ]
 };
 
@@ -75,9 +75,9 @@ export const GithubActivity: React.FC = () => {
           .slice(0, 4);
 
         setStats({
-          repos: userData?.public_repos || fallbackStats.repos,
-          followers: userData?.followers || fallbackStats.followers,
-          stars: starCount || fallbackStats.stars,
+          repos: userData?.public_repos ?? fallbackStats.repos,
+          followers: userData?.followers ?? fallbackStats.followers,
+          contributions: 70,
           languages: languages.length > 0 ? languages : fallbackStats.languages
         });
       } catch (err) {
@@ -162,12 +162,12 @@ export const GithubActivity: React.FC = () => {
             </div>
 
             <div className="p-4 rounded-xl border border-themeBorder bg-slate-200/30 dark:bg-white/5 text-center flex flex-col items-center justify-center">
-              <Star className="w-4 h-4 text-amber-500 mb-1" />
+              <GitCommit className="w-4 h-4 text-amber-500 mb-1" />
               <span className="text-lg sm:text-2xl font-bold font-mono text-slate-900 dark:text-white leading-none">
-                {stats.stars}
+                {stats.contributions}
               </span>
               <span className="text-[9px] font-bold text-slate-500 uppercase tracking-widest mt-1">
-                Stars
+                Contributions
               </span>
             </div>
           </div>
