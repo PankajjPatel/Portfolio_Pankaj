@@ -41,7 +41,7 @@ export const PythonRoadmap: React.FC = () => {
       phase: 'Phase 03',
       title: 'Database & SQL Integration',
       icon: <Database className="w-5 h-5" />,
-      status: 'completed',
+      status: 'in-progress',
       description: 'Working with database schema design, SQL CRUD operations, and Django ORM queries.',
       skills: ['MySQL & PostgreSQL Schema Design', 'CRUD Operations & Indexing', 'Joins, Subqueries & Transactions', 'Django ORM Database Queries', 'Database Integrity & Triggers'],
       color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20',
