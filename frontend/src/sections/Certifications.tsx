@@ -59,49 +59,56 @@ export const Certifications: React.FC = () => {
           </p>
         </div>
 
-        {/* Certificates Card Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Certificates Timeline Layout (matching Achievements style) */}
+        <div className="relative border-l border-slate-200 dark:border-zinc-800 ml-4 sm:ml-6 flex flex-col gap-8">
           {certificates.map((cert, index) => (
             <motion.div
               key={cert.title}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-60px' }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
-              whileHover={{ 
-                scale: 1.01,
-                borderColor: 'rgba(59, 130, 246, 0.25)',
-                boxShadow: '0 10px 20px -10px rgba(59, 130, 246, 0.12)'
-              }}
-              onClick={() => handleCertClick(cert)}
-              className="p-5 rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 cursor-pointer hover:bg-themePanel/70 dark:hover:bg-themePanel/40 transition-all duration-300 flex flex-col justify-between gap-4 group"
+              className="relative pl-8 sm:pl-10 group"
             >
-              <div className="flex flex-col gap-2.5">
-                {/* Header info */}
-                <div className="flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-blue-500/10 text-primaryBlue border border-blue-500/10">
-                    <Award size={10} /> {cert.issuer}
-                  </span>
-                  <span className="inline-flex items-center gap-1 text-[9px] font-bold text-slate-500 font-mono">
-                    <Calendar size={10} /> {cert.year}
-                  </span>
+              {/* Timeline Connector Dot */}
+              <span className="absolute -left-[17px] top-1.5 w-8 h-8 rounded-full bg-themeBg border border-slate-200 dark:border-zinc-800 flex items-center justify-center group-hover:border-primaryBlue/50 transition-colors">
+                <span className="w-6 h-6 rounded-full bg-slate-100 dark:bg-zinc-900/60 border border-slate-200 dark:border-zinc-800 flex items-center justify-center group-hover:bg-themePanel group-hover:text-primaryBlue transition-all">
+                  <Award size={12} className="text-primaryBlue" />
+                </span>
+              </span>
+
+              {/* Card Compartment */}
+              <div
+                onClick={() => handleCertClick(cert)}
+                className="p-5 rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 cursor-pointer hover:bg-themePanel/70 dark:hover:bg-themePanel/40 transition-all duration-300 flex flex-col justify-between gap-4 group shadow-sm"
+              >
+                <div className="flex flex-col gap-2.5">
+                  {/* Header info */}
+                  <div className="flex items-center justify-between">
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-blue-500/10 text-primaryBlue border border-blue-500/10">
+                      <Award size={10} /> {cert.issuer}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[9px] font-bold text-slate-500 font-mono">
+                      <Calendar size={10} /> {cert.year}
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors font-sans leading-snug">
+                    {cert.title}
+                  </h3>
                 </div>
 
-                {/* Title */}
-                <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white group-hover:text-primaryBlue transition-colors font-sans leading-snug">
-                  {cert.title}
-                </h3>
-              </div>
-
-              {/* Bottom footer with ID and action */}
-              <div className="flex items-center justify-between pt-2 border-t border-themeBorder">
-                <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest">
-                  {cert.credentialId || 'ID: VERIFIED'}
-                </span>
-                <span className="text-[10px] font-bold text-primaryBlue flex items-center gap-1 transition-opacity">
-                  <span>View PDF</span>
-                  <ExternalLink size={10} />
-                </span>
+                {/* Bottom footer with ID and action */}
+                <div className="flex items-center justify-between pt-2 border-t border-themeBorder">
+                  <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest">
+                    {cert.credentialId || 'ID: VERIFIED'}
+                  </span>
+                  <span className="text-[10px] font-bold text-primaryBlue flex items-center gap-1 transition-opacity">
+                    <span>View PDF</span>
+                    <ExternalLink size={10} />
+                  </span>
+                </div>
               </div>
             </motion.div>
           ))}
