@@ -3,7 +3,8 @@ import os
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
-from django.http import FileResponse, Http404
+from django.http import FileResponse, Http404, HttpResponse
+import urllib.request
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -182,4 +183,84 @@ class ReviewListCreateView(generics.ListCreateAPIView):
     serializer_class = ReviewSerializer
     permission_classes = [AllowAny]
     throttle_classes = []
+
+
+class GithubSvgView(APIView):
+    permission_classes = [AllowAny]
+    throttle_classes = []
+
+    def get(self, request):
+        url = 'https://ghchart.rshah.org/40c463/PankajjPatel'
+        try:
+            req = urllib.request.Request(
+                url, 
+                headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+            )
+            with urllib.request.urlopen(req) as response:
+                svg_content = response.read()
+            return HttpResponse(svg_content, content_type='image/svg+xml')
+        except Exception as e:
+            logger.error(f"Failed to fetch GitHub contribution SVG: {str(e)}")
+            return HttpResponse('<svg></svg>', content_type='image/svg+xml')
+
+
+class GithubContributionsView(APIView):
+    permission_classes = [AllowAny]
+    throttle_classes = []
+
+    def get(self, request):
+        import re
+        username = request.query_params.get('username', 'PankajjPatel')
+        year = request.query_params.get('year', '')
+        
+        if year:
+            url = f'https://github.com/users/{username}/contributions?from={year}-01-01&to={year}-12-31'
+        else:
+            url = f'https://github.com/users/{username}/contributions'
+            
+        try:
+            req = urllib.request.Request(
+                url, 
+                headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+            )
+            with urllib.request.urlopen(req) as response:
+                html_content = response.read().decode('utf-8')
+            
+            # Extract total contributions from header text
+            total_match = re.search(r'([\d,]+)\s+contributions?', html_content, re.IGNORECASE)
+            total = int(total_match.group(1).replace(',', '')) if total_match else 0
+            
+            # Extract contribution calendar grid cells (date and level)
+            pattern = re.compile(
+                r'<td[^>]*data-date="(?P<date>\d{4}-\d{2}-\d{2})"[^>]*data-level="(?P<level>\d+)"',
+                re.DOTALL
+            )
+            
+            contributions = []
+            for m in pattern.finditer(html_content):
+                date = m.group('date')
+                level = int(m.group('level'))
+                contributions.append({
+                    'date': date,
+                    'level': level
+                })
+                
+            if not contributions:
+                logger.warning(f"No contribution cells parsed from GitHub HTML for user {username}")
+                
+            contributions.sort(key=lambda x: x['date'])
+                
+            return Response({
+                'total': total,
+                'contributions': contributions
+            }, status=status.HTTP_200_OK)
+            
+        except Exception as e:
+            logger.error(f"Failed to fetch or parse GitHub contributions: {str(e)}")
+            return Response({
+                'error': f"Failed to fetch contributions: {str(e)}",
+                'total': 0,
+                'contributions': []
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
