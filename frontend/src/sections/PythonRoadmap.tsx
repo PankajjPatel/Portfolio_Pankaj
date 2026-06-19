@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code2, Cpu, Database, Globe, Cloud, CheckCircle2, ChevronDown, ChevronUp, Star } from 'lucide-react';
+import { Code2, Cpu, Database, Globe, Cloud, ChevronDown, ChevronUp, Star } from 'lucide-react';
 
 interface RoadmapStep {
   phase: string;
@@ -94,7 +94,7 @@ export const PythonRoadmap: React.FC = () => {
           </p>
         </div>
 
-        {/* Interactive Roadmap Accordion List */}
+        {/* Outer Accordion List (Without timeline border on the outside) */}
         <div className="flex flex-col gap-4">
           {roadmapData.map((step, index) => {
             const isExpanded = expandedStep === index;
@@ -107,7 +107,7 @@ export const PythonRoadmap: React.FC = () => {
                 transition={{ duration: 0.4, delay: index * 0.08 }}
                 className={`group rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 transition-all duration-300 overflow-hidden ${step.glowColor}`}
               >
-                {/* Header block click area */}
+                {/* Header click area */}
                 <div
                   onClick={() => toggleStep(index)}
                   className="p-5 flex items-center justify-between cursor-pointer select-none"
@@ -134,7 +134,7 @@ export const PythonRoadmap: React.FC = () => {
                           </span>
                         )}
                       </div>
-                      <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white mt-0.5">
+                      <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white mt-0.5 font-sans">
                         {step.title}
                       </h3>
                     </div>
@@ -160,18 +160,22 @@ export const PythonRoadmap: React.FC = () => {
                           {step.description}
                         </p>
 
-                        <div className="flex flex-col gap-2 pt-2 border-t border-themeBorder">
+                        {/* Inner timeline flow for details */}
+                        <div className="flex flex-col gap-3 pt-4 border-t border-themeBorder">
                           <span className="text-[8px] font-bold uppercase tracking-widest text-slate-500 font-mono flex items-center gap-1">
-                            <Star size={10} className="text-primaryBlue" /> Core Competencies:
+                            <Star size={10} className="text-primaryBlue" /> Learning Flow:
                           </span>
                           
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-1">
+                          <div className="relative border-l border-slate-200 dark:border-zinc-800 ml-4 pl-8 flex flex-col gap-5 mt-2">
                             {step.skills.map((skill) => (
                               <div
                                 key={skill}
-                                className="flex items-center gap-2 text-xs font-medium text-slate-700 dark:text-slate-300"
+                                className="relative flex items-center text-xs font-semibold text-slate-800 dark:text-slate-200"
                               >
-                                <CheckCircle2 size={13} className={step.status === 'completed' ? "text-emerald-500 shrink-0" : "text-blue-400 shrink-0"} />
+                                {/* Inner timeline dot */}
+                                <span className={`absolute -left-[40px] w-4 h-4 rounded-full bg-themeBg border-2 ${step.status === 'completed' ? 'border-emerald-500' : 'border-blue-500'} flex items-center justify-center`}>
+                                  <span className={`w-1.5 h-1.5 rounded-full ${step.status === 'completed' ? 'bg-emerald-500' : 'bg-blue-500'}`} />
+                                </span>
                                 <span>{skill}</span>
                               </div>
                             ))}

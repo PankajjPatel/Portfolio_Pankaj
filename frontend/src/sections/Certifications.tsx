@@ -98,7 +98,7 @@ export const Certifications: React.FC = () => {
                 <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest">
                   {cert.credentialId || 'ID: VERIFIED'}
                 </span>
-                <span className="text-[10px] font-bold text-primaryBlue flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                <span className="text-[10px] font-bold text-primaryBlue flex items-center gap-1 transition-opacity">
                   <span>View PDF</span>
                   <ExternalLink size={10} />
                 </span>
