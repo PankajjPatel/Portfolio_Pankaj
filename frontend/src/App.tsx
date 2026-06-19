@@ -13,6 +13,7 @@ import { Hero } from './sections/Hero';
 import { About } from './sections/About';
 import { Skills } from './sections/Skills';
 import { Projects } from './sections/Projects';
+import { PythonRoadmap } from './sections/PythonRoadmap';
 import { Certifications } from './sections/Certifications';
 import { Achievements } from './sections/Achievements';
 import { GithubActivity } from './sections/GithubActivity';
@@ -107,6 +108,7 @@ function App() {
         <About />
         <Skills />
         <Projects />
+        <PythonRoadmap />
         <Certifications />
         <Achievements />
         <GithubActivity />
