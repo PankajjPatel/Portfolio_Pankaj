@@ -1,4 +1,10 @@
 # Pankaj Patel - Personal Portfolio Website 🚀
+
+[![GitHub stars](https://img.shields.io/github/stars/PankajjPatel/Portfolio_Pankaj?style=for-the-badge&color=blue)](https://github.com/PankajjPatel/Portfolio_Pankaj/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/PankajjPatel/Portfolio_Pankaj?style=for-the-badge&color=teal)](https://github.com/PankajjPatel/Portfolio_Pankaj/network/members)
+[![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev)
+[![Django](https://img.shields.io/badge/Django-6.0%2B-green?style=for-the-badge&logo=django)](https://djangoproject.com)
+
 > **Tagline:** Showcasing digital craftsmanship, full-stack solutions, and modern web applications.
 
 This repository contains the complete codebase for my **Personal Portfolio Website**, designed to highlight my skills, projects, certifications, and experience. It is a full-stack application featuring a React-based interactive frontend and a Django-based REST API backend that manages contact form submissions.
@@ -21,6 +27,7 @@ This repository contains the complete codebase for my **Personal Portfolio Websi
 - **Environment Handling:** django-environ
 - **Database:** SQLite (default for local development) / support for MySQL
 - **WSGI Server:** Gunicorn (production ready)
+
 
 ---
 
@@ -114,8 +121,10 @@ The portfolio features a contact form that enables users to write messages direc
     "name": "Visitor Name",
     "email": "visitor@example.com",
     "subject": "Inquiry",
-    "message": "Message content"![alt text](image.png)
+    "message": "Message content"
   }
-
   ```
+
+  ![alt text](image.png)
+
 - Saved data can be managed through the Django Admin panel at `http://127.0.0.1:8000/admin`.

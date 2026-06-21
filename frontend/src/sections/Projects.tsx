@@ -75,6 +75,8 @@ export const Projects: React.FC = () => {
   const [githubRepos, setGithubRepos] = useState<Record<string, RepoInfo>>({});
 
   useEffect(() => {
+    // Dynamically retrieve repository metadata from GitHub API
+    // This allows us to keep the repository links and demo URLs in sync with the live GitHub state
     const fetchGithubRepos = async () => {
       try {
         const response = await fetch('https://api.github.com/users/PankajjPatel/repos');
@@ -86,6 +88,8 @@ export const Projects: React.FC = () => {
         }
         const repos = (await response.json()) as GitHubRepo[];
         
+        // Map the API results to a key-value pair where the key is the lowercase repo name.
+        // This makes it easy to look up remote repository details for any listed project.
         const repoMap: Record<string, RepoInfo> = {};
         repos.forEach((repo) => {
           repoMap[repo.name.toLowerCase()] = {
