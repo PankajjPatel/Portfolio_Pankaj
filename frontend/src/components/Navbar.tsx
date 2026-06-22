@@ -76,24 +76,24 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
             : 'bg-transparent py-6'
         }`}
       >
-        <div className="max-w-4xl mx-auto px-6 flex justify-between items-center">
+        <div className="max-w-5xl mx-auto px-6 flex justify-between items-center">
           {/* Minimal Lowercase Dot Logo like the reference image */}
           <a
             href="#hero"
             onClick={(e) => handleScrollTo(e, '#hero')}
-            className="text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center hover:opacity-85 transition-opacity font-sans"
+            className="text-xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center hover:opacity-85 transition-opacity font-sans mr-4"
           >
             <span>pankaj.</span>
           </a>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-5">
+          <div className="hidden lg:flex items-center gap-3.5 xl:gap-5">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
                 onClick={(e) => handleScrollTo(e, item.href)}
-                className={`text-[11px] font-bold uppercase tracking-wider transition-colors duration-200 py-1 ${
+                className={`text-[10px] xl:text-[11px] font-bold uppercase tracking-wider transition-colors duration-200 py-1 ${
                   activeSection === item.href
                     ? 'text-primaryBlue'
                     : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -106,7 +106,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="p-1.5 rounded-md text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center"
+              className="p-1.5 rounded-md text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer flex items-center justify-center ml-2"
               aria-label="Toggle Theme"
             >
               {theme === 'dark' ? (
@@ -128,7 +128,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
           </div>
 
           {/* Mobile Actions */}
-          <div className="flex items-center gap-3 md:hidden">
+          <div className="flex items-center gap-3 lg:hidden">
             <button
               onClick={toggleTheme}
               className="p-1.5 rounded-md text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors flex items-center justify-center cursor-pointer"
@@ -153,7 +153,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
 
         {/* Mobile Drawer */}
         <div
-          className={`fixed inset-y-0 right-0 w-[70vw] max-w-[260px] z-50 bg-[#0c0c0c] border-l border-themeBorder shadow-2xl flex flex-col p-6 pt-24 gap-5 transition-transform duration-300 ease-out md:hidden ${
+          className={`fixed inset-y-0 right-0 w-[70vw] max-w-[260px] z-50 bg-[#0c0c0c] border-l border-themeBorder shadow-2xl flex flex-col p-6 pt-24 gap-5 transition-transform duration-300 ease-out lg:hidden ${
             isOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
@@ -193,10 +193,11 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
         {isOpen && (
           <div
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 md:hidden"
+            className="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 lg:hidden"
           />
         )}
       </nav>
+
 
       {/* Shared Admin Upload Modal */}
       <ResumeUploadModal 
