@@ -63,6 +63,21 @@ const allProjects: Project[] = [
       'Utilized Git and GitHub for version control and deployment'
     ],
   },
+  {
+    id: '04',
+    title: 'SiteeForgeStudio',
+    description: 'Developed a production-grade web application tailored for a web development/design agency. Features a unified setup architecture where a modern React-based SPA frontend is built and served directly as static assets from a Django-based REST API backend.',
+    tech: ['Python', 'Django', 'React.js', 'MySQL', 'HTML5', 'CSS3'],
+    githubUrl: 'https://github.com/PankajjPatel/Siteeforgestudio',
+    demoUrl: 'https://github.com/PankajjPatel/Siteeforgestudio',
+    repoName: 'Siteeforgestudio',
+    image: '/project4.png',
+    features: [
+      'Built a unified setup architecture serving React static assets from Django REST backend',
+      'Integrated SMTP mail system to dispatch real-time client leads to agency admins',
+      'Designed database schemas for services, founder profiles, testimonials, and contact messages in MySQL'
+    ],
+  },
 ];
 
 interface RepoInfo {
