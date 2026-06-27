@@ -8,7 +8,7 @@
 > **Tagline:** Showcasing digital craftsmanship, full-stack solutions, and modern web applications.
 
 This repository contains the complete codebase for my **Personal Portfolio Website**, designed to highlight my skills, projects, certifications, and experience. It is a full-stack application featuring a React-based interactive frontend and a Django-based REST API backend that manages contact form submissions.
-hi
+
 --- 
 
 ## 🛠️ Tech Stack & Architecture
