@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, Milestone, Award, Star, ExternalLink } from 'lucide-react';
+import { Milestone, Award, Star, ExternalLink } from 'lucide-react';
 
 interface AchievementItem {
   id: string;
@@ -15,17 +15,6 @@ interface AchievementItem {
 }
 
 const achievementsData: AchievementItem[] = [
-  {
-    id: 'internship-1',
-    type: 'internship',
-    title: 'Python Development Intern',
-    subtitle: 'Infotact Solutions (3-Month Ongoing Internship)',
-    date: 'May 2026 — Present',
-    description: 'Working on python-based algorithms, designing data preprocessing scripts, optimizing database queries, and exploring generative AI foundations.',
-    icon: <Briefcase className="w-4 h-4 text-emerald-500" />,
-    tags: ['Python', 'SQL Optimization', 'Internship'],
-    url: 'https://infotact.in'
-  },
   {
     id: 'cloud-certifications',
     type: 'certification',

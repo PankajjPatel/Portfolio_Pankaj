@@ -11,6 +11,7 @@ import { Footer } from './components/Footer';
 // Sections
 import { Hero } from './sections/Hero';
 import { About } from './sections/About';
+import { Experience } from './sections/Experience';
 import { Skills } from './sections/Skills';
 import { Projects } from './sections/Projects';
 import { PythonRoadmap } from './sections/PythonRoadmap';
@@ -106,6 +107,7 @@ function App() {
         {/* Sections in user requested order */}
         <Hero />
         <About />
+        <Experience />
         <Skills />
         <Projects />
         <PythonRoadmap />
