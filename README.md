@@ -33,7 +33,7 @@ This repository contains the complete codebase for my **Personal Portfolio Websi
 
 ## 📂 Project Architecture Layout
 
-```
+```hi
 Portfolio/
 ├── backend/                  # Django REST API Backend
 │   ├── contact/              # App managing visitor messages & models
