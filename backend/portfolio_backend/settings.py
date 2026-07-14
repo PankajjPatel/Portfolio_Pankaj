@@ -24,8 +24,8 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-m2kn3z1er4s&wiur0rn57ok4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=True)
 
-# Add hosts for local and Railway deployment
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '.railway.app'])
+# Add hosts for local, Railway, and Vercel deployment
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '.railway.app', '.vercel.app'])
 
 # Application definition
 INSTALLED_APPS = [
@@ -88,6 +88,13 @@ DATABASES = {
 if env('MYSQL_URL', default=''):
     DATABASES['default'] = dj_database_url.parse(env('MYSQL_URL'))
 
+# If running on Vercel, use an in-memory SQLite database since Vercel is serverless/read-only
+if os.environ.get('VERCEL') == '1':
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': ':memory:',
+    }
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -127,13 +134,15 @@ CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[
     "http://localhost:5173",
     "http://localhost:3000",
     "https://pankaj-portfolio.up.railway.app",
+    "https://pankaj-patel-portfolio.vercel.app",
 ])
 CORS_ALLOW_CREDENTIALS = True
 
 # CSRF Trusted Origins (needed for DRF admin/API calls from frontend in production)
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[
     "http://localhost:5173",
-    "https://*.railway.app"
+    "https://*.railway.app",
+    "https://*.vercel.app"
 ])
 
 # Django REST Framework Settings

@@ -20,4 +20,15 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'portfolio_backend.settings')
 
 application = get_wsgi_application()
+app = application
+
+# Run migrations automatically in-memory on Vercel boot
+if os.environ.get('VERCEL') == '1':
+    from django.core.management import call_command
+    try:
+        call_command('migrate', interactive=False)
+    except Exception as e:
+        import sys
+        print(f"Error running migrations on Vercel startup: {e}", file=sys.stderr)
+
 

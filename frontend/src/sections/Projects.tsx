@@ -54,7 +54,7 @@ const allProjects: Project[] = [
     description: 'Developed a responsive portfolio website to showcase projects and technical skills. Implemented dark/light mode and mobile-friendly layouts. Utilized Git and GitHub for version control and deployment.',
     tech: ['Python', 'Django', 'HTML5', 'Tailwind CSS', 'Git', 'GitHub'],
     githubUrl: 'https://github.com/PankajjPatel/Portfolio_Pankaj',
-    demoUrl: 'https://pankaj-portfolio.up.railway.app',
+    demoUrl: 'https://pankaj-patel-portfolio.vercel.app',
     repoName: 'Portfolio_Pankaj',
     image: '/project3.png',
     features: [
