@@ -63,12 +63,18 @@ export const Contact: React.FC = () => {
         if (err.response) {
           if (err.response.status === 429) {
             errMsg = 'Too many submissions. Please wait an hour before trying again.';
-          } else if (err.response.data) {
+          } else if (err.response.data && typeof err.response.data === 'object' && !Array.isArray(err.response.data)) {
             const data = err.response.data as Record<string, unknown>;
             const messages = Object.entries(data)
               .map(([field, msg]) => `${field}: ${Array.isArray(msg) ? msg.join(', ') : msg}`)
               .join(' | ');
             if (messages) errMsg = messages;
+          } else if (typeof err.response.data === 'string') {
+            if (err.response.data.includes('<!DOCTYPE') || err.response.data.includes('<html')) {
+              errMsg = 'Server error. Please try again later.';
+            } else {
+              errMsg = err.response.data;
+            }
           }
         }
       }
