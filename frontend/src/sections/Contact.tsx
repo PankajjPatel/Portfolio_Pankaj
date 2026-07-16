@@ -71,7 +71,7 @@ export const Contact: React.FC = () => {
             if (messages) errMsg = messages;
           } else if (typeof err.response.data === 'string') {
             if (err.response.data.includes('<!DOCTYPE') || err.response.data.includes('<html')) {
-              errMsg = 'Server error. Please try again later.';
+              errMsg = `Server Error (${err.response.status}) at ${apiBaseUrl}. Please verify if the backend is running.`;
             } else {
               errMsg = err.response.data;
             }
