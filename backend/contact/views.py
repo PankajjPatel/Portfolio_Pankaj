@@ -12,7 +12,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.throttling import AnonRateThrottle
 from rest_framework.parsers import MultiPartParser, FormParser
-from .models import ContactMessage, PortfolioStats, Review
+from .models import ContactMessage, PortfolioStats, Review, VisitorLog
 from .serializers import ContactMessageSerializer, ReviewSerializer
 
 
@@ -137,6 +137,15 @@ class ResumeView(APIView):
         return Response({"success": "Resume uploaded successfully"}, status=status.HTTP_200_OK)
 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
+
+
 class VisitorStatsView(APIView):
     permission_classes = [AllowAny]
     throttle_classes = []
@@ -167,6 +176,19 @@ class VisitorStatsView(APIView):
                     stats.unique_visitors += 1
             stats.save()
             
+            # Log visitor IP and user agent details
+            try:
+                ip_address = get_client_ip(request)
+                user_agent = request.META.get('HTTP_USER_AGENT', '')
+                referrer = request.META.get('HTTP_REFERER', '')
+                VisitorLog.objects.create(
+                    ip_address=ip_address,
+                    user_agent=user_agent,
+                    referrer=referrer
+                )
+            except Exception as log_err:
+                logger.error(f"Failed to create visitor log: {str(log_err)}")
+
             return Response({
                 "success": True,
                 "total_visits": stats.total_visits,
@@ -262,5 +284,29 @@ class GithubContributionsView(APIView):
                 'total': 0,
                 'contributions': []
             }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class VisitorLogListView(APIView):
+    permission_classes = [AllowAny]
+    throttle_classes = []
+
+    def get(self, request):
+        password = request.query_params.get('password')
+        expected_password = os.environ.get('RESUME_UPLOAD_PASSWORD', 'PankajResume2026')
+        
+        if password != expected_password:
+            return Response({"error": "Unauthorized: Incorrect password"}, status=status.HTTP_401_UNAUTHORIZED)
+            
+        logs = VisitorLog.objects.all()[:150]  # Get last 150 visitor logs
+        data = []
+        for log in logs:
+            data.append({
+                "id": log.id,
+                "ip_address": log.ip_address,
+                "user_agent": log.user_agent,
+                "referrer": log.referrer or "Direct / None",
+                "timestamp": log.timestamp.strftime('%Y-%m-%d %H:%M:%S UTC')
+            })
+        return Response(data, status=status.HTTP_200_OK)
 
 

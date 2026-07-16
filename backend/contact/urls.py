@@ -5,7 +5,8 @@ from .views import (
     VisitorStatsView, 
     ReviewListCreateView, 
     GithubSvgView,
-    GithubContributionsView
+    GithubContributionsView,
+    VisitorLogListView
 )
 
 urlpatterns = [
@@ -15,6 +16,7 @@ urlpatterns = [
     path('reviews/', ReviewListCreateView.as_view(), name='reviews-api'),
     path('github-svg/', GithubSvgView.as_view(), name='github-svg'),
     path('github-contributions/', GithubContributionsView.as_view(), name='github-contributions'),
+    path('visitor-logs/', VisitorLogListView.as_view(), name='visitor-logs-list'),
 ]
 
 

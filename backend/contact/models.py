@@ -42,3 +42,18 @@ class Review(models.Model):
         return f"{self.name} - {self.rating} Stars"
 
 
+class VisitorLog(models.Model):
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.TextField(null=True, blank=True)
+    referrer = models.TextField(null=True, blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-timestamp']
+        verbose_name = "Visitor Log"
+        verbose_name_plural = "Visitor Logs"
+
+    def __str__(self):
+        return f"{self.ip_address} - {self.timestamp.strftime('%Y-%m-%d %H:%M:%S')}"
+
+
