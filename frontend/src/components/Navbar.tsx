@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon, Upload } from 'lucide-react';
-import { ResumeUploadModal } from './ResumeUploadModal';
+import { ResumeUploadModal } from './Admin';
 
 interface NavItem {
   label: string;
@@ -117,12 +117,12 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
               )}
             </button>
             
-            {/* Resume Access Pin protected Modal trigger */}
+            {/* Admin Console Modal trigger */}
             <button
               onClick={() => setIsUploadModalOpen(true)}
               className="p-1.5 rounded-md text-slate-500 hover:text-primaryBlue dark:text-slate-400 dark:hover:text-primaryBlue transition-colors cursor-pointer flex items-center justify-center"
-              title="Update Resume PDF"
-              aria-label="Update resume"
+              title="Admin"
+              aria-label="Admin"
             >
               <Upload size={14} />
             </button>
@@ -186,7 +186,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
             className="mt-4 flex items-center justify-center gap-2 py-2 rounded-md border border-themeBorder text-slate-300 hover:text-white text-xs font-semibold"
           >
             <Upload size={13} />
-            <span>Upload Resume PIN</span>
+            <span>Admin Console</span>
           </button>
         </div>
 
