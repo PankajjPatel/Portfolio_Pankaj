@@ -32,15 +32,39 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
   const [activeSection, setActiveSection] = useState('#hero');
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
-  // Lock body scroll when mobile drawer is open
+  // Lock body scroll when mobile drawer is open (robust for iOS/Android)
   useEffect(() => {
     if (isOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = '0';
+      document.body.style.right = '0';
       document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
     } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
     }
     return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
       document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
     };
   }, [isOpen]);
 
@@ -198,7 +222,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
               setIsOpen(false);
               setIsUploadModalOpen(true);
             }}
-            className="mt-6 flex items-center justify-center gap-2 py-2.5 rounded-md border border-themeBorder text-slate-400 hover:text-white text-xs font-bold uppercase tracking-wider transition-colors duration-200"
+            className="mb-16 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer"
           >
             <Upload size={13} />
             <span>Admin Console</span>
