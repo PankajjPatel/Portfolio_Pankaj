@@ -77,11 +77,12 @@ export const ResumeUploadModal: React.FC<ResumeUploadModalProps> = ({ isOpen, on
       }
     } catch (err: unknown) {
       console.error(err);
-      // Credentials already verified above - authenticate anyway, just skip visitor logs
+      // Credentials already verified - let user in, but warn about logs
       setIsAuthenticated(true);
       setAuthenticatedPassword(password);
       setVisitorLogs([]);
       setActiveTab('resume');
+      setStatusMsg({ type: 'error', text: 'Logged in, but visitor logs could not be loaded. Use Refresh in Visitor Logs tab to retry.' });
     } finally {
       setIsUploading(false);
     }
