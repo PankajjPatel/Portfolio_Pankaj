@@ -190,7 +190,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
 
         {/* Mobile Drawer */}
         <div
-          className={`fixed inset-y-0 right-0 w-[70vw] max-w-[260px] z-50 bg-[#0c0c0c] border-l border-themeBorder shadow-2xl flex flex-col p-6 pt-24 gap-5 transition-transform duration-300 ease-out lg:hidden ${
+          className={`fixed inset-y-0 right-0 w-[70vw] max-w-[260px] z-[100] bg-[#0c0c0c] border-l border-themeBorder shadow-2xl flex flex-col p-6 pt-24 gap-5 transition-transform duration-300 ease-out lg:hidden ${
             isOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
@@ -233,7 +233,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
         {isOpen && (
           <div
             onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 lg:hidden"
+            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[90] lg:hidden"
           />
         )}
       </nav>

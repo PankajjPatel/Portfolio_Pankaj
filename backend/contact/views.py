@@ -291,6 +291,7 @@ class VisitorLogListView(APIView):
     throttle_classes = []
 
     def get(self, request):
+        password = request.query_params.get('password', '')
         expected_password = os.environ.get('RESUME_UPLOAD_PASSWORD', 'PankajDev@123')
         
         if password != expected_password and password != 'PankajDev@123':
