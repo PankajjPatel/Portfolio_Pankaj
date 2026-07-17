@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { 
   X, Lock, FileText, AlertCircle, CheckCircle2, 
-  RefreshCw, Globe, Laptop, Share2 
+  RefreshCw, Globe, Laptop, Share2, Eye, EyeOff 
 } from 'lucide-react';
 
 interface ResumeUploadModalProps {
@@ -27,6 +27,7 @@ export const ResumeUploadModal: React.FC<ResumeUploadModalProps> = ({ isOpen, on
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [statusMsg, setStatusMsg] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   
   // Visitor log state
   const [visitorLogs, setVisitorLogs] = useState<VisitorLog[]>([]);
@@ -251,15 +252,25 @@ export const ResumeUploadModal: React.FC<ResumeUploadModalProps> = ({ isOpen, on
               <label htmlFor="modal-password" className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
                 Password
               </label>
-              <input 
-                type="password" 
-                id="modal-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-3.5 py-2 rounded-md bg-slate-50 dark:bg-slate-900 border border-themeBorder text-xs text-gray-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-primaryBlue"
-                placeholder="Enter admin password"
-                disabled={isUploading}
-              />
+              <div className="relative">
+                <input 
+                  type={showPassword ? 'text' : 'password'} 
+                  id="modal-password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-3.5 py-2 pr-10 rounded-md bg-slate-50 dark:bg-slate-900 border border-themeBorder text-xs text-gray-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-primaryBlue"
+                  placeholder="Enter admin password"
+                  disabled={isUploading}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white transition-colors cursor-pointer"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                </button>
+              </div>
             </div>
 
             <button 

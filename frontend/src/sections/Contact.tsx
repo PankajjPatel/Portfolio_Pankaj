@@ -232,9 +232,8 @@ export const Contact: React.FC = () => {
               </motion.button>
 
               <a
-                href={`${apiBaseUrl}/api/contact/resume/`}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={`${apiBaseUrl}/api/contact/resume/?download=true`}
+                download
                 className="w-full sm:w-auto py-2.5 px-5 rounded-xl border border-themeBorder bg-themePanel hover:bg-slate-200/50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
               >
                 <FileText size={13} />

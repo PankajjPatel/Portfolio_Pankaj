@@ -32,6 +32,18 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
   const [activeSection, setActiveSection] = useState('#hero');
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
 
+  // Lock body scroll when mobile drawer is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
@@ -178,12 +190,15 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
             </a>
           ))}
           
+          {/* Spacer to separate Contact from Admin Console */}
+          <div className="flex-1" />
+          
           <button
             onClick={() => {
               setIsOpen(false);
               setIsUploadModalOpen(true);
             }}
-            className="mt-4 flex items-center justify-center gap-2 py-2 rounded-md border border-themeBorder text-slate-300 hover:text-white text-xs font-semibold"
+            className="mt-6 flex items-center justify-center gap-2 py-2.5 rounded-md border border-themeBorder text-slate-400 hover:text-white text-xs font-bold uppercase tracking-wider transition-colors duration-200"
           >
             <Upload size={13} />
             <span>Admin Console</span>
