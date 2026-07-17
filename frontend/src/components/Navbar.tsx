@@ -229,13 +229,15 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
           </button>
         </div>
 
-        {/* Mobile Overlay */}
-        {isOpen && (
-          <div
-            onClick={() => setIsOpen(false)}
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[90] lg:hidden"
-          />
-        )}
+        {/* Mobile Overlay - always rendered, opacity transitions */}
+        <div
+          onClick={() => setIsOpen(false)}
+          className={`fixed inset-0 z-[90] lg:hidden transition-all duration-300 ${
+            isOpen
+              ? 'bg-black/90 backdrop-blur-sm opacity-100 pointer-events-auto'
+              : 'bg-transparent opacity-0 pointer-events-none'
+          }`}
+        />
       </nav>
 
 
