@@ -88,11 +88,11 @@ DATABASES = {
 if env('MYSQL_URL', default=''):
     DATABASES['default'] = dj_database_url.parse(env('MYSQL_URL'))
 
-# If running on Vercel, use an in-memory SQLite database since Vercel is serverless/read-only
+# If running on Vercel, use a SQLite database file in /tmp (in-memory ':memory:' is destroyed when connection closes)
 if os.environ.get('VERCEL') == '1':
     DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
+        'NAME': '/tmp/db.sqlite3',
     }
 
 # Password validation
