@@ -160,22 +160,7 @@ class VisitorStatsView(APIView):
             }, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(f"Failed to fetch stats: {str(e)}")
-            import traceback
-            from django.db import connection
-            db_info = {}
-            try:
-                db_info = {
-                    "engine": connection.settings_dict.get('ENGINE'),
-                    "name": connection.settings_dict.get('NAME'),
-                }
-            except Exception as db_err:
-                db_info = {"error": str(db_err)}
-            return Response({
-                "error": "Database error", 
-                "details": str(e), 
-                "database_info": db_info,
-                "traceback": traceback.format_exc()
-            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": "Database error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def post(self, request):
         try:
