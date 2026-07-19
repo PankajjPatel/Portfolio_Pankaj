@@ -4,7 +4,7 @@ import { Github, Linkedin, Twitter, Mail, FileText, ArrowRight } from 'lucide-re
 
 
 const roles = ["Full Stack Developer", "Python Developer", "Django Developer"];
-const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
 
 export const Hero: React.FC = () => {
   const [roleIndex, setRoleIndex] = useState(0);
@@ -108,7 +108,7 @@ export const Hero: React.FC = () => {
             {/* Primary Action Buttons */}
             <div className="flex items-center gap-3 w-full sm:w-auto justify-center sm:justify-start">
               <a
-                href={`${apiBaseUrl}/api/contact/resume/`}
+                href="/resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black font-semibold text-xs transition-transform hover:scale-105 active:scale-95 shadow-md"

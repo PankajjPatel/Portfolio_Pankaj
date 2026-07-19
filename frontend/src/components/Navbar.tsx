@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Sun, Moon, Upload } from 'lucide-react';
-import { ResumeUploadModal } from './Admin';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 
 interface NavItem {
   label: string;
@@ -30,7 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('#hero');
-  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+
 
   // Lock body scroll when mobile drawer is open (robust for iOS/Android)
   useEffect(() => {
@@ -152,16 +151,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
                 <Moon size={15} className="text-blue-600" />
               )}
             </button>
-            
-            {/* Admin Console Modal trigger */}
-            <button
-              onClick={() => setIsUploadModalOpen(true)}
-              className="p-1.5 rounded-md text-slate-500 hover:text-primaryBlue dark:text-slate-400 dark:hover:text-primaryBlue transition-colors cursor-pointer flex items-center justify-center"
-              title="Admin"
-              aria-label="Admin"
-            >
-              <Upload size={14} />
-            </button>
+
           </div>
 
           {/* Mobile Actions */}
@@ -213,20 +203,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
               {item.label}
             </a>
           ))}
-          
-          {/* Spacer to separate Contact from Admin Console */}
-          <div className="flex-1" />
-          
-          <button
-            onClick={() => {
-              setIsOpen(false);
-              setIsUploadModalOpen(true);
-            }}
-            className="mb-16 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-white transition-colors duration-200 cursor-pointer"
-          >
-            <Upload size={13} />
-            <span>Admin Console</span>
-          </button>
+
         </div>
 
         {/* Mobile Overlay - always rendered, opacity transitions */}
@@ -240,12 +217,6 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
         />
       </nav>
 
-
-      {/* Shared Admin Upload Modal */}
-      <ResumeUploadModal 
-        isOpen={isUploadModalOpen} 
-        onClose={() => setIsUploadModalOpen(false)} 
-      />
     </>
   );
 };
