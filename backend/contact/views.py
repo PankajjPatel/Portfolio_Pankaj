@@ -160,7 +160,8 @@ class VisitorStatsView(APIView):
             }, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(f"Failed to fetch stats: {str(e)}")
-            return Response({"error": "Database error"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            import traceback
+            return Response({"error": "Database error", "details": str(e), "traceback": traceback.format_exc()}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def post(self, request):
         try:
