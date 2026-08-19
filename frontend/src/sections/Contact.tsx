@@ -232,8 +232,8 @@ export const Contact: React.FC = () => {
               </motion.button>
 
               <a
-                href="/resume.pdf"
-                download="Pankaj_Patel_Resume.pdf"
+                href="/Pankaj-Patel-Resume.pdf"
+                download="Pankaj-Patel-Resume.pdf"
                 className="w-full sm:w-auto py-2.5 px-5 rounded-xl border border-themeBorder bg-themePanel hover:bg-slate-200/50 dark:hover:bg-white/5 text-slate-700 dark:text-slate-300 font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
               >
                 <FileText size={13} />
