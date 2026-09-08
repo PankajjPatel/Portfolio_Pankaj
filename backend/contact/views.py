@@ -235,9 +235,9 @@ class GithubContributionsView(APIView):
     def get(self, request):
         import re
         username = request.query_params.get('username', 'PankajjPatel')
-        year = request.query_params.get('year', '')
+        year = request.query_params.get('year', '2026')
         
-        if year:
+        if year and year != 'last':
             url = f'https://github.com/users/{username}/contributions?from={year}-01-01&to={year}-12-31'
         else:
             url = f'https://github.com/users/{username}/contributions'
@@ -251,26 +251,45 @@ class GithubContributionsView(APIView):
                 html_content = response.read().decode('utf-8')
             
             # Extract total contributions from header text
-            total_match = re.search(r'([\d,]+)\s+contributions?', html_content, re.IGNORECASE)
+            total_match = re.search(r'([\d,]+)\s+contributions', html_content, re.IGNORECASE)
             total = int(total_match.group(1).replace(',', '')) if total_match else 0
             
-            # Extract contribution calendar grid cells (date and level)
-            pattern = re.compile(
-                r'<td[^>]*data-date="(?P<date>\d{4}-\d{2}-\d{2})"[^>]*data-level="(?P<level>\d+)"',
-                re.DOTALL
-            )
-            
+            # Parse tooltips dictionary: id -> tooltip text
+            tooltips = {}
+            for m in re.finditer(r'<tool-tip[^>]*for="([^"]+)"[^>]*>([^<]+)</tool-tip>', html_content):
+                tooltips[m.group(1)] = m.group(2).strip()
+
+            # Parse contribution calendar grid cells (date, level, exact count, tooltip)
+            td_pattern = re.compile(r'<td\s+([^>]*data-date="(\d{4}-\d{2}-\d{2})"[^>]*)>', re.DOTALL)
             contributions = []
-            for m in pattern.finditer(html_content):
-                date = m.group('date')
-                level = int(m.group('level'))
+            
+            for m in td_pattern.finditer(html_content):
+                attrs = m.group(1)
+                date = m.group(2)
+                
+                level_match = re.search(r'data-level="(\d+)"', attrs)
+                level = int(level_match.group(1)) if level_match else 0
+                
+                id_match = re.search(r'id="([^"]+)"', attrs)
+                cell_id = id_match.group(1) if id_match else None
+                
+                tip_text = tooltips.get(cell_id, '')
+                count = 0
+                if tip_text:
+                    count_match = re.search(r'^(\d+)\s+contribution', tip_text, re.IGNORECASE)
+                    if count_match:
+                        count = int(count_match.group(1))
+                    elif 'no contribution' in tip_text.lower():
+                        count = 0
+                elif level > 0:
+                    count = level * 3
+                
                 contributions.append({
                     'date': date,
-                    'level': level
+                    'level': level,
+                    'count': count,
+                    'tooltip': tip_text
                 })
-                
-            if not contributions:
-                logger.warning(f"No contribution cells parsed from GitHub HTML for user {username}")
                 
             contributions.sort(key=lambda x: x['date'])
                 

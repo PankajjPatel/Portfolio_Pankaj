@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, ExternalLink, AlertCircle, CheckCircle, Database, Layout } from 'lucide-react';
+import { Github, ExternalLink, AlertCircle, CheckCircle, Database, Layout, Star, GitFork } from 'lucide-react';
 
 interface Project {
   id: string;
@@ -68,6 +68,9 @@ const allProjects: Project[] = [
 interface RepoInfo {
   githubUrl: string;
   demoUrl: string;
+  stars?: number;
+  forks?: number;
+  language?: string;
 }
 
 export const Projects: React.FC = () => {
@@ -76,25 +79,29 @@ export const Projects: React.FC = () => {
 
   useEffect(() => {
     // Dynamically retrieve repository metadata from GitHub API
-    // This allows us to keep the repository links and demo URLs in sync with the live GitHub state
+    // This allows us to keep the repository links, demo URLs, stars, and forks in sync with the live GitHub state
     const fetchGithubRepos = async () => {
       try {
-        const response = await fetch('https://api.github.com/users/PankajjPatel/repos');
+        const response = await fetch('https://api.github.com/users/PankajjPatel/repos?per_page=100');
         if (!response.ok) return;
         interface GitHubRepo {
           name: string;
           html_url: string;
           homepage?: string | null;
+          stargazers_count?: number;
+          forks_count?: number;
+          language?: string | null;
         }
         const repos = (await response.json()) as GitHubRepo[];
         
-        // Map the API results to a key-value pair where the key is the lowercase repo name.
-        // This makes it easy to look up remote repository details for any listed project.
         const repoMap: Record<string, RepoInfo> = {};
         repos.forEach((repo) => {
           repoMap[repo.name.toLowerCase()] = {
             githubUrl: repo.html_url,
             demoUrl: repo.homepage || '',
+            stars: repo.stargazers_count || 0,
+            forks: repo.forks_count || 0,
+            language: repo.language || undefined
           };
         });
         setGithubRepos(repoMap);
@@ -211,9 +218,21 @@ export const Projects: React.FC = () => {
                 <div className="flex flex-col gap-4">
                   <div className="flex flex-col gap-1">
                     <div className="flex justify-between items-start flex-wrap gap-2">
-                      <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white uppercase tracking-tight">
-                        {featuredProject.title}
-                      </h3>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <h3 className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white uppercase tracking-tight">
+                          {featuredProject.title}
+                        </h3>
+                        {repoData && repoData.stars !== undefined && repoData.stars > 0 && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 font-mono">
+                            <Star size={10} className="fill-amber-500 text-amber-500" /> {repoData.stars}
+                          </span>
+                        )}
+                        {repoData && repoData.forks !== undefined && repoData.forks > 0 && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-bold bg-blue-500/10 text-blue-500 border border-blue-500/20 font-mono">
+                            <GitFork size={10} /> {repoData.forks}
+                          </span>
+                        )}
+                      </div>
                       {featuredProject.role && (
                         <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-blue-500/10 text-primaryBlue border border-blue-500/15">
                           Role: {featuredProject.role}
@@ -321,9 +340,23 @@ export const Projects: React.FC = () => {
                 {/* Details */}
                 <div className="flex flex-col gap-3 flex-1 justify-between">
                   <div className="flex flex-col gap-1">
-                    <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight font-sans">
-                      {project.title}
-                    </h4>
+                    <div className="flex items-center justify-between gap-1 flex-wrap">
+                      <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight font-sans">
+                        {project.title}
+                      </h4>
+                      <div className="flex items-center gap-1.5">
+                        {repoData && repoData.stars !== undefined && repoData.stars > 0 && (
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[8px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 font-mono">
+                            <Star size={9} className="fill-amber-500 text-amber-500" /> {repoData.stars}
+                          </span>
+                        )}
+                        {repoData && repoData.forks !== undefined && repoData.forks > 0 && (
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[8px] font-bold bg-blue-500/10 text-blue-500 border border-blue-500/20 font-mono">
+                            <GitFork size={9} /> {repoData.forks}
+                          </span>
+                        )}
+                      </div>
+                    </div>
                     <p className="text-[11px] text-slate-600 dark:text-slate-400 font-light leading-relaxed">
                       {project.description}
                     </p>
