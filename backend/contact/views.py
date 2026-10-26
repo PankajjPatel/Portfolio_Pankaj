@@ -81,7 +81,7 @@ class ResumeView(APIView):
         # Check if download query parameter is set to true (default is false for inline viewing)
         download_param = request.query_params.get('download', 'false').lower() == 'true'
 
-        file_path = os.path.join(settings.MEDIA_ROOT, 'resume.pdf')
+        file_path = os.path.join(settings.MEDIA_ROOT, 'Pankaj-Patel-Resume.pdf')
         if os.path.exists(file_path):
             response = FileResponse(open(file_path, 'rb'), as_attachment=download_param, filename='Pankaj-Patel-Resume.pdf', content_type='application/pdf')
             response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
@@ -89,10 +89,8 @@ class ResumeView(APIView):
             response['Expires'] = '0'
             return response
         
-        # Fallback to an existing public/resume.pdf file if media doesn't exist
+        # Fallback to frontend/public/Pankaj-Patel-Resume.pdf
         fallback_path = os.path.join(settings.BASE_DIR, '..', 'frontend', 'public', 'Pankaj-Patel-Resume.pdf')
-        if not os.path.exists(fallback_path):
-            fallback_path = os.path.join(settings.BASE_DIR, '..', 'frontend', 'public', 'resume.pdf')
         if os.path.exists(fallback_path):
             response = FileResponse(open(fallback_path, 'rb'), as_attachment=download_param, filename='Pankaj-Patel-Resume.pdf', content_type='application/pdf')
             response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
@@ -116,23 +114,23 @@ class ResumeView(APIView):
         if not file_obj.name.lower().endswith('.pdf'):
             return Response({"error": "Only PDF files are allowed"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Save the file to media/resume.pdf
+        # Save the file to media/Pankaj-Patel-Resume.pdf
         os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
-        file_path = os.path.join(settings.MEDIA_ROOT, 'resume.pdf')
+        file_path = os.path.join(settings.MEDIA_ROOT, 'Pankaj-Patel-Resume.pdf')
         with open(file_path, 'wb+') as destination:
             for chunk in file_obj.chunks():
                 destination.write(chunk)
 
-        # Also copy it to the frontend public directory if it exists, so Vite can serve it statically
+        # Also copy it to frontend public directory
         try:
             frontend_public_dir = os.path.join(settings.BASE_DIR, '..', 'frontend', 'public')
             if os.path.exists(frontend_public_dir):
-                frontend_file_path = os.path.join(frontend_public_dir, 'resume.pdf')
+                frontend_file_path = os.path.join(frontend_public_dir, 'Pankaj-Patel-Resume.pdf')
                 with open(frontend_file_path, 'wb+') as destination_front:
                     file_obj.seek(0)
                     for chunk in file_obj.chunks():
                         destination_front.write(chunk)
-                logger.info("Successfully copied resume.pdf to frontend public folder")
+                logger.info("Successfully copied Pankaj-Patel-Resume.pdf to frontend public folder")
         except Exception as e:
             logger.error(f"Failed to copy resume to frontend public folder: {str(e)}")
 
