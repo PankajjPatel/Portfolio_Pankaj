@@ -17,7 +17,7 @@ const skillCategories: SkillCategory[] = [
   {
     id: 'languages',
     title: 'Programming Languages',
-    icon: <Code2 className="w-5 h-5 text-blue-500" />,
+    icon: <Code2 className="w-5 h-5 text-primaryBlue" />,
     skills: [
       { name: 'Python' },
       { name: 'C' },
@@ -27,7 +27,7 @@ const skillCategories: SkillCategory[] = [
   {
     id: 'technologies',
     title: 'Technologies / Frameworks',
-    icon: <Cpu className="w-5 h-5 text-emerald-500" />,
+    icon: <Cpu className="w-5 h-5 text-primaryBlue" />,
     skills: [
       { name: 'Django (Framework)' },
       { name: 'MySQL' },
@@ -39,7 +39,7 @@ const skillCategories: SkillCategory[] = [
   {
     id: 'tools',
     title: 'Developer Tools',
-    icon: <Wrench className="w-5 h-5 text-amber-500" />,
+    icon: <Wrench className="w-5 h-5 text-primaryBlue" />,
     skills: [
       { name: 'VS Code' },
       { name: 'Git & GitHub' },
@@ -51,7 +51,7 @@ const skillCategories: SkillCategory[] = [
   {
     id: 'concepts',
     title: 'Core Concepts',
-    icon: <Layers className="w-5 h-5 text-purple-500" />,
+    icon: <Layers className="w-5 h-5 text-primaryBlue" />,
     skills: [
       { name: 'OOPs' },
       { name: 'CRUD Operations' },
@@ -65,9 +65,6 @@ const skillCategories: SkillCategory[] = [
 export const Skills: React.FC = () => {
   return (
     <section id="skills" className="relative py-10 px-4 sm:px-6 flex flex-col items-center justify-center">
-      {/* Background Soft Glow */}
-      <div className="absolute top-[40%] right-10 w-[250px] h-[250px] bg-primaryBlue/5 rounded-full filter blur-[100px] pointer-events-none -z-10" />
-
       <div className="w-full max-w-2xl">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center gap-2 mb-12">
@@ -80,7 +77,7 @@ export const Skills: React.FC = () => {
             Technical Skills
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md">
-            Professional stack, tools, and computer science concepts verified from my resume.
+            Languages, frameworks, tools, and concepts I work with regularly.
           </p>
         </div>
 
@@ -95,8 +92,7 @@ export const Skills: React.FC = () => {
               transition={{ duration: 0.5, delay: index * 0.08 }}
               whileHover={{ 
                 y: -4,
-                borderColor: 'rgba(59, 130, 246, 0.25)',
-                boxShadow: '0 10px 20px -10px rgba(59, 130, 246, 0.12)'
+                borderColor: 'rgba(59, 130, 246, 0.3)'
               }}
               className="p-5 rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 transition-all duration-300"
             >

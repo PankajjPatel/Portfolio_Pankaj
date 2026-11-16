@@ -38,10 +38,10 @@ const fallbackStats: GitHubStats = {
   totalStars: 5,
   contributions: 1549,
   languages: [
-    { name: 'Python', percentage: 48, color: 'bg-blue-500' },
-    { name: 'TypeScript', percentage: 28, color: 'bg-blue-600' },
-    { name: 'JavaScript', percentage: 14, color: 'bg-yellow-500' },
-    { name: 'HTML/CSS', percentage: 10, color: 'bg-orange-500' }
+    { name: 'Python', percentage: 48, color: 'bg-primaryBlue' },
+    { name: 'TypeScript', percentage: 28, color: 'bg-primaryBlue/80' },
+    { name: 'JavaScript', percentage: 14, color: 'bg-primaryBlue/60' },
+    { name: 'HTML/CSS', percentage: 10, color: 'bg-primaryBlue/40' }
   ]
 };
 
@@ -184,16 +184,16 @@ export const GithubActivity: React.FC = () => {
 
       const totalLangs = Object.values(langCounts).reduce((a, b) => a + b, 0);
       const languageColors: Record<string, string> = {
-        Python: 'bg-blue-500',
-        JavaScript: 'bg-yellow-400',
-        TypeScript: 'bg-blue-600',
-        HTML: 'bg-orange-500',
-        CSS: 'bg-purple-500',
-        Java: 'bg-red-600',
-        Shell: 'bg-emerald-600',
-        C: 'bg-slate-500',
-        'C++': 'bg-pink-600',
-        SQL: 'bg-cyan-500'
+        Python: 'bg-primaryBlue',
+        JavaScript: 'bg-primaryBlue/80',
+        TypeScript: 'bg-primaryBlue/70',
+        HTML: 'bg-primaryBlue/60',
+        CSS: 'bg-primaryBlue/50',
+        Java: 'bg-primaryBlue/50',
+        Shell: 'bg-primaryBlue/40',
+        C: 'bg-primaryBlue/50',
+        'C++': 'bg-primaryBlue/60',
+        SQL: 'bg-primaryBlue/70'
       };
 
       const languages = Object.entries(langCounts)
@@ -333,9 +333,6 @@ export const GithubActivity: React.FC = () => {
 
   return (
     <section id="github" className="relative py-12 px-4 sm:px-6 flex flex-col items-center justify-center">
-      {/* Background Soft Glow */}
-      <div className="absolute top-[25%] left-1/2 -translate-x-1/2 w-[350px] h-[350px] bg-primaryBlue/5 rounded-full filter blur-[100px] pointer-events-none -z-10" />
-
       <div className="w-full max-w-3xl">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center gap-2 mb-10">
@@ -350,16 +347,16 @@ export const GithubActivity: React.FC = () => {
             GitHub Activity & Metrics
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md">
-            Live developer analytics, active contribution calendar, and commit activity fetched straight from GitHub.
+            My contribution calendar, commit history, and repo stats — pulled live from GitHub.
           </p>
         </div>
 
         {/* Outer Card Compartment */}
-        <div className="rounded-3xl border border-themeBorder bg-themePanel/60 dark:bg-themePanel/30 backdrop-blur-md p-5 sm:p-7 flex flex-col gap-6 shadow-sm">
+        <div className="rounded-3xl border border-themeBorder bg-themePanel/60 dark:bg-themePanel/30 backdrop-blur-md p-5 sm:p-7 flex flex-col gap-6">
           {/* Header Row: Profile Info & Action Buttons */}
           <div className="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-themeBorder">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-2xl bg-slate-200/60 dark:bg-white/5 border border-themeBorderHeavy shadow-inner">
+              <div className="p-2.5 rounded-2xl bg-slate-200/60 dark:bg-white/5 border border-themeBorderHeavy">
                 <Github className="w-5 h-5 text-slate-900 dark:text-white" />
               </div>
               <div className="flex flex-col">
@@ -367,8 +364,8 @@ export const GithubActivity: React.FC = () => {
                   <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-none">
                     {GITHUB_USERNAME}
                   </h3>
-                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 font-mono">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Live
+                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 font-mono">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primaryBlue animate-pulse" /> Live
                   </span>
                 </div>
                 <a
@@ -397,7 +394,7 @@ export const GithubActivity: React.FC = () => {
                 href={`https://github.com/${GITHUB_USERNAME}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-themeBorder bg-slate-900 dark:bg-white text-white dark:text-black font-bold text-[10px] uppercase tracking-wider transition-all hover:opacity-90 active:scale-95 shadow-sm"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-themeBorder bg-slate-900 dark:bg-white text-white dark:text-black font-bold text-[10px] uppercase tracking-wider transition-all hover:opacity-90 active:scale-95"
               >
                 <span>View Profile</span>
                 <ExternalLink size={11} />
@@ -414,7 +411,7 @@ export const GithubActivity: React.FC = () => {
               className="p-3.5 rounded-2xl border border-themeBorder bg-slate-200/30 dark:bg-white/5 hover:bg-slate-200/60 dark:hover:bg-white/10 text-center flex flex-col items-center justify-center transition-all hover:scale-[1.02] duration-200 cursor-pointer group"
             >
               <div className="flex items-center gap-1.5 mb-1">
-                <Folder className="w-3.5 h-3.5 text-blue-500 group-hover:scale-110 transition-transform" />
+                <Folder className="w-3.5 h-3.5 text-primaryBlue group-hover:scale-110 transition-transform" />
                 <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono">
                   Repositories
                 </span>
@@ -431,7 +428,7 @@ export const GithubActivity: React.FC = () => {
               className="p-3.5 rounded-2xl border border-themeBorder bg-slate-200/30 dark:bg-white/5 hover:bg-slate-200/60 dark:hover:bg-white/10 text-center flex flex-col items-center justify-center transition-all hover:scale-[1.02] duration-200 cursor-pointer group"
             >
               <div className="flex items-center gap-1.5 mb-1">
-                <Users className="w-3.5 h-3.5 text-emerald-500 group-hover:scale-110 transition-transform" />
+                <Users className="w-3.5 h-3.5 text-primaryBlue group-hover:scale-110 transition-transform" />
                 <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono">
                   Followers
                 </span>
@@ -443,7 +440,7 @@ export const GithubActivity: React.FC = () => {
 
             <div className="p-3.5 rounded-2xl border border-themeBorder bg-slate-200/30 dark:bg-white/5 text-center flex flex-col items-center justify-center">
               <div className="flex items-center gap-1.5 mb-1">
-                <Star className="w-3.5 h-3.5 text-yellow-500" />
+                <Star className="w-3.5 h-3.5 text-primaryBlue" />
                 <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono">
                   Total Stars
                 </span>
@@ -460,12 +457,12 @@ export const GithubActivity: React.FC = () => {
               className="p-3.5 rounded-2xl border border-themeBorder bg-slate-200/30 dark:bg-white/5 hover:bg-slate-200/60 dark:hover:bg-white/10 text-center flex flex-col items-center justify-center transition-all hover:scale-[1.02] duration-200 cursor-pointer group"
             >
               <div className="flex items-center gap-1.5 mb-1">
-                <GitCommit className="w-3.5 h-3.5 text-amber-500 group-hover:scale-110 transition-transform" />
+                <GitCommit className="w-3.5 h-3.5 text-primaryBlue group-hover:scale-110 transition-transform" />
                 <span className="text-[9px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider font-mono">
                   Contributions
                 </span>
               </div>
-              <span className="text-xl sm:text-2xl font-black font-mono text-slate-900 dark:text-white leading-none text-emerald-500 dark:text-emerald-400">
+              <span className="text-xl sm:text-2xl font-black font-mono text-slate-900 dark:text-white leading-none text-primaryBlue">
                 {totalContributions.toLocaleString()}+
               </span>
             </a>
@@ -512,7 +509,7 @@ export const GithubActivity: React.FC = () => {
                 onClick={() => setActiveTab('calendar')}
                 className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                   activeTab === 'calendar'
-                    ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm'
+                    ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white'
                     : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
               >
@@ -522,11 +519,11 @@ export const GithubActivity: React.FC = () => {
                 onClick={() => setActiveTab('events')}
                 className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer flex items-center gap-1 ${
                   activeTab === 'events'
-                    ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white shadow-sm'
+                    ? 'bg-white dark:bg-zinc-800 text-slate-900 dark:text-white'
                     : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
                 }`}
               >
-                <Flame size={11} className="text-amber-500" />
+                <Flame size={11} className="text-primaryBlue" />
                 Live Commits ({recentEvents.length})
               </button>
             </div>
@@ -643,7 +640,7 @@ export const GithubActivity: React.FC = () => {
                 {/* Exact Tooltip Floating Popover */}
                 {hoveredDay && (
                   <div
-                    className="absolute z-50 px-2.5 py-1 text-[10px] font-semibold text-white bg-slate-900/95 dark:bg-zinc-900 border border-slate-700/80 dark:border-zinc-700 rounded-lg shadow-xl pointer-events-none -translate-x-1/2 font-mono whitespace-nowrap backdrop-blur-md"
+                    className="absolute z-50 px-2.5 py-1 text-[10px] font-semibold text-white bg-slate-900/95 dark:bg-zinc-900 border border-slate-700/80 dark:border-zinc-700 rounded-lg pointer-events-none -translate-x-1/2 font-mono whitespace-nowrap backdrop-blur-md"
                     style={{ left: hoveredDay.x, top: hoveredDay.y }}
                   >
                     {hoveredDay.tooltip}

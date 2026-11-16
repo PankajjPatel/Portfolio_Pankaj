@@ -49,7 +49,7 @@ export const Footer: React.FC = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-[8px] sm:text-[9px] font-bold text-primaryBlue uppercase tracking-widest"
           >
-            Python Developer | Django | Web Applications
+            Python Developer | Django Backend Developer
           </motion.p>
           <motion.p 
             initial={{ opacity: 0, y: 5 }}

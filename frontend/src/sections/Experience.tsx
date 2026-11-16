@@ -21,34 +21,30 @@ const experienceData: ExperienceItem[] = [
     role: 'Python Development Intern',
     company: 'Infotact Solutions',
     location: 'Remote',
-    period: 'May 2026 — Present',
-    description: 'Contributing as a backend developer, focusing on high-efficiency scripting, AI integrations, and structural optimization.',
+    period: 'May 2026 — Sep 2026',
+    description: 'Worked as a backend developer on Python scripting, data preprocessing, and database optimization.',
     responsibilities: [
-      'Working on Python-based algorithms and optimizing complex logic structures.',
-      'Designing and maintaining data preprocessing scripts for training and analytics pipelines.',
-      'Optimizing MySQL/PostgreSQL database queries and schemas to improve retrieval speed by up to 30%.',
-      'Exploring Generative AI foundations and LLM integration patterns for internal projects.'
+      'Developed Python scripts and optimized backend logic for internal tools.',
+      'Built and maintained data preprocessing scripts for analytics pipelines.',
+      'Optimized MySQL/PostgreSQL queries and database schemas for faster data retrieval.',
+      'Explored Generative AI concepts and LLM integration for internal projects.'
     ],
     skills: ['Python', 'Django', 'MySQL', 'SQL Optimization', 'Generative AI', 'REST APIs'],
     companyUrl: 'https://infotact.in',
-    isCurrent: true
+    isCurrent: false
   }
 ];
 
 export const Experience: React.FC = () => {
   return (
     <section id="experience" className="relative py-10 px-4 sm:px-6 flex flex-col items-center justify-center">
-      {/* Background Soft Glow */}
-      <div className="absolute top-[20%] left-10 w-[250px] h-[250px] bg-emerald-500/5 dark:bg-emerald-500/10 rounded-full filter blur-[100px] pointer-events-none -z-10 animate-float" />
-      <div className="absolute bottom-[20%] right-10 w-[200px] h-[200px] bg-primaryBlue/5 dark:bg-primaryBlue/8 rounded-full filter blur-[90px] pointer-events-none -z-10 animate-float-reverse" />
-
       <div className="w-full max-w-2xl">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center gap-2 mb-12">
           <div className="flex items-center gap-2">
-            <span className="h-[2px] w-6 bg-emerald-500/50" />
-            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Career History</span>
-            <span className="h-[2px] w-6 bg-emerald-500/50" />
+            <span className="h-[2px] w-6 bg-primaryBlue/50" />
+            <span className="text-[10px] font-bold uppercase tracking-wider text-primaryBlue">Career History</span>
+            <span className="h-[2px] w-6 bg-primaryBlue/50" />
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white font-sans uppercase">
             Work Experience
@@ -67,11 +63,11 @@ export const Experience: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 p-6 hover:border-emerald-500/35 hover:bg-themePanel/60 dark:hover:bg-themePanel/30 transition-all duration-300 shadow-sm"
+              className="group relative rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 p-6 hover:border-primaryBlue/30 hover:bg-themePanel/60 dark:hover:bg-themePanel/30 transition-all duration-300"
             >
               {/* Highlight bar for current role */}
               {item.isCurrent && (
-                <div className="absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r from-emerald-500/50 via-teal-500/50 to-primaryBlue/50" />
+                <div className="absolute top-0 left-6 right-6 h-[2px] bg-primaryBlue/50" />
               )}
 
               <div className="flex flex-col gap-4">
@@ -79,7 +75,7 @@ export const Experience: React.FC = () => {
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                   <div className="flex items-start gap-4">
                     {/* Icon Container */}
-                    <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 shadow-sm group-hover:scale-105 transition-transform duration-300">
+                    <div className="p-3 rounded-xl bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 group-hover:scale-105 transition-transform duration-300">
                       <Briefcase size={18} />
                     </div>
 
@@ -88,9 +84,13 @@ export const Experience: React.FC = () => {
                         <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-sans">
                           {item.role}
                         </h3>
-                        {item.isCurrent && (
-                          <span className="inline-flex items-center px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/15 animate-pulse">
+                        {item.isCurrent ? (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 animate-pulse">
                             Current
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20">
+                            Completed
                           </span>
                         )}
                       </div>
@@ -139,7 +139,7 @@ export const Experience: React.FC = () => {
                   <ul className="flex flex-col gap-2 list-none pl-0">
                     {item.responsibilities.map((resp, i) => (
                       <li key={i} className="text-xs text-slate-700 dark:text-slate-300 flex items-start gap-2.5 leading-normal">
-                        <CheckCircle2 size={12} className="text-emerald-500 mt-0.5 shrink-0" />
+                        <CheckCircle2 size={12} className="text-primaryBlue mt-0.5 shrink-0" />
                         <span>{resp}</span>
                       </li>
                     ))}
@@ -151,7 +151,7 @@ export const Experience: React.FC = () => {
                   {item.skills.map((skill) => (
                     <span
                       key={skill}
-                      className="px-2 py-0.5 text-[9px] font-semibold bg-slate-200/40 dark:bg-white/5 text-slate-700 dark:text-slate-400 rounded-md border border-themeBorder uppercase tracking-wide group-hover:border-emerald-500/20 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors"
+                      className="px-2 py-0.5 text-[9px] font-semibold bg-slate-200/40 dark:bg-white/5 text-slate-700 dark:text-slate-400 rounded-md border border-themeBorder uppercase tracking-wide group-hover:border-primaryBlue/25 group-hover:text-primaryBlue transition-colors"
                     >
                       {skill}
                     </span>

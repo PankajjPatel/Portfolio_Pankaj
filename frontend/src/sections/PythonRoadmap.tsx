@@ -24,8 +24,8 @@ export const PythonRoadmap: React.FC = () => {
       status: 'completed',
       description: 'Understanding Python basics, built-in collections, data structures, and Object-Oriented Programming (OOPs) concepts.',
       skills: ['Variables & Data Types', 'Built-in Collections (List, Dict, Set)', 'Functions & Lambda Expressions', 'OOPs: Classes, Inheritance, Polymorphism', 'Exception Handling & Custom Exceptions'],
-      color: 'text-blue-500 bg-blue-500/10 border-blue-500/20',
-      glowColor: 'group-hover:border-blue-500/35'
+      color: 'text-primaryBlue bg-primaryBlue/10 border-primaryBlue/20',
+      glowColor: 'group-hover:border-primaryBlue/30'
     },
     {
       phase: 'Phase 02',
@@ -34,8 +34,8 @@ export const PythonRoadmap: React.FC = () => {
       status: 'in-progress',
       description: 'Learning advanced features like decorators, generators, asynchronous code, and performance optimization techniques.',
       skills: ['Decorators & Generators', 'Context Managers (with statements)', 'List & Dict Comprehensions', 'Multi-threading & Multiprocessing', 'Asynchronous Programming (Asyncio)'],
-      color: 'text-purple-500 bg-purple-500/10 border-purple-500/20',
-      glowColor: 'group-hover:border-purple-500/35'
+      color: 'text-primaryBlue bg-primaryBlue/10 border-primaryBlue/20',
+      glowColor: 'group-hover:border-primaryBlue/30'
     },
     {
       phase: 'Phase 03',
@@ -44,8 +44,8 @@ export const PythonRoadmap: React.FC = () => {
       status: 'in-progress',
       description: 'Working with database schema design, SQL CRUD operations, and Django ORM queries.',
       skills: ['MySQL & PostgreSQL Schema Design', 'CRUD Operations & Indexing', 'Joins, Subqueries & Transactions', 'Django ORM Database Queries', 'Database Integrity & Triggers'],
-      color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20',
-      glowColor: 'group-hover:border-emerald-500/35'
+      color: 'text-primaryBlue bg-primaryBlue/10 border-primaryBlue/20',
+      glowColor: 'group-hover:border-primaryBlue/30'
     },
     {
       phase: 'Phase 04',
@@ -54,8 +54,8 @@ export const PythonRoadmap: React.FC = () => {
       status: 'in-progress',
       description: 'Developing web backends and REST APIs using Django, Django REST Framework, and FastAPI.',
       skills: ['Django MVC Architecture', 'Django REST Framework (DRF)', 'FastAPI Basics', 'Token-based Authentication (JWT)', 'RESTful API Best Practices'],
-      color: 'text-indigo-500 bg-indigo-500/10 border-indigo-500/20',
-      glowColor: 'group-hover:border-indigo-500/35'
+      color: 'text-primaryBlue bg-primaryBlue/10 border-primaryBlue/20',
+      glowColor: 'group-hover:border-primaryBlue/30'
     },
     {
       phase: 'Phase 05',
@@ -64,8 +64,8 @@ export const PythonRoadmap: React.FC = () => {
       status: 'in-progress',
       description: 'Learning testing workflows, basic containerization, and hosting backends on cloud platforms.',
       skills: ['Unit Testing (PyTest)', 'Git & GitHub Workflows', 'Docker Containerization', 'Deploying on Render / Railway', 'API Logging & Monitoring'],
-      color: 'text-amber-500 bg-amber-500/10 border-amber-500/20',
-      glowColor: 'group-hover:border-amber-500/35'
+      color: 'text-primaryBlue bg-primaryBlue/10 border-primaryBlue/20',
+      glowColor: 'group-hover:border-primaryBlue/30'
     }
   ];
 
@@ -75,9 +75,6 @@ export const PythonRoadmap: React.FC = () => {
 
   return (
     <section id="roadmap" className="relative py-10 px-4 sm:px-6 flex flex-col items-center justify-center">
-      {/* Background Soft Glow */}
-      <div className="absolute top-[25%] left-10 w-[200px] h-[200px] bg-primaryBlue/5 rounded-full filter blur-[100px] pointer-events-none -z-10" />
-
       <div className="w-full max-w-2xl">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center gap-2 mb-10">
@@ -90,7 +87,7 @@ export const PythonRoadmap: React.FC = () => {
             Python Roadmap
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md">
-            My structured learning milestones, checklist, and expertise timeline in full-stack Python engineering.
+            What I've learned so far and what I'm currently working through in Python.
           </p>
         </div>
 
@@ -113,8 +110,8 @@ export const PythonRoadmap: React.FC = () => {
                   className="p-5 flex items-center justify-between cursor-pointer select-none"
                 >
                   <div className="flex items-center gap-4">
-                    {/* Glowing Stage Icon */}
-                    <div className={`p-2.5 rounded-xl border shrink-0 ${step.color} shadow-sm transition-transform duration-300 group-hover:scale-105`}>
+                    {/* Stage Icon */}
+                    <div className={`p-2.5 rounded-xl border shrink-0 ${step.color} transition-transform duration-300 group-hover:scale-105`}>
                       {step.icon}
                     </div>
 
@@ -124,12 +121,12 @@ export const PythonRoadmap: React.FC = () => {
                           {step.phase}
                         </span>
                         {step.status === 'completed' ? (
-                          <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[7px] font-bold uppercase tracking-wide bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/15">
+                          <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[7px] font-bold uppercase tracking-wide bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20">
                             Completed
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[7px] font-bold uppercase tracking-wide bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/15">
-                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+                          <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[7px] font-bold uppercase tracking-wide bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20">
+                            <span className="w-1.5 h-1.5 rounded-full bg-primaryBlue animate-pulse" />
                             Learning
                           </span>
                         )}
@@ -173,8 +170,8 @@ export const PythonRoadmap: React.FC = () => {
                                 className="relative flex items-center text-xs font-semibold text-slate-800 dark:text-slate-200"
                               >
                                 {/* Inner timeline dot */}
-                                <span className={`absolute -left-[40px] w-4 h-4 rounded-full bg-themeBg border-2 ${step.status === 'completed' ? 'border-emerald-500' : 'border-blue-500'} flex items-center justify-center`}>
-                                  <span className={`w-1.5 h-1.5 rounded-full ${step.status === 'completed' ? 'bg-emerald-500' : 'bg-blue-500'}`} />
+                                <span className={`absolute -left-[40px] w-4 h-4 rounded-full bg-themeBg border-2 border-primaryBlue flex items-center justify-center`}>
+                                  <span className="w-1.5 h-1.5 rounded-full bg-primaryBlue" />
                                 </span>
                                 <span>{skill}</span>
                               </div>

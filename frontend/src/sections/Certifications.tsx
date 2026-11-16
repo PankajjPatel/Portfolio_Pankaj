@@ -35,7 +35,7 @@ export const Certifications: React.FC = () => {
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-themePanel border border-themeBorderHeavy text-slate-800 dark:text-white shadow-lg flex items-center gap-2.5 text-xs font-semibold"
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-themePanel border border-themeBorderHeavy text-slate-800 dark:text-white flex items-center gap-2.5 text-xs font-semibold"
           >
             <AlertCircle size={14} className="text-primaryBlue" />
             <span>{toast}</span>
@@ -80,12 +80,12 @@ export const Certifications: React.FC = () => {
               {/* Card Compartment */}
               <div
                 onClick={() => handleCertClick(cert)}
-                className="p-5 rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 cursor-pointer hover:bg-themePanel/70 dark:hover:bg-themePanel/40 transition-all duration-300 flex flex-col justify-between gap-4 group shadow-sm"
+                className="p-5 rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 cursor-pointer hover:bg-themePanel/70 dark:hover:bg-themePanel/40 transition-all duration-300 flex flex-col justify-between gap-4 group"
               >
                 <div className="flex flex-col gap-2.5">
                   {/* Header info */}
                   <div className="flex items-center justify-between">
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-blue-500/10 text-primaryBlue border border-blue-500/10">
+                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20">
                       <Award size={10} /> {cert.issuer}
                     </span>
                     <span className="inline-flex items-center gap-1 text-[9px] font-bold text-slate-500 font-mono">

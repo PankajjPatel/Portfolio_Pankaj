@@ -108,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
       <nav
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           scrolled
-            ? 'bg-themeBg/85 border-b border-themeBorder py-4 shadow-xs backdrop-blur-md'
+            ? 'bg-themeBg/85 border-b border-themeBorder py-4 backdrop-blur-md'
             : 'bg-transparent py-6'
         }`}
       >
@@ -146,9 +146,9 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
               aria-label="Toggle Theme"
             >
               {theme === 'dark' ? (
-                <Sun size={15} className="text-yellow-500" />
+                <Sun size={15} className="text-primaryBlue" />
               ) : (
-                <Moon size={15} className="text-blue-600" />
+                <Moon size={15} className="text-primaryBlue" />
               )}
             </button>
 
@@ -162,9 +162,9 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
               aria-label="Toggle Theme"
             >
               {theme === 'dark' ? (
-                <Sun size={15} className="text-yellow-500" />
+                <Sun size={15} className="text-primaryBlue" />
               ) : (
-                <Moon size={15} className="text-blue-600" />
+                <Moon size={15} className="text-primaryBlue" />
               )}
             </button>
 
@@ -180,7 +180,7 @@ export const Navbar: React.FC<NavbarProps> = ({ theme, toggleTheme }) => {
 
         {/* Mobile Drawer */}
         <div
-          className={`fixed inset-y-0 right-0 w-[70vw] max-w-[260px] z-[100] bg-[#0c0c0c] border-l border-themeBorder shadow-2xl flex flex-col p-6 pt-24 gap-5 transition-transform duration-300 ease-out lg:hidden ${
+          className={`fixed inset-y-0 right-0 w-[70vw] max-w-[260px] z-[100] bg-[#0c0c0c] border-l border-themeBorder flex flex-col p-6 pt-24 gap-5 transition-transform duration-300 ease-out lg:hidden ${
             isOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >

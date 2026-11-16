@@ -22,7 +22,7 @@ const achievementsData: AchievementItem[] = [
     subtitle: 'Oracle & AWS Academy Credentials',
     date: '2025',
     description: 'Achieved verified OCI 2025 Certified Generative AI Professional and OCI 2025 Certified AI Foundations Associate credentials. Completed AWS Graduate training.',
-    icon: <Award className="w-4 h-4 text-blue-500" />,
+    icon: <Award className="w-4 h-4 text-primaryBlue" />,
     tags: ['Generative AI', 'Oracle Cloud', 'AWS Academy']
   },
   {
@@ -32,7 +32,7 @@ const achievementsData: AchievementItem[] = [
     subtitle: 'Campus-Core Portal Deployment',
     date: '2024',
     description: 'Successfully built and deployed Student Management System handling 500+ records with complete MySQL database CRUD capabilities.',
-    icon: <Star className="w-4 h-4 text-amber-500" />,
+    icon: <Star className="w-4 h-4 text-primaryBlue" />,
     tags: ['Django Backend', 'MySQL CRUD', 'Render Deployment']
   },
   {
@@ -42,7 +42,7 @@ const achievementsData: AchievementItem[] = [
     subtitle: 'Chameli Devi Group of Institutions',
     date: '2023',
     description: 'Began Bachelor of Technology (B.Tech) in Computer Science Engineering. Studying Object-Oriented Programming, Database Normalization, and Algorithms.',
-    icon: <Milestone className="w-4 h-4 text-purple-500" />,
+    icon: <Milestone className="w-4 h-4 text-primaryBlue" />,
     tags: ['Computer Science', 'CDGI', 'B.Tech'],
     url: 'https://www.cdgi.edu.in'
   }
@@ -51,9 +51,6 @@ const achievementsData: AchievementItem[] = [
 export const Achievements: React.FC = () => {
   return (
     <section id="achievements" className="relative py-10 px-4 sm:px-6 flex flex-col items-center justify-center">
-      {/* Background Soft Glow */}
-      <div className="absolute top-[30%] right-10 w-[200px] h-[200px] bg-primaryBlue/5 rounded-full filter blur-[90px] pointer-events-none -z-10" />
-
       <div className="w-full max-w-2xl">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center gap-2 mb-12">
@@ -89,7 +86,7 @@ export const Achievements: React.FC = () => {
               </span>
 
               {/* Card Compartment */}
-              <div className="p-5 rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/20 hover:border-themeBorderHeavy hover:bg-themePanel/60 dark:hover:bg-themePanel/30 transition-all duration-300 shadow-sm">
+              <div className="p-5 rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/20 hover:border-themeBorderHeavy hover:bg-themePanel/60 dark:hover:bg-themePanel/30 transition-all duration-300">
                 <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 mb-2">
                   <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-sans">
                     {item.title}

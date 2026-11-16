@@ -5,9 +5,6 @@ import { Target, GraduationCap, Brain } from 'lucide-react';
 export const About: React.FC = () => {
   return (
     <section id="about" className="relative py-10 px-4 sm:px-6 flex flex-col items-center justify-center">
-      {/* Background Soft Glow */}
-      <div className="absolute top-[30%] left-10 w-[200px] h-[200px] bg-primaryBlue/5 rounded-full filter blur-[100px] pointer-events-none -z-10" />
-
       <div className="w-full max-w-2xl">
         {/* Section Heading */}
         <div className="flex flex-col items-center text-center gap-2 mb-12">
@@ -34,7 +31,7 @@ export const About: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="p-6 rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 flex gap-4"
           >
-            <div className="p-2 h-fit rounded-lg bg-emerald-500/10 text-emerald-500 border border-emerald-500/15 shrink-0">
+            <div className="p-2 h-fit rounded-lg bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 shrink-0">
               <Target size={16} />
             </div>
             <div className="flex flex-col gap-1.5">
@@ -42,7 +39,7 @@ export const About: React.FC = () => {
                 Career Objective
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light leading-relaxed">
-                Full Stack Developer with expertise in Python, Django, MySQL, REST APIs, responsive design, and AI-assisted tools. Proficient in database design, version control, and building scalable web applications. Seeking opportunity to deliver quality solutions in collaborative environments.
+                Aspiring Python and Django backend developer focused on building clean, efficient, and well-tested web applications. Experienced in designing relational database schemas in MySQL and PostgreSQL, developing RESTful APIs, and implementing robust backend logic.
               </p>
             </div>
           </motion.div>
@@ -55,7 +52,7 @@ export const About: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.08 }}
             className="p-6 rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 flex gap-4"
           >
-            <div className="p-2 h-fit rounded-lg bg-blue-500/10 text-blue-500 border border-blue-500/15 shrink-0">
+            <div className="p-2 h-fit rounded-lg bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 shrink-0">
               <GraduationCap size={16} />
             </div>
             <div className="flex flex-col gap-2 w-full">
@@ -86,7 +83,7 @@ export const About: React.FC = () => {
               </p>
 
               <div className="flex gap-2 pt-2 border-t border-themeBorder">
-                <span className="px-2 py-0.5 text-[9px] font-bold bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/10 rounded">
+                <span className="px-2 py-0.5 text-[9px] font-bold bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 rounded">
                   CGPA: 7.07 / 10
                 </span>
                 <span className="px-2 py-0.5 text-[9px] font-bold bg-slate-200/50 dark:bg-white/5 text-slate-600 dark:text-slate-400 border border-themeBorderHeavy rounded">
@@ -104,7 +101,7 @@ export const About: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.16 }}
             className="p-6 rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 flex gap-4"
           >
-            <div className="p-2 h-fit rounded-lg bg-purple-500/10 text-purple-500 border border-purple-500/15 shrink-0">
+            <div className="p-2 h-fit rounded-lg bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 shrink-0">
               <Brain size={16} />
             </div>
             <div className="flex flex-col gap-2.5">
@@ -112,14 +109,14 @@ export const About: React.FC = () => {
                 Core Engineering Concepts
               </h3>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-light leading-relaxed">
-                Strong focus on foundational software engineering concepts that ensure reliable, robust, and scalable app architectures.
+                Focused on core software engineering concepts I use daily in building and debugging real projects.
               </p>
               
               <div className="flex flex-wrap gap-1.5 mt-1">
                 {['OOPs', 'CRUD Operations', 'REST APIs Development', 'Version Control', 'Problem Solving'].map((concept) => (
                   <span
                     key={concept}
-                    className="px-2 py-1 text-[9px] font-semibold bg-purple-500/10 text-purple-600 dark:text-purple-400 rounded-md border border-purple-500/10 uppercase tracking-wide"
+                    className="px-2 py-1 text-[9px] font-semibold bg-slate-200/50 dark:bg-white/5 text-slate-700 dark:text-slate-300 rounded-md border border-themeBorderHeavy uppercase tracking-wide"
                   >
                     {concept}
                   </span>

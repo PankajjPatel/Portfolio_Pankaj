@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Twitter, Mail, FileText, ArrowRight } from 'lucide-react';
 
 
-const roles = ["Full Stack Developer", "Python Developer", "Django Developer"];
+const roles = ["Python Developer", "Django Backend Developer", "Python & Django Specialist"];
 
 
 export const Hero: React.FC = () => {
@@ -27,16 +27,13 @@ export const Hero: React.FC = () => {
 
   return (
     <section id="hero" className="min-h-[60vh] flex flex-col justify-center pt-20 pb-4 relative">
-      {/* Background Soft Glow */}
-      <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[350px] sm:w-[600px] h-[350px] sm:h-[600px] rounded-full bg-primaryBlue/5 dark:bg-primaryBlue/8 blur-[120px] pointer-events-none -z-10" />
-
       {/* Main Developer Profile Card */}
       <div className="w-full max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
-          className="relative rounded-[2rem] border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 backdrop-blur-md p-6 sm:p-10 shadow-lg"
+          className="relative rounded-[2rem] border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 backdrop-blur-md p-6 sm:p-10"
         >
           {/* Top Status & Education Badges Row */}
           <div className="flex flex-wrap gap-2 mb-6">
@@ -44,18 +41,18 @@ export const Hero: React.FC = () => {
               href="https://infotact.in"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/15 hover:bg-emerald-500/20 dark:hover:bg-emerald-500/20 transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 hover:bg-primaryBlue/20 transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Python Intern @ Infotact Solutions
+              <span className="w-1.5 h-1.5 rounded-full bg-primaryBlue" />
+              Python Intern @ Infotact Solutions · Completed
             </a>
             <a
               href="https://www.cdgi.edu.in"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/15 hover:bg-blue-500/20 dark:hover:bg-blue-500/20 transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 hover:bg-primaryBlue/20 transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-primaryBlue" />
               B.Tech CSE Student @ CDGI
             </a>
           </div>
@@ -65,7 +62,7 @@ export const Hero: React.FC = () => {
             <div className="relative w-20 h-20 rounded-full border border-themeBorderHeavy p-0.5 shrink-0 bg-themeBg">
               <img
                 src="/avatar.png"
-                alt="Pankaj Patel"
+                alt="Pankaj Patel - Python & Django Developer"
                 className="w-full h-full rounded-full object-cover"
                 onError={(e) => {
                   // Fallback to jpg if png not present
@@ -100,7 +97,7 @@ export const Hero: React.FC = () => {
           </div>
 
           <p className="mt-6 text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
-            Full Stack Developer with expertise in Python, Django, MySQL, REST APIs, responsive design, and AI-assisted tools. Seeking opportunity to deliver quality solutions in collaborative environments.
+            Python & Django backend developer with experience in MySQL, PostgreSQL, REST APIs, and responsive web applications. Focused on writing clean, maintainable code and building reliable backend services.
           </p>
 
           {/* Action buttons & Social Shortcuts Row */}
@@ -111,7 +108,7 @@ export const Hero: React.FC = () => {
                 href="/Pankaj-Patel-Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black font-semibold text-xs transition-transform hover:scale-105 active:scale-95 shadow-md"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-black font-semibold text-xs transition-transform hover:scale-105 active:scale-95"
               >
                 <FileText size={13} />
                 <span>Resume</span>

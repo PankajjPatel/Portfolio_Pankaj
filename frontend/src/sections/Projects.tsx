@@ -144,7 +144,7 @@ export const Projects: React.FC = () => {
             initial={{ opacity: 0, y: -20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-themePanel border border-themeBorderHeavy text-slate-800 dark:text-white shadow-lg flex items-center gap-2.5 text-xs font-semibold"
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-lg bg-themePanel border border-themeBorderHeavy text-slate-800 dark:text-white flex items-center gap-2.5 text-xs font-semibold"
           >
             {toast.type === 'success' ? (
               <CheckCircle size={14} className="text-green-500" />
@@ -168,7 +168,7 @@ export const Projects: React.FC = () => {
             Projects
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md">
-            Hand-crafted solutions demonstrating automation, database optimizations, and full-stack developments.
+            Real projects I've built — from database design to full-stack web apps.
           </p>
         </div>
 
@@ -192,8 +192,7 @@ export const Projects: React.FC = () => {
                 transition={{ duration: 0.5 }}
                 whileHover={{ 
                   scale: 1.01,
-                  borderColor: 'rgba(59, 130, 246, 0.25)',
-                  boxShadow: '0 10px 20px -10px rgba(59, 130, 246, 0.12)'
+                  borderColor: 'rgba(59, 130, 246, 0.3)'
                 }}
                 className="rounded-3xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 p-5 sm:p-8 flex flex-col gap-6 transition-all duration-300"
               >
@@ -201,10 +200,10 @@ export const Projects: React.FC = () => {
                 <div className="aspect-[16/9] rounded-2xl overflow-hidden bg-black/40 border border-themeBorder relative group cursor-pointer">
                   <img
                     src={featuredProject.image}
-                    alt={featuredProject.title}
+                    alt={`${featuredProject.title} - Project preview by Pankaj Patel`}
                     className="w-full h-full object-cover opacity-80 group-hover:scale-[1.02] group-hover:opacity-100 transition-all duration-500"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&auto=format&fit=crop&q=80';
+                      (e.target as HTMLImageElement).src = '/project1.png';
                     }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent flex items-end p-4">
@@ -223,18 +222,18 @@ export const Projects: React.FC = () => {
                           {featuredProject.title}
                         </h3>
                         {repoData && repoData.stars !== undefined && repoData.stars > 0 && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 font-mono">
-                            <Star size={10} className="fill-amber-500 text-amber-500" /> {repoData.stars}
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-bold bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 font-mono">
+                            <Star size={10} className="text-primaryBlue" /> {repoData.stars}
                           </span>
                         )}
                         {repoData && repoData.forks !== undefined && repoData.forks > 0 && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-bold bg-blue-500/10 text-blue-500 border border-blue-500/20 font-mono">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-bold bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 font-mono">
                             <GitFork size={10} /> {repoData.forks}
                           </span>
                         )}
                       </div>
                       {featuredProject.role && (
-                        <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-blue-500/10 text-primaryBlue border border-blue-500/15">
+                        <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/15">
                           Role: {featuredProject.role}
                         </span>
                       )}
@@ -287,7 +286,7 @@ export const Projects: React.FC = () => {
                       href={resolvedDemoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 py-2.5 px-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-semibold text-xs transition-colors flex items-center justify-center gap-1.5 shadow-sm"
+                      className="flex-1 py-2.5 px-4 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-black font-semibold text-xs transition-colors flex items-center justify-center gap-1.5"
                     >
                       <ExternalLink size={13} />
                       View Demo Link
@@ -315,8 +314,7 @@ export const Projects: React.FC = () => {
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 whileHover={{ 
                   scale: 1.01,
-                  borderColor: 'rgba(59, 130, 246, 0.25)',
-                  boxShadow: '0 10px 20px -10px rgba(59, 130, 246, 0.12)'
+                  borderColor: 'rgba(59, 130, 246, 0.3)'
                 }}
                 className="rounded-2xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 p-5 flex flex-col gap-4 transition-all duration-300"
               >
@@ -324,10 +322,10 @@ export const Projects: React.FC = () => {
                 <div className="aspect-[1.6] rounded-xl overflow-hidden bg-black/40 border border-themeBorder relative group cursor-pointer">
                   <img
                     src={project.image}
-                    alt={project.title}
+                    alt={`${project.title} - Python and Django web project by Pankaj Patel`}
                     className="w-full h-full object-cover opacity-85 group-hover:scale-[1.02] group-hover:opacity-100 transition-all duration-500"
                     onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format&fit=crop&q=80';
+                      (e.target as HTMLImageElement).src = '/project2.png';
                     }}
                   />
                   <div className="absolute top-2 left-2">
@@ -346,12 +344,12 @@ export const Projects: React.FC = () => {
                       </h4>
                       <div className="flex items-center gap-1.5">
                         {repoData && repoData.stars !== undefined && repoData.stars > 0 && (
-                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[8px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20 font-mono">
-                            <Star size={9} className="fill-amber-500 text-amber-500" /> {repoData.stars}
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[8px] font-bold bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 font-mono">
+                            <Star size={9} className="text-primaryBlue" /> {repoData.stars}
                           </span>
                         )}
                         {repoData && repoData.forks !== undefined && repoData.forks > 0 && (
-                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[8px] font-bold bg-blue-500/10 text-blue-500 border border-blue-500/20 font-mono">
+                          <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[8px] font-bold bg-primaryBlue/10 text-primaryBlue border border-primaryBlue/20 font-mono">
                             <GitFork size={9} /> {repoData.forks}
                           </span>
                         )}

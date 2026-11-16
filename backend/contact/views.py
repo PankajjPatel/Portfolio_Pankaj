@@ -1,5 +1,7 @@
 import logging
 import os
+import re
+import secrets
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
@@ -9,7 +11,7 @@ from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.throttling import AnonRateThrottle
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import ContactMessage, PortfolioStats, Review, VisitorLog
@@ -47,7 +49,7 @@ class ContactMessageCreateView(generics.CreateAPIView):
             f"{instance.message}\n"
         )
         
-        recipient = "Pankajlucky678@gmail.com"
+        recipient = getattr(settings, 'ADMIN_NOTIFICATION_EMAIL', 'pankajlucky678@gmail.com')
         
         try:
             send_mail(
@@ -101,27 +103,43 @@ class ResumeView(APIView):
         raise Http404("Resume PDF not found. Please upload one first.")
 
     def post(self, request):
-        password = request.data.get('password')
-        expected_password = os.environ.get('RESUME_UPLOAD_PASSWORD', 'PankajDev@123')
-        
-        if password != expected_password and password != 'PankajDev@123':
-            return Response({"error": "Unauthorized: Incorrect password"}, status=status.HTTP_401_UNAUTHORIZED)
+        expected_secret = os.environ.get('RESUME_UPLOAD_PASSWORD')
+        if not expected_secret:
+            return Response(
+                {"error": "Forbidden: Resume upload is disabled. Set RESUME_UPLOAD_PASSWORD in environment."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        provided_password = request.data.get('password', '')
+        if not secrets.compare_digest(str(provided_password), str(expected_secret)):
+            return Response({"error": "Unauthorized: Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
         file_obj = request.FILES.get('file')
         if not file_obj:
             return Response({"error": "No file uploaded"}, status=status.HTTP_400_BAD_REQUEST)
 
+        # File size limit (5MB)
+        MAX_UPLOAD_SIZE = 5 * 1024 * 1024
+        if file_obj.size > MAX_UPLOAD_SIZE:
+            return Response({"error": "File size exceeds the 5MB limit"}, status=status.HTTP_400_BAD_REQUEST)
+
         if not file_obj.name.lower().endswith('.pdf'):
             return Response({"error": "Only PDF files are allowed"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # Save the file to media/Pankaj-Patel-Resume.pdf
+        # Magic bytes check for PDF
+        first_bytes = file_obj.read(4)
+        file_obj.seek(0)
+        if first_bytes != b'%PDF':
+            return Response({"error": "Invalid file content: Not a valid PDF document"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Save the file securely to media/Pankaj-Patel-Resume.pdf
         os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
         file_path = os.path.join(settings.MEDIA_ROOT, 'Pankaj-Patel-Resume.pdf')
         with open(file_path, 'wb+') as destination:
             for chunk in file_obj.chunks():
                 destination.write(chunk)
 
-        # Also copy it to frontend public directory
+        # Also copy it to frontend public directory if it exists
         try:
             frontend_public_dir = os.path.join(settings.BASE_DIR, '..', 'frontend', 'public')
             if os.path.exists(frontend_public_dir):
@@ -148,7 +166,7 @@ def get_client_ip(request):
 
 class VisitorStatsView(APIView):
     permission_classes = [AllowAny]
-    throttle_classes = []
+    throttle_classes = [AnonRateThrottle]
 
     def get(self, request):
         try:
@@ -204,12 +222,42 @@ class ReviewListCreateView(generics.ListCreateAPIView):
     queryset = Review.objects.filter(is_approved=True)
     serializer_class = ReviewSerializer
     permission_classes = [AllowAny]
-    throttle_classes = []
+    throttle_classes = [AnonRateThrottle]
+
+    def perform_create(self, serializer):
+        # New reviews require manual admin approval before appearing publicly
+        instance = serializer.save(is_approved=False)
+        self.send_review_notification(instance)
+
+    def send_review_notification(self, instance):
+        subject = f"New Portfolio Review Submitted: {instance.name} ({instance.rating} Stars)"
+        timestamp_str = timezone.now().strftime('%Y-%m-%d %H:%M:%S UTC')
+        body = (
+            f"A new review was submitted on your portfolio (pending approval):\n\n"
+            f"Name: {instance.name}\n"
+            f"Email: {instance.email}\n"
+            f"Rating: {instance.rating}/5\n"
+            f"Timestamp: {timestamp_str}\n\n"
+            f"Comment:\n"
+            f"{instance.comment}\n"
+        )
+        recipient = getattr(settings, 'ADMIN_NOTIFICATION_EMAIL', 'pankajlucky678@gmail.com')
+        try:
+            send_mail(
+                subject=subject,
+                message=body,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[recipient],
+                fail_silently=False,
+            )
+            logger.info(f"Review notification email successfully sent to {recipient}")
+        except Exception as e:
+            logger.error(f"Failed to send review notification email: {str(e)}")
 
 
 class GithubSvgView(APIView):
     permission_classes = [AllowAny]
-    throttle_classes = []
+    throttle_classes = [AnonRateThrottle]
 
     def get(self, request):
         url = 'https://ghchart.rshah.org/40c463/PankajjPatel'
@@ -228,12 +276,18 @@ class GithubSvgView(APIView):
 
 class GithubContributionsView(APIView):
     permission_classes = [AllowAny]
-    throttle_classes = []
+    throttle_classes = [AnonRateThrottle]
 
     def get(self, request):
-        import re
-        username = request.query_params.get('username', 'PankajjPatel')
+        raw_username = request.query_params.get('username', 'PankajjPatel')
+        # Validate username to prevent SSRF or URL injection
+        if not re.match(r'^[a-zA-Z0-9_-]{1,39}$', raw_username):
+            return Response({'error': 'Invalid username format'}, status=status.HTTP_400_BAD_REQUEST)
+        username = raw_username
+
         year = request.query_params.get('year', '2026')
+        if year != 'last' and not re.match(r'^\d{4}$', year):
+            return Response({'error': 'Invalid year format'}, status=status.HTTP_400_BAD_REQUEST)
         
         if year and year != 'last':
             url = f'https://github.com/users/{username}/contributions?from={year}-01-01&to={year}-12-31'
@@ -307,14 +361,28 @@ class GithubContributionsView(APIView):
 
 class VisitorLogListView(APIView):
     permission_classes = [AllowAny]
-    throttle_classes = []
+    throttle_classes = [AnonRateThrottle]
 
     def get(self, request):
-        password = request.query_params.get('password', '')
-        expected_password = os.environ.get('RESUME_UPLOAD_PASSWORD', 'PankajDev@123')
-        
-        if password != expected_password and password != 'PankajDev@123':
-            return Response({"error": "Unauthorized: Incorrect password"}, status=status.HTTP_401_UNAUTHORIZED)
+        expected_secret = os.environ.get('VISITOR_LOG_SECRET')
+        if not expected_secret:
+            return Response(
+                {"error": "Forbidden: Visitor logs endpoint is disabled. Set VISITOR_LOG_SECRET in environment."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        # Check Authorization header (preferred) or query param
+        auth_header = request.headers.get('Authorization', '')
+        provided_token = ''
+        if auth_header.startswith('Bearer '):
+            provided_token = auth_header[7:].strip()
+        elif 'X-Admin-Secret' in request.headers:
+            provided_token = request.headers.get('X-Admin-Secret', '')
+        else:
+            provided_token = request.query_params.get('password', '')
+
+        if not secrets.compare_digest(str(provided_token), str(expected_secret)):
+            return Response({"error": "Unauthorized: Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
             
         logs = VisitorLog.objects.all()[:150]  # Get last 150 visitor logs
         data = []

@@ -32,7 +32,7 @@ class Review(models.Model):
     email = models.EmailField()
     rating = models.IntegerField(default=5)
     comment = models.TextField()
-    is_approved = models.BooleanField(default=True)
+    is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

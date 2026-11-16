@@ -71,7 +71,7 @@ export const Contact: React.FC = () => {
             if (messages) errMsg = messages;
           } else if (typeof err.response.data === 'string') {
             if (err.response.data.includes('<!DOCTYPE') || err.response.data.includes('<html')) {
-              errMsg = `Server Error (${err.response.status}) at ${apiBaseUrl}. Please verify if the backend is running.`;
+              errMsg = `Server Error (${err.response.status}). Please try again later.`;
             } else {
               errMsg = err.response.data;
             }
@@ -95,23 +95,20 @@ export const Contact: React.FC = () => {
               initial={{ opacity: 0, y: -20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
-              className={`p-4 rounded-xl shadow-lg flex items-start gap-3 border ${
+              className={`p-4 rounded-xl flex items-start gap-3 border ${
                 toast.type === 'success' 
-                  ? 'bg-emerald-950/90 border-emerald-500/30 text-emerald-200' 
+                  ? 'bg-slate-900 border-primaryBlue/40 text-slate-100' 
                   : 'bg-rose-950/90 border-rose-500/30 text-rose-200'
               }`}
             >
               {toast.type === 'success' 
-                ? <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" /> 
+                ? <CheckCircle2 className="w-5 h-5 text-primaryBlue shrink-0 mt-0.5" /> 
                 : <AlertCircle className="w-5 h-5 text-rose-400 shrink-0 mt-0.5" />}
               <div className="flex-1 text-xs font-semibold leading-snug">{toast.message}</div>
             </motion.div>
           )}
         </AnimatePresence>
       </div>
-
-      {/* Background Soft Glow */}
-      <div className="absolute top-[30%] right-10 w-[200px] h-[200px] bg-primaryBlue/5 rounded-full filter blur-[90px] pointer-events-none -z-10" />
 
       <div className="w-full max-w-2xl">
         {/* Section Heading */}
@@ -130,7 +127,7 @@ export const Contact: React.FC = () => {
         </div>
 
         {/* Outer Card Compartment */}
-        <div className="rounded-3xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 p-5 sm:p-8 flex flex-col gap-8 shadow-sm">
+        <div className="rounded-3xl border border-themeBorder bg-themePanel/45 dark:bg-themePanel/25 p-5 sm:p-8 flex flex-col gap-8">
           {/* Form */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

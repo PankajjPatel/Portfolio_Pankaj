@@ -5,7 +5,12 @@ node_modules/
 venv/
 .venv/
 env/
+
+# Environment variables & secrets (NEVER commit secrets to git)
 .env
+.env.*
+*.env
+!.env.example
 
 # Compiled Python files
 __pycache__/
