@@ -8,7 +8,11 @@ interface Toast {
   message: string;
 }
 
-const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const apiBaseUrl = import.meta.env.VITE_API_URL || (
+  typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+    ? 'https://pankaj-portfolio-backend.vercel.app'
+    : 'http://127.0.0.1:8000'
+);
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
@@ -76,6 +80,8 @@ export const Contact: React.FC = () => {
               errMsg = err.response.data;
             }
           }
+        } else if (err.request) {
+          errMsg = 'Network error: Unable to reach the server. Please check your connection.';
         }
       }
       setToast({ type: 'error', message: errMsg });

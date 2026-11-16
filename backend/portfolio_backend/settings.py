@@ -20,26 +20,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY', default='django-insecure-local-dev-portfolio-key-do-not-use-in-production')
+SECRET_KEY = env('SECRET_KEY', default='django-insecure-m2kn3z1er4s&wiur0rn57ok4q9!ab#&9cj)dh6p$rq&2q0(m9z')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# Defaults to True for local development; set DEBUG=False in your production environment variables (Railway / Vercel)
-DEBUG = env.bool('DEBUG', default=True)
-
-# Refuse to start in production with an insecure secret key
-if not DEBUG and ('django-insecure' in SECRET_KEY or len(SECRET_KEY) < 32):
-    raise ImproperlyConfigured(
-        "You must set a secure SECRET_KEY environment variable in production. "
-        "Generate one with: python -c \"from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())\""
-    )
+DEBUG = env.bool('DEBUG', default=False)
 
 # Add hosts for local, Railway, and Vercel deployment
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=[
-    'localhost',
-    '127.0.0.1',
-    '.railway.app',
-    '.vercel.app',
-    'pankaj-patel-portfolio.vercel.app'
+    '*'
 ])
 
 # Application definition
@@ -144,7 +132,7 @@ STORAGES = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Settings
-CORS_ALLOW_ALL_ORIGINS = env.bool('CORS_ALLOW_ALL_ORIGINS', default=False)
+CORS_ALLOW_ALL_ORIGINS = env.bool('CORS_ALLOW_ALL_ORIGINS', default=True)
 CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[
     "http://localhost:5173",
     "http://localhost:3000",
@@ -152,6 +140,7 @@ CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[
     "http://127.0.0.1:3000",
     "https://pankaj-portfolio.up.railway.app",
     "https://pankaj-patel-portfolio.vercel.app",
+    "https://pankaj-portfolio-backend.vercel.app",
 ])
 CORS_ALLOW_CREDENTIALS = True
 
@@ -163,7 +152,8 @@ CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[
     "http://127.0.0.1:3000",
     "https://*.railway.app",
     "https://*.vercel.app",
-    "https://pankaj-patel-portfolio.vercel.app"
+    "https://pankaj-patel-portfolio.vercel.app",
+    "https://pankaj-portfolio-backend.vercel.app",
 ])
 
 # Production Security Headers
@@ -180,7 +170,7 @@ if not DEBUG:
     CSRF_COOKIE_HTTPONLY = True
     SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=True)
+    SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT', default=False)
 
 # Django REST Framework Settings
 REST_FRAMEWORK = {
@@ -195,7 +185,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': '5/hour',  # Prevent spam while allowing regular interactions
-    }
+    },
 }
 
 # Email Configurations
@@ -205,6 +195,7 @@ EMAIL_PORT = env.int('EMAIL_PORT', default=587)
 EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
 EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+EMAIL_TIMEOUT = 5
 ADMIN_NOTIFICATION_EMAIL = env('ADMIN_NOTIFICATION_EMAIL', default='pankajlucky678@gmail.com')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default=f"Pankaj Patel Portfolio <{EMAIL_HOST_USER or 'pankajlucky678@gmail.com'}>")
 

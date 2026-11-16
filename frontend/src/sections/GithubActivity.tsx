@@ -45,7 +45,11 @@ const fallbackStats: GitHubStats = {
   ]
 };
 
-const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+const apiBaseUrl = import.meta.env.VITE_API_URL || (
+  typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+    ? 'https://pankaj-portfolio-backend.vercel.app'
+    : 'http://127.0.0.1:8000'
+);
 const GITHUB_USERNAME = 'PankajjPatel';
 
 // Helper to format date cleanly
